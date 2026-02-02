@@ -43,7 +43,7 @@
                 <div class="card area-focus">
                     <small>Focus</small>
                     <h3>Product Architecture</h3>
-                    <p class="muted">Building scalable engines with high precision.</p>
+                    <p class="muted">Scaling systems with precision engineering.</p>
                 </div>
 
                 <div class="card area-portrait">
@@ -56,20 +56,33 @@
                 <div class="card area-craft">
                     <small>Craft</small>
                     <div class="tech-stack">
-                        <span>Next.js</span><span>TypeScript</span>
+                        <span>Next.js</span><span>TS</span>
                         <span>PostgreSQL</span><span>Tailwind</span>
                     </div>
                 </div>
 
-                <div class="card area-mindset">
-                    <small>Mindset</small>
-                    <h3>Discipline > Motivation</h3>
-                    <p class="muted">Consistency is the bridge between goals and accomplishment.</p>
+                <div class="card area-mindset" id="mindset-card">
+                    <div class="hobby-overlay" id="hobby-img"></div>
+                    <div class="mindset-content">
+                        <small>Mindset</small>
+                        <h3>Discipline > Motivation</h3>
+                        <p class="muted">Consistency wins every single time.</p>
+                        <div class="hobby-triggers">
+                            <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
+                            <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
+                            <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="card area-location">
+                    <div class="map-window">
+                        <img src="https://api.mapbox.com/styles/v1/mapbox/dark-v10/static/77.5946,12.9716,11,0/400x400?access_token=USE_YOUR_TOKEN_OR_ANY_DARK_MAP_URL" alt="Bangalore Map" class="static-map">
+                        <div class="map-ping"></div>
+                        <div class="map-overlay-tint"></div>
+                    </div>
                     <div class="loc-content">
-                        <small>Current HQ</small>
+                        <small>HQ</small>
                         <h3><span class="pulse"></span> Bangalore, IN</h3>
                         <p class="coords">12.9716° N, 77.5946° E</p>
                     </div>
