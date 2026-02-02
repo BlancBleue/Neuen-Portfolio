@@ -8,6 +8,20 @@ themeBtn.onclick = () => {
     body.setAttribute('data-theme', themes[themeIndex]);
 };
 
+// AI Search Logic
+const askForm = document.getElementById('ask-form');
+const askInput = document.getElementById('ask-input');
+const aiResponse = document.getElementById('ai-response');
+
+askForm.onsubmit = (e) => {
+    e.preventDefault();
+    if(askInput.value.trim() !== "") {
+        aiResponse.classList.add('active');
+        aiResponse.textContent = `Processing "${askInput.value}"... Neel is currently available for select projects.`;
+        askInput.value = "";
+    }
+};
+
 // --- GRID DISPLACEMENT ---
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
