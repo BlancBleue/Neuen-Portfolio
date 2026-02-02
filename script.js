@@ -1,9 +1,9 @@
 const body = document.body;
-const themeToggle = document.querySelector('.theme-toggle');
+const themeBtn = document.getElementById('theme-switcher');
 const themes = ['dark', 'light', 'neutral'];
 let themeIndex = 0;
 
-themeToggle.onclick = () => {
+themeBtn.onclick = () => {
     themeIndex = (themeIndex + 1) % themes.length;
     body.setAttribute('data-theme', themes[themeIndex]);
 };
