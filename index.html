@@ -5,26 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neel Nikhil | Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body data-theme="dark">
     <canvas id="dotCanvas"></canvas>
 
     <header class="site-header">
-        <div class="header-left">
-            <button class="theme-toggle">
-                <div class="theme-icon"></div>
-            </button>
-        </div>
+        <button class="theme-toggle" aria-label="Toggle Theme">
+            <div class="sun-icon"></div>
+            <div class="moon-icon"></div>
+        </button>
+
         <nav class="top-nav">
             <a href="#home" class="active">Home</a>
             <a href="#about">About</a>
             <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
         </nav>
+
         <button class="cta-btn">Book a Call</button>
     </header>
 
-    <main>
+    <main id="home">
         <section class="hero">
             <p class="hero-hi">Hi, I'm</p>
             <h1 class="hero-name">Neel Nikhil</h1>
@@ -35,24 +37,23 @@
                         <div class="msg bot">Ask me anything about Neel...</div>
                     </div>
                     <div class="ask-quick-links">
-                        <button data-prompt="Work">Work</button>
-                        <button data-prompt="Skills">Skills</button>
-                        <button data-prompt="Contact">Contact</button>
+                        <button data-prompt="What are you working on?">Work</button>
+                        <button data-prompt="What are your skills?">Skills</button>
+                        <button data-prompt="How to contact you?">Contact</button>
                     </div>
                     <form class="ask-input-row" id="ask-form">
-                        <input type="text" id="ask-input" placeholder="Type a message...">
+                        <input type="text" id="ask-input" placeholder="Type a message..." autocomplete="off">
                         <button type="submit">Send</button>
                     </form>
                 </div>
             </div>
         </section>
 
-        <section class="bento-grid">
+        <section class="bento-grid" id="about">
             <div class="glass-card area-a">
-                <div class="card-content">
-                    <h2 class="glitch-text">Neel Nikhil</h2>
-                    <p class="subtitle">Fullstack Developer</p>
-                </div>
+                <p class="card-label">Identity</p>
+                <h2 class="glitch-text">N E E L</h2>
+                <p class="subtitle">Fullstack Developer</p>
             </div>
 
             <div class="glass-card area-b">
@@ -68,19 +69,21 @@
                 <p class="card-label">Mindset</p>
                 <h3>Discipline > Motivation</h3>
                 <div class="image-strip"></div>
+                <p class="muted-text">I stack small wins daily to achieve long-term goals.</p>
             </div>
 
             <div class="glass-card area-d">
                 <p class="card-label">Craft</p>
                 <div class="tech-stack">
-                    <span>React</span><span>Next.js</span><span>TS</span><span>Python</span>
+                    <span>React</span><span>Next.js</span><span>TS</span><span>Python</span><span>Node</span><span>Figma</span>
                 </div>
             </div>
 
             <div class="glass-card area-e">
                 <div class="map-bg"></div>
                 <div class="location-info">
-                    <p>Bangalore, India</p>
+                    <p class="card-label">Location</p>
+                    <h3>Bangalore, India</h3>
                     <p class="coords">12.9716° N, 77.5946° E</p>
                 </div>
             </div>
