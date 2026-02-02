@@ -1,193 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Neel Nikhil</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neel Nikhil | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body data-theme="neutral">
-  <!-- Mouse-follow dot grid background -->
-  <canvas id="dotCanvas"></canvas>
+<body data-theme="dark">
+    <canvas id="dotCanvas"></canvas>
 
-  <header class="site-header">
-    <button class="theme-toggle" aria-label="Toggle theme">
-      <span class="theme-icon" id="theme-icon"></span>
-    </button>
+    <header class="site-header">
+        <div class="header-left">
+            <button class="theme-toggle">
+                <div class="theme-icon"></div>
+            </button>
+        </div>
+        <nav class="top-nav">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button class="cta-btn">Book a Call</button>
+    </header>
 
-    <nav class="top-nav">
-      <a href="#home" class="active nav-link">Home</a>
-      <a href="#about" class="nav-link">About</a>
-      <a href="#projects" class="nav-link">Projects</a>
-      <a href="#skills" class="nav-link">Skills</a>
-    </nav>
-
-    <button class="cta-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
-      <span>Contact</span>
-    </button>
-  </header>
-
-  <main>
-    <!-- HERO / HOME -->
-    <section class="hero" id="home">
-      <div class="hero-inner">
-        <p class="hero-hi">Hi, I'm</p>
-        <h1 class="hero-name">
-          <span class="hero-name-gradient">Neel Nikhil</span>
-        </h1>
-      </div>
-
-      <!-- Ask Neel card -->
-      <section class="ask-neel" id="ask-neel">
-        <p class="ask-title">Ask me anything about Neel…</p>
-
-        <div class="ask-card">
-          <div class="ask-messages" id="ask-messages">
-            <div class="msg bot">
-              <p>Hey, I'm Neel‑AI. Ask about projects, exams, or how I think about building things.</p>
+    <main>
+        <section class="hero">
+            <p class="hero-hi">Hi, I'm</p>
+            <h1 class="hero-name">Neel Nikhil</h1>
+            
+            <div class="ask-container">
+                <div class="ask-card">
+                    <div class="ask-messages" id="ask-messages">
+                        <div class="msg bot">Ask me anything about Neel...</div>
+                    </div>
+                    <div class="ask-quick-links">
+                        <button data-prompt="Work">Work</button>
+                        <button data-prompt="Skills">Skills</button>
+                        <button data-prompt="Contact">Contact</button>
+                    </div>
+                    <form class="ask-input-row" id="ask-form">
+                        <input type="text" id="ask-input" placeholder="Type a message...">
+                        <button type="submit">Send</button>
+                    </form>
+                </div>
             </div>
-          </div>
+        </section>
 
-          <div class="ask-quick-links">
-            <button type="button" data-prompt="What are you working on right now?">Work</button>
-            <button type="button" data-prompt="Tell me about your background.">About me</button>
-            <button type="button" data-prompt="What skills do you have?">Skills</button>
-            <button type="button" data-prompt="How can I contact you?">Contact</button>
-          </div>
+        <section class="bento-grid">
+            <div class="glass-card area-a">
+                <div class="card-content">
+                    <h2 class="glitch-text">Neel Nikhil</h2>
+                    <p class="subtitle">Fullstack Developer</p>
+                </div>
+            </div>
 
-          <form class="ask-input-row" id="ask-form">
-            <input
-              id="ask-input"
-              type="text"
-              placeholder="Ask anything about Neel…"
-              autocomplete="off"
-            />
-            <button type="submit">Send</button>
-          </form>
-        </div>
-      </section>
-    </section>
+            <div class="glass-card area-b">
+                <p class="card-label">Journey</p>
+                <h3>Building the future</h3>
+                <p class="muted-text">Hover to see my path from school to shipping apps.</p>
+                <div class="reveal-content">
+                    <p>JEE Prep • PCMC • AI Projects</p>
+                </div>
+            </div>
 
-    <!-- MID SECTION (3×3 A–F layout) -->
-    <section class="mid-section" id="about">
-      <div class="mid-inner mid-grid-3x3">
-        <!-- A: Name -->
-        <article class="glass-card identity-card area-a">
-          <h2>Neel Nikhil</h2>
-          <p class="identity-role">FULLSTACK DEVELOPER</p>
-        </article>
+            <div class="glass-card area-c">
+                <p class="card-label">Mindset</p>
+                <h3>Discipline > Motivation</h3>
+                <div class="image-strip"></div>
+            </div>
 
-        <!-- B: Journey (top-right, spanning 2 cols) -->
-        <article class="glass-card journey-card area-b">
-          <header class="card-header">
-            <h3>Journey</h3>
-            <p class="card-subtitle">Hover to read more</p>
-          </header>
+            <div class="glass-card area-d">
+                <p class="card-label">Craft</p>
+                <div class="tech-stack">
+                    <span>React</span><span>Next.js</span><span>TS</span><span>Python</span>
+                </div>
+            </div>
 
-          <div class="journey-collapsed">
-            <p class="card-body-text">
-              Boards, JEE prep, student projects, and a growing obsession with building tools.
-            </p>
-          </div>
+            <div class="glass-card area-e">
+                <div class="map-bg"></div>
+                <div class="location-info">
+                    <p>Bangalore, India</p>
+                    <p class="coords">12.9716° N, 77.5946° E</p>
+                </div>
+            </div>
 
-          <div class="journey-expanded">
-            <section class="journey-block">
-              <h4>School</h4>
-              <p>PCMC stream, focusing on physics, math, computer science, and problem solving.</p>
-            </section>
-            <section class="journey-block">
-              <h4>Projects</h4>
-              <p>Study helpers, AI mini‑apps, and small web tools shipped for real usage.</p>
-            </section>
-            <section class="journey-block">
-              <h4>Competitions</h4>
-              <p>Olympiad‑style practice and contests that force me to think beyond the syllabus.</p>
-            </section>
-          </div>
-        </article>
+            <div class="glass-card area-f">
+                <div class="portrait-img"></div>
+            </div>
+        </section>
+    </main>
 
-        <!-- C: Mindset (left, 2 rows) -->
-        <article class="glass-card mindset-card area-c">
-          <header class="card-header">
-            <h3>Mindset</h3>
-            <span class="heading-accent heading-accent-c"></span>
-          </header>
-          <p class="card-body-text">
-            Discipline over motivation. I stack small, boring wins every day – in code,
-            exams, and training – instead of chasing rare bursts of inspiration.
-          </p>
-          <div class="mindset-layout">
-            <div class="mindset-photo"></div>
-            <p class="mindset-caption">
-              Training and routines keep my brain in execution mode.
-            </p>
-          </div>
-        </article>
-
-        <!-- D: Craft (right, 2 rows) -->
-        <article class="glass-card craft-card area-d">
-          <header class="card-header">
-            <h3>Craft</h3>
-            <span class="heading-accent heading-accent-d"></span>
-          </header>
-          <p class="card-body-text">
-            I like designing and shipping small, robust systems – apps, sites, and automations
-            that quietly remove friction.
-          </p>
-
-          <div class="craft-tech">
-            <span class="tech-chip">React</span>
-            <span class="tech-chip">TypeScript</span>
-            <span class="tech-chip">Python</span>
-            <span class="tech-chip">Firebase</span>
-            <span class="tech-chip">Next.js</span>
-            <span class="tech-chip">Figma</span>
-          </div>
-
-          <div class="craft-availability">
-            <span class="availability-dot"></span>
-            <span>Open to selective collabs &amp; freelance work.</span>
-          </div>
-        </article>
-
-        <!-- E: Location with world‑map style block (bottom center, 2 cols) -->
-        <article class="glass-card location-card area-e">
-          <div class="location-inner">
-            <p class="location-label">Location</p>
-            <p class="location-main">PLANET EARTH</p>
-            <p class="location-coords">12.9716° N · 77.5946° E · Bangalore</p>
-          </div>
-
-          <!-- World map visual using Unsplash image as background -->
-          <div class="world-map"></div>
-        </article>
-
-        <!-- F: Picture (middle row, 2 cols) -->
-        <article class="glass-card portrait-card area-f">
-          <div class="portrait-frame">
-            <div class="portrait-placeholder"></div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- CONTACT STRIP -->
-    <section class="contact-strip" id="contact">
-      <div class="contact-inner">
-        <div>
-          <p class="contact-label">Let's talk</p>
-          <p class="contact-text">
-            If something here sparked an idea, send a short, specific email.
-          </p>
-        </div>
-        <div class="contact-links">
-          <a href="mailto:you@example.com">Email</a>
-          <a href="https://github.com/yourusername" target="_blank" rel="noreferrer">GitHub</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
