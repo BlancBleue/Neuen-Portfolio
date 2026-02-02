@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | Portfolio</title>
+    <title>Neel Nikhil | AI OS Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
 </head>
@@ -29,57 +29,41 @@
     <main id="home">
         <section class="hero">
             <p class="hero-hi">Hi, I'm</p>
-            <h1 class="hero-name">Neel Nikhil</h1>
+            <h1 class="hero-name-main">NEEL NIKHIL</h1>
             
-            <div class="ask-container">
-                <div class="ask-card">
-                    <div class="ask-messages" id="ask-messages">
-                        <div class="msg bot">Ask me anything about Neel...</div>
-                    </div>
-                    <form class="ask-input-row" id="ask-form">
-                        <input type="text" id="ask-input" placeholder="Type a message..." autocomplete="off">
-                        <button type="submit">Send</button>
-                    </form>
-                </div>
+            <div class="ai-search-container">
+                <form class="ai-search-bar" id="ask-form">
+                    <div class="ai-icon">✨</div>
+                    <input type="text" id="ask-input" placeholder="Ask me anything about Neel..." autocomplete="off">
+                    <div class="ai-shortcut">Enter</div>
+                </form>
+                <div id="ai-response" class="ai-response-popup"></div>
             </div>
         </section>
 
         <section class="bento-grid" id="about">
-            
             <article class="glass-card area-a">
-                <div class="bento-name-wrapper">
-                    <h2 class="bento-big-name">NEEL<br>NIKHIL</h2>
-                </div>
-                <div class="card-footer">
-                    <p class="card-label">Identity</p>
-                    <p class="subtitle">Fullstack Developer</p>
-                </div>
+                <p class="card-label">Focus</p>
+                <h3>Fullstack Developer</h3>
+                <p class="muted-text">Engineering digital products with high precision.</p>
             </article>
 
             <article class="glass-card area-b">
                 <p class="card-label">Journey</p>
                 <h3>Building the future</h3>
-                <p class="muted-text">A high-performance path from JEE prep to shipping production apps.</p>
-                <div class="reveal-content">
-                    <p>Physics • Math • Logic • Code</p>
-                </div>
+                <p class="muted-text">From physics and logic to shipping production apps.</p>
             </article>
 
             <article class="glass-card area-c">
                 <p class="card-label">Mindset</p>
                 <h3>Discipline > Motivation</h3>
                 <div class="image-strip"></div>
-                <p class="muted-text">I believe in stacking small wins daily to achieve exponential results.</p>
             </article>
 
             <article class="glass-card area-d">
                 <p class="card-label">Craft</p>
                 <div class="tech-stack">
-                    <span>React</span>
-                    <span>Next.js</span>
-                    <span>TypeScript</span>
-                    <span>Python</span>
-                    <span>Node</span>
+                    <span>React</span><span>Next.js</span><span>TS</span><span>Node</span>
                 </div>
             </article>
 
@@ -88,14 +72,12 @@
                 <div class="location-info">
                     <p class="card-label">Location</p>
                     <h3>Bangalore, India</h3>
-                    <p class="coords">12.9716° N, 77.5946° E</p>
                 </div>
             </article>
 
             <article class="glass-card area-f">
                 <div class="portrait-img"></div>
             </article>
-
         </section>
     </main>
 
