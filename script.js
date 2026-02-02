@@ -48,40 +48,16 @@ function render() {
     requestAnimationFrame(render);
 }
 
-// --- LIVE MAP SETUP ---
-function initMap() {
-    const bangaloreCoords = [12.9716, 77.5946];
-    const map = L.map('map', {
-        center: bangaloreCoords,
-        zoom: 11,
-        zoomControl: false,
-        attributionControl: false,
-        dragging: false,
-        scrollWheelZoom: false
-    });
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-    
-    // Add a custom marker/circle for your location
-    L.circleMarker(bangaloreCoords, {
-        radius: 8,
-        fillColor: "#22d3ee",
-        color: "#fff",
-        weight: 2,
-        opacity: 1,
-        fillOpacity: 0.8
-    }).addTo(map);
-}
-
 window.onmousemove = e => { mouse.x = e.clientX; mouse.y = e.clientY; };
 window.onresize = init;
 
+// AI Search Box
 const askForm = document.getElementById('ask-form');
 const aiResponse = document.getElementById('ai-response');
 askForm.onsubmit = (e) => {
     e.preventDefault();
     aiResponse.classList.add('active');
-    aiResponse.textContent = "Neel is currently working on advanced UI systems in Bangalore.";
+    aiResponse.textContent = "Neel is building the next generation of web interfaces.";
 };
 
-init(); render(); initMap();
+init(); render();
