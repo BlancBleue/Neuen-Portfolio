@@ -157,7 +157,6 @@ body[data-theme="light"] #theme-icon::after {
 }
 
 /* nav */
-
 .top-nav {
   display: inline-flex;
   padding: 0.45rem 1.4rem;
@@ -206,7 +205,6 @@ body[data-theme="light"] #theme-icon::after {
 }
 
 /* HERO */
-
 main {
   min-height: 100vh;
   padding-bottom: 6rem;
@@ -252,7 +250,6 @@ main {
 }
 
 /* ASK NEEL */
-
 .ask-neel {
   margin-top: 1.8rem;
 }
@@ -356,8 +353,7 @@ main {
   color: #020617;
 }
 
-/* MID SECTION WRAPPER */
-
+/* MID SECTION WRAPPER - SAME AS MAIN PAGE THEME */
 .mid-section {
   position: relative;
   width: 100%;
@@ -367,51 +363,9 @@ main {
   justify-content: center;
 }
 
-.mid-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.28), transparent 55%),
-    radial-gradient(circle at top right, rgba(244, 63, 94, 0.22), transparent 55%),
-    radial-gradient(circle at bottom, rgba(129, 140, 248, 0.35), transparent 60%),
-    linear-gradient(135deg, #020016, #05001f, #060020);
-  pointer-events: none;
-  z-index: -2;
-}
+/* NO mid-bg - dots flow through everywhere */
 
-/* theme variations for mid background */
-body[data-theme="dark"] .mid-bg {
-  background:
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.28), transparent 55%),
-    radial-gradient(circle at top right, rgba(14, 165, 233, 0.22), transparent 55%),
-    radial-gradient(circle at bottom, rgba(15, 23, 42, 0.65), transparent 60%),
-    linear-gradient(135deg, #020010, #020012, #020013);
-}
-
-body[data-theme="light"] .mid-bg {
-  background:
-    radial-gradient(circle at top left, rgba(129, 140, 248, 0.18), transparent 55%),
-    radial-gradient(circle at top right, rgba(236, 72, 153, 0.16), transparent 55%),
-    radial-gradient(circle at bottom, rgba(148, 163, 184, 0.24), transparent 60%),
-    linear-gradient(135deg, #e5e7eb, #f3f4f6, #e5e7eb);
-}
-
-/* subtle star/dot overlay */
-.mid-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(148, 163, 184, 0.16) 1px, transparent 1px),
-    radial-gradient(circle, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
-  background-size: 120px 120px, 220px 220px;
-  background-position: 0 0, 60px 40px;
-  opacity: 0.65;
-  mix-blend-mode: screen;
-}
-
-/* 3×3 GRID LAYOUT */
-
+/* 3×3 GRID - glass overlay on main theme */
 .mid-inner.mid-grid-3x3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -425,7 +379,10 @@ body[data-theme="light"] .mid-bg {
   width: 100%;
   padding: 2.6rem 2.4rem;
   border-radius: 32px;
-  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.95);
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.85);
 }
 
 .area-a { grid-area: a; }
@@ -436,16 +393,11 @@ body[data-theme="light"] .mid-bg {
 .area-f { grid-area: f; }
 
 /* GLOBAL GLASS CARD */
-
 .glass-card {
   position: relative;
   border-radius: 24px;
   padding: 1.2rem 1.3rem;
-  background: linear-gradient(
-    145deg,
-    rgba(15, 23, 42, 0.86),
-    rgba(15, 23, 42, 0.96)
-  );
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.86), rgba(15, 23, 42, 0.96));
   border: 1px solid rgba(148, 163, 184, 0.45);
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(18px);
@@ -510,7 +462,6 @@ body[data-theme="light"] .mid-bg {
 }
 
 /* IDENTITY (A) */
-
 .identity-card {
   padding-top: 1.3rem;
   padding-bottom: 1.3rem;
@@ -525,7 +476,6 @@ body[data-theme="light"] .mid-bg {
 }
 
 /* SHARED HEADER ACCENTS */
-
 .card-header {
   margin-bottom: 0.25rem;
 }
@@ -539,16 +489,14 @@ body[data-theme="light"] .mid-bg {
   background: linear-gradient(90deg, #22d3ee, #a855f7);
 }
 
-/* per-card tint variations */
 .heading-accent-c {
   background: linear-gradient(90deg, #22c55e, #22d3ee);
-} /* Mindset */
+}
 .heading-accent-d {
   background: linear-gradient(90deg, #f97316, #a855f7);
-} /* Craft */
+}
 
 /* MINDSET (C) */
-
 .mindset-layout {
   display: flex;
   gap: 0.75rem;
@@ -576,7 +524,6 @@ body[data-theme="light"] .mid-bg {
 }
 
 /* JOURNEY (B) */
-
 .journey-card {
   cursor: default;
 }
@@ -608,12 +555,10 @@ body[data-theme="light"] .mid-bg {
   color: #9ca3af;
 }
 
-/* hover interaction */
 .journey-card:hover .journey-collapsed { display: none; }
 .journey-card:hover .journey-expanded { display: block; }
 
 /* PICTURE (F) */
-
 .portrait-card {
   padding: 0.2rem;
 }
@@ -640,7 +585,6 @@ body[data-theme="light"] .mid-bg {
 }
 
 /* CRAFT (D) */
-
 .craft-card .card-body-text {
   margin-bottom: 0.7rem;
 }
@@ -678,7 +622,6 @@ body[data-theme="light"] .mid-bg {
 }
 
 /* LOCATION (E) */
-
 .location-card {
   display: flex;
   flex-direction: column;
@@ -709,7 +652,6 @@ body[data-theme="light"] .mid-bg {
   color: #9ca3af;
 }
 
-/* world map block – single tile using Unsplash background */
 .world-map {
   position: relative;
   width: 100%;
@@ -725,10 +667,9 @@ body[data-theme="light"] .mid-bg {
 .world-map::before {
   content: "";
   display: block;
-  padding-top: 32%; /* smaller height */
+  padding-top: 32%;
 }
 
-/* theme‑aware map tint */
 body[data-theme="neutral"] .world-map {
   filter: grayscale(1) contrast(1.05) brightness(1.05);
   background-color: #020617;
@@ -745,7 +686,6 @@ body[data-theme="light"] .world-map {
 }
 
 /* CONTACT STRIP */
-
 .contact-strip {
   margin-top: 3.5rem;
   padding-inline: 3rem;
@@ -795,7 +735,6 @@ body[data-theme="light"] .world-map {
 }
 
 /* RESPONSIVE */
-
 @media (max-width: 900px) {
   .mid-inner.mid-grid-3x3 {
     grid-template-columns: minmax(0, 1fr);
@@ -815,7 +754,6 @@ body[data-theme="light"] .world-map {
     padding: 4.5rem 0 3.8rem;
     margin: 3rem 0;
   }
-
   .mid-inner.mid-grid-3x3 {
     padding: 2.2rem 1.6rem;
   }
