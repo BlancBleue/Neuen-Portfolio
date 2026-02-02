@@ -10,6 +10,7 @@
   --accent1: #22d3ee;
   --accent2: #a855f7;
   --accent3: #f97316;
+  --border-soft: rgba(148, 163, 184, 0.4);
 }
 
 /* Base */
@@ -27,7 +28,7 @@ body {
   transition: background 0.25s ease, color 0.25s ease;
 }
 
-/* Theme states */
+/* Themes */
 
 body.theme-dark {
   background: radial-gradient(circle at top, #020617 0, #020202 45%, #000 100%);
@@ -42,9 +43,9 @@ body.theme-light {
 /* Header */
 
 .site-header {
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 1.5rem 1.5rem 0.75rem;
+  padding: 1.4rem 1.5rem 0.7rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -57,13 +58,29 @@ body.theme-light {
   opacity: 0.7;
 }
 
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.nav a {
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+.nav a:hover {
+  opacity: 1;
+}
+
 /* Theme toggle */
 
 .theme-toggle {
   width: 40px;
   height: 22px;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
+  border: 1px solid var(--border-soft);
   padding: 2px;
   background: linear-gradient(to right, #020617, #111827);
   display: flex;
@@ -88,13 +105,15 @@ body.theme-light .theme-toggle-knob {
   transform: translateX(16px);
 }
 
-/* Intro */
+/* Main layout */
 
 main {
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 3.5rem 1.5rem 3rem;
 }
+
+/* Intro */
 
 .intro {
   margin-bottom: 3rem;
@@ -149,7 +168,7 @@ main {
   margin-bottom: 0.6rem;
 }
 
-/* Color for sub text based on theme */
+/* Theme-based text colors */
 
 body.theme-dark .intro-main,
 body.theme-dark .intro-sub,
@@ -167,7 +186,7 @@ body.theme-light .list {
   color: var(--text-light-muted);
 }
 
-/* Links */
+/* Intro links */
 
 .intro-links {
   margin-top: 1.3rem;
@@ -180,13 +199,13 @@ body.theme-light .list {
 .intro-links a {
   text-decoration: none;
   padding-bottom: 2px;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.6);
+  border-bottom: 1px solid var(--border-soft);
 }
 
 /* Sections */
 
 .section {
-  margin-top: 2.5rem;
+  margin-top: 2.6rem;
 }
 
 .section h2 {
@@ -208,10 +227,103 @@ body.theme-light .list {
   margin-bottom: 0.35rem;
 }
 
+/* Ask Neel (AI card) */
+
+.ask-neel {
+  margin-top: 3rem;
+}
+
+.ask-description {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.ask-card {
+  border-radius: 14px;
+  border: 1px solid var(--border-soft);
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.75);
+}
+
+body.theme-light .ask-card {
+  background: var(--bg-light-elevated);
+}
+
+.ask-messages {
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.msg {
+  font-size: 0.9rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 12px;
+  max-width: 80%;
+}
+
+.msg.bot {
+  align-self: flex-start;
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.msg.user {
+  align-self: flex-end;
+  background: linear-gradient(120deg, var(--accent1), var(--accent2));
+  color: #020617;
+}
+
+body.theme-light .msg.bot {
+  background: #e5e7eb;
+}
+
+.ask-input-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-end;
+}
+
+#ask-input {
+  flex: 1;
+  resize: none;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: transparent;
+  color: inherit;
+}
+
+#ask-input:focus {
+  outline: none;
+  border-color: var(--accent1);
+}
+
+.ask-input-row button {
+  border-radius: 999px;
+  border: none;
+  padding: 0.5rem 0.95rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: linear-gradient(120deg, var(--accent1), var(--accent2));
+  color: #020617;
+}
+
+.ask-note {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
 /* Footer */
 
 .site-footer {
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 1.5rem 2rem;
   font-size: 0.8rem;
@@ -220,7 +332,10 @@ body.theme-light .list {
 
 /* Responsive */
 
-@media (max-width: 640px) {
+@media (max-width: 720px) {
+  .nav {
+    display: none;
+  }
   .intro-title {
     font-size: 2.2rem;
   }
