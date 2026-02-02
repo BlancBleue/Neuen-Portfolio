@@ -1,26 +1,20 @@
-// Set year
+// Year
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Reveal on scroll using IntersectionObserver
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  {
-    threshold: 0.15,
-  }
-);
+// Theme toggle
+const toggle = document.querySelector(".theme-toggle");
+const body = document.body;
 
-document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+// Load saved theme
+const saved = localStorage.getItem("theme");
+if (saved === "light") {
+  body.classList.remove("theme-dark");
+  body.classList.add("theme-light");
+}
 
-// Simple parallax for bg front layer
-const frontLayer = document.querySelector(".bg-layer--front");
-window.addEventListener("scroll", () => {
-  const offset = window.scrollY * 0.03;
-  frontLayer.style.transform = `translateY(${offset}px)`;
+toggle.addEventListener("click", () => {
+  const isDark = body.classList.contains("theme-dark");
+  body.classList.toggle("theme-dark", !isDark);
+  body.classList.toggle("theme-light", isDark);
+  localStorage.setItem("theme", isDark ? "light" : "dark");
 });
