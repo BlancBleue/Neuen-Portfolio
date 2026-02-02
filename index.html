@@ -12,15 +12,17 @@
     <canvas id="dotCanvas"></canvas>
 
     <header class="site-header">
-        <button class="theme-toggle" aria-label="Cycle Theme">
-            <div class="icon-dot"></div>
+        <button class="theme-toggle" id="theme-switcher" aria-label="Switch Theme">
+            <div class="toggle-track">
+                <div class="toggle-indicator"></div>
+            </div>
+            <span class="theme-label">Theme</span>
         </button>
 
         <nav class="top-nav">
             <a href="#home" class="active">Home</a>
             <a href="#about">About</a>
             <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
         </nav>
 
         <button class="cta-btn">Book a Call</button>
@@ -35,9 +37,7 @@
                 <form class="ai-search-bar" id="ask-form">
                     <div class="ai-icon">✨</div>
                     <input type="text" id="ask-input" placeholder="Ask me anything..." autocomplete="off">
-                    <div class="ai-shortcut">Enter</div>
                 </form>
-                <div id="ai-response" class="ai-response-popup"></div>
             </div>
         </section>
 
@@ -57,7 +57,6 @@
             <article class="glass-card area-c">
                 <p class="card-label">Mindset</p>
                 <h3>Discipline > Motivation</h3>
-                <div class="image-strip"></div>
             </article>
 
             <article class="glass-card area-f">
