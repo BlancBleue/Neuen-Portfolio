@@ -61,7 +61,7 @@ const aiResponse = document.getElementById('ai-response');
 askForm.onsubmit = (e) => {
     e.preventDefault();
     aiResponse.classList.add('active');
-    aiResponse.textContent = "neel is crafting digital products in bangalore.";
+    aiResponse.textContent = "Neel is crafting digital products in Bangalore.";
 };
 
 init(); render();
