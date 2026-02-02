@@ -43,39 +43,48 @@ body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-seri
 }
 .card { background: var(--card); border: 1px solid var(--border); padding: 2rem; border-radius: 28px; position: relative; overflow: hidden; transition: 0.4s; }
 small { text-transform: uppercase; opacity: 0.5; font-size: 0.7rem; letter-spacing: 1px; display: block; margin-bottom: 8px; }
+.muted { font-size: 0.9rem; opacity: 0.5; }
 
 /* Grid Placement */
 .area-focus { grid-column: 1 / 2; grid-row: 1 / 2; }
 .area-portrait { grid-column: 2 / 3; grid-row: 1 / 2; padding: 0 !important; }
 .area-craft { grid-column: 3 / 4; grid-row: 1 / 2; }
 .area-mindset { grid-column: 1 / 3; grid-row: 2 / 3; }
-.area-location { grid-column: 3 / 4; grid-row: 2 / 3; display: flex; flex-direction: column; justify-content: space-between; }
+.area-location { grid-column: 3 / 4; grid-row: 2 / 3; padding: 0 !important; display: flex; flex-direction: column; }
 
-/* Portrait Image Handling */
-.portrait-container { width: 100%; height: 100%; position: relative; }
-.portrait-container img { width: 100%; height: 100%; object-fit: cover; object-position: top; filter: grayscale(1); transition: 0.5s; }
-.area-portrait:hover img { filter: grayscale(0); transform: scale(1.05); }
+/* PORTRAIT & HOBBY PHOTO SYNC */
+.portrait-container { width: 100%; height: 100%; position: relative; background: #000; }
+#main-photo { width: 100%; height: 100%; object-fit: cover; object-position: top; filter: grayscale(1); transition: 0.6s ease; position: absolute; }
+.hobby-layer { 
+    position: absolute; inset: 0; background-size: cover; background-position: center; 
+    opacity: 0; transition: 0.4s ease; z-index: 2; filter: grayscale(1); 
+}
+.photo-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); z-index: 3; pointer-events: none; }
 
-/* MINDSET HOBBY HOVER */
-.mindset-content { position: relative; z-index: 5; }
-.hobby-triggers { display: flex; gap: 12px; margin-top: 20px; }
-.hobby-triggers span { font-size: 0.75rem; color: var(--accent); cursor: pointer; opacity: 0.6; text-transform: uppercase; }
+/* HOBBY TRIGGERS */
+.hobby-triggers { display: flex; gap: 15px; margin-top: 20px; }
+.hobby-triggers span { font-size: 0.8rem; color: var(--accent); cursor: pointer; opacity: 0.6; font-weight: 600; text-transform: uppercase; }
 .hobby-triggers span:hover { opacity: 1; text-shadow: 0 0 8px var(--accent); }
-.hobby-overlay { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: 0.4s; z-index: 1; filter: grayscale(1) brightness(0.3); }
 
-/* LOCATION MAP WINDOW */
-.map-window { width: 100%; height: 100px; border-radius: 12px; overflow: hidden; position: relative; border: 1px solid var(--border); }
-.static-map { width: 100%; height: 100%; object-fit: cover; filter: saturate(0) brightness(0.6); }
-.map-ping { position: absolute; top: 50%; left: 50%; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; transform: translate(-50%, -50%); animation: radar 2s infinite; }
-@keyframes radar { 0% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(34, 211, 238, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); } }
+/* FULL MAP STYLING */
+.full-map-container { width: 100%; height: 160px; position: relative; overflow: hidden; }
+.world-map { width: 100%; height: 100%; object-fit: cover; filter: saturate(0) brightness(0.5) invert(0); opacity: 0.6; }
+.map-vignette { position: absolute; inset: 0; background: radial-gradient(circle, transparent 20%, var(--bg) 100%); }
+.map-ping { 
+    position: absolute; top: 60%; left: 72%; width: 8px; height: 8px; 
+    background: var(--accent); border-radius: 50%; box-shadow: 0 0 15px var(--accent);
+    animation: pulse-ring 2s infinite; 
+}
+@keyframes pulse-ring { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
 
-/* Pulse Animation */
-.pulse { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px #22c55e; animation: blink 2s infinite; }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-.coords { font-family: monospace; font-size: 0.75rem; color: var(--accent); margin-top: 4px; }
+.area-location .loc-content { padding: 1rem 1.5rem; position: relative; z-index: 5; }
+.pulse { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 8px; }
+
+/* Tech Tags */
+.tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+.tech-stack span { background: var(--border); padding: 5px 12px; border-radius: 8px; font-size: 0.8rem; }
 
 @media (max-width: 900px) {
     .main-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
     .area-portrait { height: 350px; order: -1; }
-    .area-location { height: 220px; }
 }
