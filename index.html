@@ -12,7 +12,7 @@
     <canvas id="dotCanvas"></canvas>
 
     <header class="site-header">
-        <button class="theme-toggle" id="theme-switcher" aria-label="Switch Theme">
+        <button class="theme-toggle" id="theme-switcher">
             <div class="toggle-track">
                 <div class="toggle-indicator"></div>
             </div>
@@ -37,7 +37,9 @@
                 <form class="ai-search-bar" id="ask-form">
                     <div class="ai-icon">✨</div>
                     <input type="text" id="ask-input" placeholder="Ask me anything..." autocomplete="off">
+                    <div class="ai-shortcut">Enter</div>
                 </form>
+                <div id="ai-response" class="ai-response-popup"></div>
             </div>
         </section>
 
@@ -57,6 +59,7 @@
             <article class="glass-card area-c">
                 <p class="card-label">Mindset</p>
                 <h3>Discipline > Motivation</h3>
+                <div class="mindset-visual"></div>
             </article>
 
             <article class="glass-card area-f">
@@ -65,8 +68,19 @@
 
             <article class="glass-card area-d">
                 <p class="card-label">Craft</p>
-                <div class="tech-stack">
-                    <span>React</span><span>Next.js</span><span>TS</span><span>Node</span>
+                <div class="tech-stack-container">
+                    <div class="tech-row">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Next.js</span>
+                    </div>
+                    <div class="tech-row">
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Node</span>
+                    </div>
+                    <div class="tech-row">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                    </div>
                 </div>
             </article>
 
