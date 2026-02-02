@@ -7,134 +7,67 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="theme-dark">
+  <!-- Mouse-follow dot grid background -->
+  <canvas id="dotCanvas"></canvas>
+
   <header class="site-header">
-    <div class="logo">neelnikhil.com</div>
-    <nav class="nav">
-      <a href="#home">Home</a>
-      <a href="#craft">Craft</a>
-      <a href="#projects">Projects</a>
-      <a href="#mindset">Mindset</a>
-      <a href="#contact">Contact</a>
-    </nav>
     <button class="theme-toggle" aria-label="Toggle theme">
       <span class="theme-toggle-knob"></span>
+    </button>
+
+    <nav class="top-nav">
+      <a href="#home" class="active">Home</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#other">Other</a>
+    </nav>
+
+    <button class="cta-btn">
+      <span>Contact</span>
     </button>
   </header>
 
   <main>
-    <!-- INTRO / HOME -->
-    <section class="intro" id="home">
-      <p class="intro-kicker">/ home</p>
+    <!-- HERO / HOME -->
+    <section class="hero" id="home">
+      <div class="hero-inner">
+        <p class="hero-hi">Hi, I’m</p>
+        <h1 class="hero-name">
+          <span class="hero-name-gradient">Neel Nikhil</span>
+        </h1>
+      </div>
 
-      <h1 class="intro-title">
-        <span class="intro-hi">Hi, I’m</span>
-        <span class="intro-name-gradient">Neel Nikhil</span>
-      </h1>
-
-      <p class="intro-main">
-        I build small, opinionated things at the intersection of code, curiosity, and chaos.
-        I care about ideas that can quietly bend the trajectory of a human life.
-      </p>
-
-      <p class="intro-sub">
-        Right now that looks like shipping web & AI experiments, surviving school and exams,
-        and trying to think a little more clearly than yesterday.
-      </p>
-
-      <p class="intro-cta">
-        If you’re here, you’re probably searching for something too.
-        You’ll find breadcrumbs in the sections below.
-      </p>
-
-      <!-- Ask Neel AI box (under intro) -->
+      <!-- Ask Neel card in center -->
       <section class="ask-neel" id="ask-neel">
-        <h2>Ask Neel (AI)</h2>
-        <p class="ask-description">
-          A small experiment: an AI‑styled interface that tries to answer questions the way I would.
-        </p>
+        <p class="ask-title">Ask me anything about Neel…</p>
 
         <div class="ask-card">
           <div class="ask-messages" id="ask-messages">
             <div class="msg bot">
-              <p>Hey, I’m Neel‑AI. Ask me about projects, exams, or how I think about building things.</p>
+              <p>Hey, I’m Neel‑AI. Ask about projects, exams, or how I think about building things.</p>
             </div>
           </div>
+
+          <div class="ask-quick-links">
+            <button type="button" data-prompt="What are you working on right now?">Work</button>
+            <button type="button" data-prompt="Tell me about your background.">About me</button>
+            <button type="button" data-prompt="What skills do you have?">Skills</button>
+            <button type="button" data-prompt="How can I contact you?">Contact</button>
+          </div>
+
           <form class="ask-input-row" id="ask-form">
-            <textarea
+            <input
               id="ask-input"
-              rows="1"
-              placeholder="Ask Neel‑AI anything..."
-            ></textarea>
+              type="text"
+              placeholder="Ask anything about Neel…"
+              autocomplete="off"
+            />
             <button type="submit">Send</button>
           </form>
         </div>
-
-        <p class="ask-note">
-          (Prototype only for now. I’ll wire it to a real model later.)
-        </p>
       </section>
-
-      <nav class="intro-links">
-        <a href="#craft">Craft</a>
-        <a href="#projects">Projects</a>
-        <a href="#mindset">Mindset</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </section>
-
-    <!-- CRAFT -->
-    <section class="section" id="craft">
-      <h2>Craft</h2>
-      <p>
-        I like building tools that feel intentional: dark‑themed websites, small AI assistants,
-        and automations that remove friction from studying and everyday life.
-      </p>
-      <p>
-        My current stack lives around JavaScript, Python, React (basic), HTML/CSS, APIs, and Figma.
-      </p>
-    </section>
-
-    <!-- PROJECTS -->
-    <section class="section" id="projects">
-      <h2>Featured projects</h2>
-      <ul class="list">
-        <li>
-          <strong>Enigma AI</strong> — dark launch site and experiments for an AI project, exploring branding and UX.
-        </li>
-        <li>
-          <strong>J.A.R.V.I.S.</strong> — browser voice assistant for quick commands, shortcuts, and web actions.
-        </li>
-        <li>
-          <strong>Nexus</strong> — dashboard for shortcuts, notes, and study utilities, built to reduce friction.
-        </li>
-      </ul>
-    </section>
-
-    <!-- MINDSET -->
-    <section class="section" id="mindset">
-      <h2>Mindset</h2>
-      <p>
-        Exams, chess, and running teach me discipline and pattern recognition.
-        I treat code the same way: consistent reps, deliberate practice, and long‑term experiments.
-      </p>
-      <p>
-        I like problems that feel slightly too big for me. They force better thinking, better systems,
-        and better questions.
-      </p>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="section" id="contact">
-      <h2>Contact</h2>
-      <p>Email: <a href="mailto:you@example.com">you@example.com</a></p>
-      <p>GitHub: <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
-      <p>Based in Bengaluru, India.</p>
     </section>
   </main>
-
-  <footer class="site-footer">
-    <p>© <span id="year"></span> Neel Nikhil.</p>
-  </footer>
 
   <script src="script.js"></script>
 </body>
