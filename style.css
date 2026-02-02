@@ -49,11 +49,11 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  opacity: 0.23;
+  opacity: 0.25;
   background-image:
-    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.12) 0, transparent 45%),
-    radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.08) 0, transparent 55%),
-    radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.05) 0, transparent 50%);
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.16) 0, transparent 45%),
+    radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.10) 0, transparent 55%),
+    radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.06) 0, transparent 50%);
   mix-blend-mode: screen;
 }
 
@@ -122,17 +122,21 @@ body.theme-light .theme-toggle-knob {
   transform: translateX(16px);
 }
 
-/* Main layout */
+/* Main layout (left aligned, like Paweł) */
 
 main {
   max-width: 960px;
   margin: 0 auto;
   padding: 3.5rem 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 /* Intro */
 
 .intro {
+  max-width: 640px; /* left column width */
   margin-bottom: 3rem;
 }
 
@@ -223,6 +227,7 @@ body.theme-light .list {
 
 .section {
   margin-top: 2.6rem;
+  max-width: 640px; /* same left column width */
 }
 
 .section h2 {
@@ -259,7 +264,7 @@ body.theme-light .list {
   border-radius: 14px;
   border: 1px solid var(--border-soft);
   padding: 1rem;
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(10px);
 }
 
