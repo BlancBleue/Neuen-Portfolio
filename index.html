@@ -3,6 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neel Nikhil</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body data-theme="dark">
+
+    <canvas id="dotCanvas"></canvas>
+
+    <div class="ui-layer">
+        <header class="site-header">
+            <div class="theme-switcher" id="theme-btn">
+                <div class="dot-indicator"></div>
+            </div>
+            <nav class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#projects">Work</a>
+            </nav>
+            <button class="book-btn">Book a Call</button>
+        </header>
+
+        <main id="home">
+            <section class="hero">
+                <p class="hero-intro">Hi, I'm</p>
+                <h1 class="color-cycle">NEEL NIKHIL</h1>
+
+                <div class="ai-container">
+                    <form id="ai-form" class="ai-bar">
+                        <span class="ai-icon">✦</span>
+                        <input type="text" id="ai-input" placeholder="Ask my digital twin..." autocomplete="off">
+                        <span class="badge">AI</span>
+                    </form>
+                    <div id="ai-output" class="ai-output"></div>
+                </div>
+            </section>
+
+            <section class="bento">
+                <div class="card area-focus">
+                    <span class="card-tag">Focus</span>
+                    <h3>Fullstack Developer</h3>
+                    <p>Building high-performance digital products.</p>
+                </div>
+                
+                <div class="card area-craft">
+                    <span class="card-tag">Craft</span>
+                    <div class="tech-grid">
+                        <span>React</span><span>Next.js</span>
+                        <span>Node</span><span>TS</span>
+                    </div>
+                </div>
+
+                <div class="card area-mindset">
+                    <span class="card-tag">Mindset</span>
+                    <h3>Discipline > Motivation</h3>
+                </div>
+
+                <div class="card area-location">
+                    <span class="card-tag">Location</span>
+                    <h3>Bangalore, IN</h3>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neel Nikhil | Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
