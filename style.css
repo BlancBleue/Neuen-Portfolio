@@ -58,40 +58,67 @@ body[data-theme="dark"] .top-nav {
   background: radial-gradient(circle at top, #111827ee, #020617f0);
 }
 
+/* LIGHT THEME – no black, clear bar overrides */
+
 body[data-theme="light"] {
   background: var(--light-bg);
   color: var(--text-main-light);
 }
+
 body[data-theme="light"] .hero-name-gradient {
   --accent1: var(--light-accent1);
   --accent2: var(--light-accent2);
   --accent3: var(--light-accent3);
 }
+
+body[data-theme="light"] .top-nav {
+  background: #ffffff;
+  border-color: rgba(148, 163, 184, 0.6);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.14);
+}
+
+body[data-theme="light"] .top-nav a {
+  color: #4b5563;
+}
+
+body[data-theme="light"] .top-nav a.active,
+body[data-theme="light"] .top-nav a:hover {
+  color: #111827;
+}
+
 body[data-theme="light"] .ask-card {
   background: #ffffff;
+  border-color: rgba(148, 163, 184, 0.6);
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
 }
-body[data-theme="light"] .top-nav {
-  background: #111827;
-}
+
 body[data-theme="light"] .hero-hi,
 body[data-theme="light"] .ask-title {
   color: var(--text-muted-light);
 }
+
 body[data-theme="light"] .ask-messages {
   color: var(--text-muted-light);
 }
+
 body[data-theme="light"] .ask-input-row {
   background: #e5e7eb;
-  border-color: rgba(148, 163, 184, 0.6);
+  border-color: rgba(148, 163, 184, 0.8);
 }
+
 body[data-theme="light"] #ask-input {
   color: var(--text-main-light);
 }
+
 body[data-theme="light"] .ask-quick-links button {
   background: #e5e7eb;
   color: var(--text-main-light);
-  border-color: rgba(148, 163, 184, 0.7);
+  border-color: rgba(148, 163, 184, 0.8);
+}
+
+body[data-theme="light"] .msg.bot {
+  background: #e5e7eb;
+  color: var(--text-main-light);
 }
 
 /* Base reset */
@@ -157,7 +184,6 @@ body {
 }
 
 /* Neutral: circle outline */
-
 body[data-theme="neutral"] #theme-icon::before {
   content: "";
   position: absolute;
@@ -167,7 +193,6 @@ body[data-theme="neutral"] #theme-icon::before {
 }
 
 /* Dark: moon outline */
-
 body[data-theme="dark"] #theme-icon::before,
 body[data-theme="dark"] #theme-icon::after {
   content: "";
@@ -186,8 +211,7 @@ body[data-theme="dark"] #theme-icon::after {
   background: #111827;
 }
 
-/* Light: sun outline (circle + ring) */
-
+/* Light: sun outline */
 body[data-theme="light"] #theme-icon::before,
 body[data-theme="light"] #theme-icon::after {
   content: "";
@@ -204,7 +228,7 @@ body[data-theme="light"] #theme-icon::after {
   border: 2px solid rgba(17, 24, 39, 0.4);
 }
 
-/* Center pill nav */
+/* Center pill nav – base (overridden by light above) */
 
 .top-nav {
   display: inline-flex;
@@ -348,11 +372,6 @@ main {
   align-self: flex-start;
   background: rgba(15, 23, 42, 0.9);
   color: var(--text-main-dark);
-}
-
-body[data-theme="light"] .msg.bot {
-  background: #e5e7eb;
-  color: var(--text-main-light);
 }
 
 .msg.user {
