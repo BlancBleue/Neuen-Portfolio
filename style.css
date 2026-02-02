@@ -13,7 +13,7 @@ body[data-theme="light"] {
     --border: rgba(0, 0, 0, 0.06);
     --text: #18181b;
     --muted: #71717a;
-    --accent: #000000;
+    --accent: #6366f1;
 }
 
 body[data-theme="neutral"] {
@@ -25,23 +25,11 @@ body[data-theme="neutral"] {
     --accent: #c084fc;
 }
 
-/* Global Lowercase Reset */
 * { 
     box-sizing: border-box; 
     margin: 0; 
     padding: 0; 
-    text-transform: lowercase; 
-}
-
-/* Specific Override for the Main Name */
-.hero-name-main {
-    text-transform: uppercase !important;
-    font-size: clamp(3.5rem, 12vw, 8.5rem); 
-    font-weight: 900; 
-    letter-spacing: -5px; 
-    line-height: 0.9;
-    margin-bottom: 3.5rem;
-    color: var(--text);
+    /* Removed text-transform: lowercase */
 }
 
 body { 
@@ -50,43 +38,63 @@ body {
     font-family: 'Inter', sans-serif; 
     transition: background 0.8s ease;
     overflow-x: hidden;
+    line-height: 1.5;
 }
 
 #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.3; }
 
-/* UI ELEMENTS */
-.site-header { position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; backdrop-filter: blur(20px); }
-.theme-toggle { width: 40px; height: 40px; border-radius: 50%; background: var(--card-bg); border: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.icon-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--text); opacity: 0.8; }
-.top-nav { display: flex; gap: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1.5rem; border-radius: 100px; }
-.top-nav a { text-decoration: none; color: var(--muted); font-size: 0.85rem; }
-.cta-btn { background: var(--text); color: var(--bg); border: none; padding: 0.6rem 1.4rem; border-radius: 100px; font-weight: 500; cursor: pointer; }
-
 /* HERO */
 .hero { text-align: center; padding: 160px 5% 60px; }
-.hero-hi { font-size: 1.1rem; font-weight: 400; letter-spacing: 1px; margin-bottom: 0.8rem; color: var(--muted); }
+.hero-hi { font-size: 1.2rem; font-weight: 500; margin-bottom: 0.8rem; color: var(--muted); }
+
+/* COLOR CYCLING NAME */
+.hero-name-main.color-cycle {
+    text-transform: uppercase;
+    font-size: clamp(3.5rem, 12vw, 8.5rem); 
+    font-weight: 900; 
+    letter-spacing: -5px; 
+    line-height: 0.9;
+    margin-bottom: 3.5rem;
+    
+    background: linear-gradient(
+        to right, 
+        var(--text) 20%, 
+        var(--accent) 40%, 
+        #f472b6 60%, 
+        var(--text) 80%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 8s linear infinite;
+}
+
+@keyframes shine {
+    to { background-position: 200% center; }
+}
+
+/* UI ELEMENTS */
+.site-header { position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; backdrop-filter: blur(20px); }
+.top-nav { display: flex; gap: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1.5rem; border-radius: 100px; }
+.top-nav a { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 500; }
+.cta-btn { background: var(--text); color: var(--bg); border: none; padding: 0.6rem 1.4rem; border-radius: 100px; cursor: pointer; font-weight: 600; }
 
 /* AI SEARCH */
 .ai-search-container { max-width: 480px; margin: 0 auto 80px; position: relative; }
 .ai-search-bar { display: flex; align-items: center; background: var(--card-bg); border: 1px solid var(--border); padding: 14px 22px; border-radius: 100px; }
-#ask-input { flex: 1; background: transparent; border: none; color: var(--text); outline: none; font-size: 0.95rem; }
-.ai-response-popup { margin-top: 20px; font-size: 0.9rem; color: var(--muted); opacity: 0; transition: 0.4s; }
-.ai-response-popup.active { opacity: 1; }
+#ask-input { flex: 1; background: transparent; border: none; color: var(--text); outline: none; font-size: 1rem; }
 
 /* BENTO GRID */
 .bento-grid { display: grid; max-width: 1100px; margin: 0 auto 100px; padding: 0 5%; gap: 1rem; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 220px); grid-template-areas: "a b b" "c f d" "c e e"; }
 .glass-card { grid-area: var(--area); background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 1.8rem; position: relative; overflow: hidden; }
 
-/* MAP AREA */
+/* MAP */
 .area-e { --area: e; padding: 0 !important; }
 .map-static-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800') center/cover; opacity: 0.15; filter: grayscale(1); }
 body[data-theme="dark"] .map-static-bg { filter: grayscale(1) invert(1) brightness(0.5); }
-.location-overlay { position: absolute; bottom: 20px; left: 24px; z-index: 2; }
-.coords { font-family: monospace; font-size: 0.7rem; color: var(--muted); margin-top: 4px; }
+.coords { font-family: monospace; font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
 
-.area-a { --area: a; } .area-b { --area: b; } .area-c { --area: c; } .area-d { --area: d; } .area-f { --area: f; padding: 0; }
-.card-label { font-size: 10px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 0.8rem; }
-.portrait-img { width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800') center/cover; filter: grayscale(1); opacity: 0.6; }
-.tech-stack span { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 4px 12px; border-radius: 20px; font-size: 11px; margin-right: 6px; display: inline-block; color: var(--muted); }
+.card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 0.8rem; }
+.tech-stack span { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 6px; display: inline-block; color: var(--text); }
 
 @media (max-width: 900px) { .bento-grid { grid-template-columns: 1fr; grid-template-areas: "a" "b" "f" "c" "d" "e"; grid-template-rows: auto; } }
