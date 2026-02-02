@@ -92,13 +92,14 @@ function drawDots() {
       const dx = x + offsetX;
       const dy = y + offsetY;
 
+      // Stronger alpha + larger size so you can see them on light bg
       const alpha = isLight
-        ? 0.12 + Math.random() * 0.06   // stronger so visible on light bg
-        : 0.04 + Math.random() * 0.06;
+        ? 0.18 + Math.random() * 0.08
+        : 0.05 + Math.random() * 0.07;
 
-      const color = isLight ? 130 : 255; // grey-ish vs white
+      const color = isLight ? 120 : 255; // grey vs white
       ctx.fillStyle = `rgba(${color},${color},${color},${alpha})`;
-      ctx.fillRect(dx, dy, 1.3, 1.3);
+      ctx.fillRect(dx, dy, isLight ? 1.6 : 1.2, isLight ? 1.6 : 1.2);
     }
   }
 
