@@ -1,56 +1,63 @@
-// Theme Toggler
-const themeBtn = document.getElementById('theme-btn');
-themeBtn.onclick = () => {
-    const current = document.body.getAttribute('data-theme');
-    document.body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+const body = document.body;
+const themeToggle = document.querySelector('.theme-toggle');
+const themes = ['dark', 'light', 'neutral'];
+let themeIndex = 0;
+
+themeToggle.onclick = () => {
+    themeIndex = (themeIndex + 1) % themes.length;
+    body.setAttribute('data-theme', themes[themeIndex]);
 };
 
-// AI Search Submission
-const aiForm = document.getElementById('ai-form');
-const aiOutput = document.getElementById('ai-output');
-const aiInput = document.getElementById('ai-input');
-
-aiForm.onsubmit = (e) => {
-    e.preventDefault();
-    if (!aiInput.value.trim()) return;
-    aiOutput.classList.add('active');
-    aiOutput.innerHTML = `<p style="color:var(--accent);">Neel is based in Bangalore and specializes in high-performance Fullstack systems.</p>`;
-    aiInput.value = "";
-};
-
-// Responsive Dot Background
+// --- GRID DISPLACEMENT ---
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
-let dots = [];
+let width, height, dots = [];
+const spacing = 35;
+const mouse = { x: -1000, y: -1000 };
 
 function init() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    dots = Array.from({length: 60}, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        s: Math.random() * 1.5 + 0.5,
-        o: Math.random() * 0.5 + 0.2
-    }));
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    dots = [];
+    for (let x = 0; x < width; x += spacing) {
+        for (let y = 0; y < height; y += spacing) {
+            dots.push({ baseX: x, baseY: y, x: x, y: y });
+        }
+    }
 }
 
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const theme = document.body.getAttribute('data-theme');
-    ctx.fillStyle = theme === 'light' ? '#000' : '#fff';
-    
+function render() {
+    ctx.clearRect(0, 0, width, height);
+    const theme = body.getAttribute('data-theme');
+    ctx.fillStyle = theme === 'neutral' ? 'rgba(192, 132, 252, 0.4)' : theme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.15)';
     dots.forEach(d => {
-        ctx.globalAlpha = d.o;
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
-        ctx.fill();
-        d.y -= 0.3; // Very slow drift up
-        if (d.y < 0) d.y = canvas.height;
+        const dx = mouse.x - d.baseX;
+        const dy = mouse.y - d.baseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 180) {
+            const force = (180 - dist) / 180;
+            const angle = Math.atan2(dy, dx);
+            d.x = d.baseX - Math.cos(angle) * force * 20;
+            d.y = d.baseY - Math.sin(angle) * force * 20;
+            ctx.beginPath(); ctx.arc(d.x, d.y, 1.5 + force * 3, 0, Math.PI * 2); ctx.fill();
+        } else {
+            d.x = d.baseX; d.y = d.baseY;
+            ctx.beginPath(); ctx.arc(d.x, d.y, 1.5, 0, Math.PI * 2); ctx.fill();
+        }
     });
-    ctx.globalAlpha = 1.0;
-    requestAnimationFrame(draw);
+    requestAnimationFrame(render);
 }
 
-window.addEventListener('resize', init);
-init();
-draw();
+window.onmousemove = e => { mouse.x = e.clientX; mouse.y = e.clientY; };
+window.onresize = init;
+
+// AI Search Box
+const askForm = document.getElementById('ask-form');
+const aiResponse = document.getElementById('ai-response');
+askForm.onsubmit = (e) => {
+    e.preventDefault();
+    aiResponse.classList.add('active');
+    aiResponse.textContent = "Neel is building the next generation of web interfaces.";
+};
+
+init(); render();
