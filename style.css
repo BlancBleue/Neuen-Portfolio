@@ -42,6 +42,8 @@ body[data-theme="neutral"] .top-nav {
   background: radial-gradient(circle at top, #1e1635ee, #050014f0);
 }
 
+/* Dark */
+
 body[data-theme="dark"] {
   background: var(--dark-bg);
   color: var(--text-main-dark);
@@ -58,7 +60,7 @@ body[data-theme="dark"] .top-nav {
   background: radial-gradient(circle at top, #111827ee, #020617f0);
 }
 
-/* LIGHT THEME – no black, clear bar overrides */
+/* Light – FULL overrides, including buttons */
 
 body[data-theme="light"] {
   background: var(--light-bg);
@@ -121,6 +123,20 @@ body[data-theme="light"] .msg.bot {
   color: var(--text-main-light);
 }
 
+/* Light: contact button + theme button */
+
+body[data-theme="light"] .cta-btn {
+  background: #ffffff;
+  color: #111827;
+  border-color: rgba(148, 163, 184, 0.7);
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.12);
+}
+
+body[data-theme="light"] .theme-toggle {
+  background: radial-gradient(circle at 30% 20%, #e5e7eb, #d1d5db);
+  border-color: rgba(148, 163, 184, 0.9);
+}
+
 /* Base reset */
 
 *,
@@ -162,7 +178,7 @@ body {
   padding-inline: 3rem;
 }
 
-/* Theme toggle with outlined icons */
+/* Theme toggle base */
 
 .theme-toggle {
   width: 44px;
@@ -228,7 +244,7 @@ body[data-theme="light"] #theme-icon::after {
   border: 2px solid rgba(17, 24, 39, 0.4);
 }
 
-/* Center pill nav – base (overridden by light above) */
+/* Center pill nav base */
 
 .top-nav {
   display: inline-flex;
@@ -264,7 +280,7 @@ body[data-theme="light"] #theme-icon::after {
   background: linear-gradient(90deg, #22d3ee, #a855f7);
 }
 
-/* Right CTA */
+/* Right CTA base */
 
 .cta-btn {
   padding: 0.35rem 1.1rem;
