@@ -5,24 +5,25 @@ function toggleTheme() {
     body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
 }
 
-// 2. Hobby Hover Images
-const hobbyImages = {
+// 2. Hobby Photo Switcher (Switches main portrait)
+const hobbyPhotos = {
     'coding': 'url("coding-me.jpg")',
     'chess': 'url("chess-me.jpg")',
-    'travel': 'url("travel-me.jpg")'
+    'snooker': 'url("snooker-me.jpg")'
 };
 
 function showHobby(type) {
-    const overlay = document.getElementById('hobby-img');
-    const content = document.querySelector('.mindset-content');
+    const mainPhoto = document.getElementById('main-photo');
+    const hobbyLayer = document.getElementById('hobby-photo');
     
     if (type === 'default') {
-        overlay.style.opacity = "0";
-        content.style.opacity = "1";
+        hobbyLayer.style.opacity = "0";
+        mainPhoto.style.opacity = "1";
+        mainPhoto.style.filter = "grayscale(1)";
     } else {
-        overlay.style.backgroundImage = hobbyImages[type];
-        overlay.style.opacity = "1";
-        content.style.opacity = "0.4"; // Dims text to show image better
+        hobbyLayer.style.backgroundImage = hobbyPhotos[type];
+        hobbyLayer.style.opacity = "1";
+        mainPhoto.style.opacity = "0"; // Fade out main photo
     }
 }
 
