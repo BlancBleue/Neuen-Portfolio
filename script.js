@@ -57,7 +57,7 @@ quickButtons.forEach((btn) => {
   });
 });
 
-// DOT GRID FOLLOWING MOUSE (greyish in light, white in neutral/dark)
+// DOT GRID FOLLOWING MOUSE (grey in light, white in others)
 
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
@@ -91,14 +91,17 @@ function drawDots() {
     for (let y = -spacing; y < height + spacing; y += spacing) {
       const dx = x + offsetX;
       const dy = y + offsetY;
+
       const alpha = isLight
-        ? 0.03 + Math.random() * 0.05
+        ? 0.12 + Math.random() * 0.06   // stronger so visible on light bg
         : 0.04 + Math.random() * 0.06;
-      const color = isLight ? 140 : 255; // grey dots for light, white-ish for others
+
+      const color = isLight ? 130 : 255; // grey-ish vs white
       ctx.fillStyle = `rgba(${color},${color},${color},${alpha})`;
-      ctx.fillRect(dx, dy, 1.2, 1.2);
+      ctx.fillRect(dx, dy, 1.3, 1.3);
     }
   }
+
   requestAnimationFrame(drawDots);
 }
 drawDots();
