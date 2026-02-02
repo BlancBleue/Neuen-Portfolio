@@ -1,77 +1,57 @@
-const body = document.body;
-const themeBtn = document.getElementById('theme-switcher');
-const themes = ['dark', 'light', 'neutral'];
-let themeIndex = 0;
+// 1. Theme Toggle
+function toggleTheme() {
+    const body = document.body;
+    const current = body.getAttribute('data-theme');
+    body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+}
 
-themeBtn.onclick = () => {
-    themeIndex = (themeIndex + 1) % themes.length;
-    body.setAttribute('data-theme', themes[themeIndex]);
-};
-
-// AI Search Logic
-const askForm = document.getElementById('ask-form');
-const askInput = document.getElementById('ask-input');
-const responseShell = document.getElementById('ai-response');
-const responseText = responseShell.querySelector('.response-text');
-const typingIndicator = responseShell.querySelector('.typing-indicator');
-
-askForm.onsubmit = (e) => {
-    e.preventDefault();
-    const query = askInput.value.trim();
-    if(!query) return;
-
-    responseShell.classList.add('active');
-    responseText.textContent = "";
-    typingIndicator.style.display = 'flex';
-
-    setTimeout(() => {
-        typingIndicator.style.display = 'none';
-        responseText.textContent = `Processing "${query}"... Neel is currently architecting digital experiences in Bangalore. He specializes in high-performance fullstack apps.`;
-        askInput.value = "";
-    }, 1200);
-};
-
-// --- GRID DISPLACEMENT CANVAS ---
-const canvas = document.getElementById('dotCanvas');
-const ctx = canvas.getContext('2d');
-let width, height, dots = [];
-const spacing = 45;
-const mouse = { x: -1000, y: -1000 };
-
-function init() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    dots = [];
-    for (let x = 0; x < width; x += spacing) {
-        for (let y = 0; y < height; y += spacing) {
-            dots.push({ baseX: x, baseY: y, x: x, y: y });
-        }
+// 2. AI Form Handling
+function handleSearch(event) {
+    event.preventDefault();
+    const input = document.getElementById('ai-input');
+    const res = document.getElementById('ai-response');
+    
+    if(input.value.trim() !== "") {
+        res.style.display = 'block';
+        res.innerHTML = `✦ Neel is currently architecting systems in Bangalore. Try asking about his Next.js projects!`;
+        input.value = "";
     }
 }
 
-function render() {
-    ctx.clearRect(0, 0, width, height);
-    const theme = body.getAttribute('data-theme');
-    ctx.fillStyle = theme === 'neutral' ? 'rgba(167,139,250,0.15)' : theme === 'light' ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.06)';
+// 3. Optimized Background Canvas
+const canvas = document.getElementById('dotCanvas');
+const ctx = canvas.getContext('2d');
+let dots = [];
 
-    dots.forEach(d => {
-        const dx = mouse.x - d.baseX;
-        const dy = mouse.y - d.baseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 140) {
-            const force = (140 - dist) / 140;
-            const angle = Math.atan2(dy, dx);
-            d.x = d.baseX - Math.cos(angle) * force * 15;
-            d.y = d.baseY - Math.sin(angle) * force * 15;
-            ctx.beginPath(); ctx.arc(d.x, d.y, 1 + force * 2, 0, Math.PI * 2); ctx.fill();
-        } else {
-            d.x = d.baseX; d.y = d.baseY;
-            ctx.beginPath(); ctx.arc(d.x, d.y, 0.8, 0, Math.PI * 2); ctx.fill();
-        }
-    });
-    requestAnimationFrame(render);
+function init() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    dots = [];
+    for(let i=0; i<60; i++) {
+        dots.push({ 
+            x: Math.random() * canvas.width, 
+            y: Math.random() * canvas.height,
+            s: Math.random() * 1.5 + 0.5,
+            v: Math.random() * 0.3 + 0.1
+        });
+    }
 }
 
-window.onmousemove = e => { mouse.x = e.clientX; mouse.y = e.clientY; };
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    ctx.fillStyle = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)';
+    
+    dots.forEach(d => {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
+        ctx.fill();
+        d.y -= d.v;
+        if(d.y < 0) d.y = canvas.height;
+    });
+    requestAnimationFrame(draw);
+}
+
 window.onresize = init;
-init(); render();
+init();
+draw();
