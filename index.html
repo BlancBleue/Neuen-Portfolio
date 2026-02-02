@@ -14,7 +14,6 @@
       <a href="#craft">Craft</a>
       <a href="#projects">Projects</a>
       <a href="#mindset">Mindset</a>
-      <a href="#ask-neel">Ask Neel</a>
       <a href="#contact">Contact</a>
     </nav>
     <button class="theme-toggle" aria-label="Toggle theme">
@@ -47,11 +46,39 @@
         You’ll find breadcrumbs in the sections below.
       </p>
 
+      <!-- Ask Neel AI box (under intro) -->
+      <section class="ask-neel" id="ask-neel">
+        <h2>Ask Neel (AI)</h2>
+        <p class="ask-description">
+          A small experiment: an AI‑styled interface that tries to answer questions the way I would.
+        </p>
+
+        <div class="ask-card">
+          <div class="ask-messages" id="ask-messages">
+            <div class="msg bot">
+              <p>Hey, I’m Neel‑AI. Ask me about projects, exams, or how I think about building things.</p>
+            </div>
+          </div>
+          <form class="ask-input-row" id="ask-form">
+            <textarea
+              id="ask-input"
+              rows="1"
+              placeholder="Ask Neel‑AI anything..."
+            ></textarea>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+
+        <p class="ask-note">
+          (Prototype only for now. I’ll wire it to a real model later.)
+        </p>
+      </section>
+
       <nav class="intro-links">
         <a href="#craft">Craft</a>
         <a href="#projects">Projects</a>
         <a href="#mindset">Mindset</a>
-        <a href="#ask-neel">Ask Neel</a>
+        <a href="#contact">Contact</a>
       </nav>
     </section>
 
@@ -93,35 +120,6 @@
       <p>
         I like problems that feel slightly too big for me. They force better thinking, better systems,
         and better questions.
-      </p>
-    </section>
-
-    <!-- ASK NEEL (AI BOX) -->
-    <section class="section ask-neel" id="ask-neel">
-      <h2>Ask Neel (AI)</h2>
-      <p class="ask-description">
-        A small experiment: an AI‑powered interface that tries to answer questions the way I would.
-        Type something in and see what it says.
-      </p>
-
-      <div class="ask-card">
-        <div class="ask-messages" id="ask-messages">
-          <div class="msg bot">
-            <p>Hey, I’m Neel‑AI. Ask me about projects, exams, or how I think about building things.</p>
-          </div>
-        </div>
-        <form class="ask-input-row" id="ask-form">
-          <textarea
-            id="ask-input"
-            rows="1"
-            placeholder="Ask Neel‑AI anything..."
-          ></textarea>
-          <button type="submit">Send</button>
-        </form>
-      </div>
-
-      <p class="ask-note">
-        (This is a front‑end prototype. We can wire it to a real API later.)
       </p>
     </section>
 
