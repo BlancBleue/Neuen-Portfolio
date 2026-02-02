@@ -29,16 +29,12 @@ function init() {
 function render() {
     ctx.clearRect(0, 0, width, height);
     const theme = body.getAttribute('data-theme');
-    
-    if (theme === 'neutral') ctx.fillStyle = 'rgba(167, 139, 250, 0.15)';
-    else if (theme === 'light') ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
-    else ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+    ctx.fillStyle = theme === 'neutral' ? 'rgba(167,139,250,0.15)' : theme === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.06)';
 
     dots.forEach(d => {
         const dx = mouse.x - d.baseX;
         const dy = mouse.y - d.baseY;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        
         if (dist < 140) {
             const force = (140 - dist) / 140;
             const angle = Math.atan2(dy, dx);
@@ -55,13 +51,4 @@ function render() {
 
 window.onmousemove = e => { mouse.x = e.clientX; mouse.y = e.clientY; };
 window.onresize = init;
-
-const askForm = document.getElementById('ask-form');
-const aiResponse = document.getElementById('ai-response');
-askForm.onsubmit = (e) => {
-    e.preventDefault();
-    aiResponse.classList.add('active');
-    aiResponse.textContent = "Neel is crafting digital products in Bangalore.";
-};
-
 init(); render();
