@@ -3,77 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-</head>
-<body data-theme="dark">
-
-    <canvas id="dotCanvas"></canvas>
-
-    <div class="ui-layer">
-        <header class="site-header">
-            <div class="theme-switcher" id="theme-btn">
-                <div class="dot-indicator"></div>
-            </div>
-            <nav class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#projects">Work</a>
-            </nav>
-            <button class="book-btn">Book a Call</button>
-        </header>
-
-        <main id="home">
-            <section class="hero">
-                <p class="hero-intro">Hi, I'm</p>
-                <h1 class="color-cycle">NEEL NIKHIL</h1>
-
-                <div class="ai-container">
-                    <form id="ai-form" class="ai-bar">
-                        <span class="ai-icon">✦</span>
-                        <input type="text" id="ai-input" placeholder="Ask my digital twin..." autocomplete="off">
-                        <span class="badge">AI</span>
-                    </form>
-                    <div id="ai-output" class="ai-output"></div>
-                </div>
-            </section>
-
-            <section class="bento">
-                <div class="card area-focus">
-                    <span class="card-tag">Focus</span>
-                    <h3>Fullstack Developer</h3>
-                    <p>Building high-performance digital products.</p>
-                </div>
-                
-                <div class="card area-craft">
-                    <span class="card-tag">Craft</span>
-                    <div class="tech-grid">
-                        <span>React</span><span>Next.js</span>
-                        <span>Node</span><span>TS</span>
-                    </div>
-                </div>
-
-                <div class="card area-mindset">
-                    <span class="card-tag">Mindset</span>
-                    <h3>Discipline > Motivation</h3>
-                </div>
-
-                <div class="card area-location">
-                    <span class="card-tag">Location</span>
-                    <h3>Bangalore, IN</h3>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | Portfolio</title>
+    <title>Neel Nikhil | AI OS Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
 </head>
@@ -81,84 +11,76 @@
 
     <canvas id="dotCanvas"></canvas>
 
-    <div class="content-wrapper">
-        <header class="site-header">
-            <button class="theme-toggle" id="theme-switcher">
-                <div class="toggle-track">
-                    <div class="toggle-indicator"></div>
+    <header class="site-header">
+        <button class="theme-toggle" aria-label="Cycle Theme">
+            <div class="icon-dot"></div>
+        </button>
+
+        <nav class="top-nav">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <button class="cta-btn">Book a Call</button>
+    </header>
+
+    <main id="home">
+        <section class="hero">
+            <p class="hero-hi">HI, I'M</p>
+            <h1 class="hero-name-main">NEEL NIKHIL</h1>
+            
+            <div class="ai-search-container">
+                <form class="ai-search-bar" id="ask-form">
+                    <div class="ai-icon">✨</div>
+                    <input type="text" id="ask-input" placeholder="Ask me anything..." autocomplete="off">
+                    <div class="ai-shortcut">Enter</div>
+                </form>
+                <div id="ai-response" class="ai-response-popup"></div>
+            </div>
+        </section>
+
+        <section class="bento-grid" id="about">
+            <article class="glass-card area-a">
+                <p class="card-label">Focus</p>
+                <h3>Fullstack Developer</h3>
+                <p class="muted-text">Engineering digital products with high precision.</p>
+            </article>
+
+            <article class="glass-card area-b">
+                <p class="card-label">Journey</p>
+                <h3>Building the future</h3>
+                <p class="muted-text">From physics and logic to shipping production apps.</p>
+            </article>
+
+            <article class="glass-card area-c">
+                <p class="card-label">Mindset</p>
+                <h3>Discipline > Motivation</h3>
+                <div class="image-strip"></div>
+            </article>
+
+            <article class="glass-card area-d">
+                <p class="card-label">Craft</p>
+                <div class="tech-stack">
+                    <span>React</span><span>Next.js</span><span>TS</span><span>Node</span>
                 </div>
-                <span class="theme-label">Theme</span>
-            </button>
+            </article>
 
-            <nav class="top-nav">
-                <a href="#home" class="active">Home</a>
-                <a href="#about">About</a>
-                <a href="#projects">Projects</a>
-            </nav>
-
-            <button class="cta-btn">Book a Call</button>
-        </header>
-
-        <main id="home">
-            <section class="hero">
-                <p class="hero-hi">Hi, I'm</p>
-                <h1 class="hero-name-main color-cycle">NEEL NIKHIL</h1>
-                
-                <div class="ai-search-container">
-                    <div class="ai-search-wrapper">
-                        <form class="ai-search-bar" id="ask-form">
-                            <span class="ai-spark">✨</span>
-                            <input type="text" id="ask-input" placeholder="Ask my digital twin..." autocomplete="off">
-                            <div class="ai-badge">AI</div>
-                        </form>
-                    </div>
-                    <div id="ai-response" class="ai-response-shell">
-                        <div class="typing-indicator"><span></span><span></span><span></span></div>
-                        <p class="response-text"></p>
-                    </div>
+            <article class="glass-card area-e">
+                <div class="map-static-bg"></div>
+                <div class="location-overlay">
+                    <p class="card-label">Location</p>
+                    <h3>Bangalore, IN</h3>
+                    <p class="coords">12.9716° N, 77.5946° E</p>
                 </div>
-            </section>
+            </article>
 
-            <section class="bento-grid">
-                <article class="glass-card area-a">
-                    <p class="card-label">Focus</p>
-                    <h3>Fullstack Developer</h3>
-                    <p class="muted-text">Engineering digital products with high precision.</p>
-                </article>
-
-                <article class="glass-card area-b">
-                    <p class="card-label">Journey</p>
-                    <h3>Building the future</h3>
-                    <p class="muted-text">From physics and logic to shipping production apps.</p>
-                </article>
-
-                <article class="glass-card area-c">
-                    <p class="card-label">Mindset</p>
-                    <h3>Discipline > Motivation</h3>
-                </article>
-
-                <article class="glass-card area-f">
-                    <div class="portrait-img"></div>
-                </article>
-
-                <article class="glass-card area-d">
-                    <p class="card-label">Craft</p>
-                    <div class="tech-stack-container">
-                        <div class="tech-row"><span class="tech-tag">React</span><span class="tech-tag">Next.js</span></div>
-                        <div class="tech-row"><span class="tech-tag">TS</span><span class="tech-tag">Node</span></div>
-                    </div>
-                </article>
-
-                <article class="glass-card area-e">
-                    <div class="map-static-bg"></div>
-                    <div class="location-overlay">
-                        <p class="card-label">Location</p>
-                        <h3>Bangalore, IN</h3>
-                    </div>
-                </article>
-            </section>
-        </main>
-    </div>
+            <article class="glass-card area-f">
+                <div class="portrait-img"></div>
+            </article>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
