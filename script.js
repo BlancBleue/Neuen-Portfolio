@@ -1,69 +1,56 @@
-// Theme Logic
-const body = document.body;
-const themeBtn = document.getElementById('theme-switcher');
-const themes = ['dark', 'light', 'neutral'];
-let themeIndex = 0;
-
+// Theme Toggler
+const themeBtn = document.getElementById('theme-btn');
 themeBtn.onclick = () => {
-    themeIndex = (themeIndex + 1) % themes.length;
-    body.setAttribute('data-theme', themes[themeIndex]);
+    const current = document.body.getAttribute('data-theme');
+    document.body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
 };
 
-// AI Search Logic
-const askForm = document.getElementById('ask-form');
-const askInput = document.getElementById('ask-input');
-const responseShell = document.getElementById('ai-response');
-const responseText = responseShell.querySelector('.response-text');
+// AI Search Submission
+const aiForm = document.getElementById('ai-form');
+const aiOutput = document.getElementById('ai-output');
+const aiInput = document.getElementById('ai-input');
 
-askForm.onsubmit = (e) => {
+aiForm.onsubmit = (e) => {
     e.preventDefault();
-    if (!askInput.value.trim()) return;
-    
-    responseShell.classList.add('active');
-    responseText.textContent = "Thinking... Neel is a software engineer based in Bangalore, currently working on high-impact web products.";
-    askInput.value = "";
+    if (!aiInput.value.trim()) return;
+    aiOutput.classList.add('active');
+    aiOutput.innerHTML = `<p style="color:var(--accent);">Neel is based in Bangalore and specializes in high-performance Fullstack systems.</p>`;
+    aiInput.value = "";
 };
 
-// Canvas Logic (Optimized)
+// Responsive Dot Background
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
-let width, height, dots = [];
-const spacing = 50;
-const mouse = { x: -1000, y: -1000 };
+let dots = [];
 
 function init() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    dots = [];
-    for (let x = 0; x < width; x += spacing) {
-        for (let y = 0; y < height; y += spacing) {
-            dots.push({ bx: x, by: y, x: x, y: y });
-        }
-    }
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    dots = Array.from({length: 60}, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        s: Math.random() * 1.5 + 0.5,
+        o: Math.random() * 0.5 + 0.2
+    }));
 }
 
-function render() {
-    ctx.clearRect(0, 0, width, height);
-    const theme = body.getAttribute('data-theme');
-    ctx.fillStyle = theme === 'neutral' ? 'rgba(167,139,250,0.2)' : theme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)';
-
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const theme = document.body.getAttribute('data-theme');
+    ctx.fillStyle = theme === 'light' ? '#000' : '#fff';
+    
     dots.forEach(d => {
-        const dx = mouse.x - d.bx;
-        const dy = mouse.y - d.by;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 150) {
-            const angle = Math.atan2(dy, dx);
-            const force = (150 - dist) / 150;
-            d.x = d.bx - Math.cos(angle) * force * 15;
-            d.y = d.by - Math.sin(angle) * force * 15;
-            ctx.beginPath(); ctx.arc(d.x, d.y, 1.5, 0, Math.PI * 2); ctx.fill();
-        } else {
-            ctx.beginPath(); ctx.arc(d.bx, d.by, 1, 0, Math.PI * 2); ctx.fill();
-        }
+        ctx.globalAlpha = d.o;
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
+        ctx.fill();
+        d.y -= 0.3; // Very slow drift up
+        if (d.y < 0) d.y = canvas.height;
     });
-    requestAnimationFrame(render);
+    ctx.globalAlpha = 1.0;
+    requestAnimationFrame(draw);
 }
 
-window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 window.addEventListener('resize', init);
-init(); render();
+init();
+draw();
