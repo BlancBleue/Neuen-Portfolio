@@ -42,7 +42,7 @@ form.addEventListener("submit", (e) => {
 
   setTimeout(() => {
     const reply =
-      "Bro Idk Ask Neel";
+      "If I were answering this properly, I’d probably break it into smaller questions, test one tiny thing, and ship a small experiment. That’s how I handle most problems.";
     addMessage(reply, "bot");
   }, 500);
 });
