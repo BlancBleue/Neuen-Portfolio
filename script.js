@@ -1,131 +1,122 @@
-// THEME TOGGLE (neutral -> dark -> light)
-
+// THEME TOGGLE
 const body = document.body;
-const themeBtn = document.querySelector(".theme-toggle");
-const themes = ["neutral", "dark", "light"];
-let currentTheme = localStorage.getItem("neel-theme") || "neutral";
+const themeToggle = document.querySelector('.theme-toggle');
 
-function applyTheme(theme) {
-  body.setAttribute("data-theme", theme);
-  localStorage.setItem("neel-theme", theme);
+const themes = ['neutral', 'dark', 'light'];
+let themeIndex = 0;
+
+function setTheme(index) {
+  const theme = themes[index];
+  body.setAttribute('data-theme', theme);
+  localStorage.setItem('neel-theme', theme);
 }
 
-applyTheme(currentTheme);
+const savedTheme = localStorage.getItem('neel-theme');
+if (savedTheme && themes.includes(savedTheme)) {
+  themeIndex = themes.indexOf(savedTheme);
+  setTheme(themeIndex);
+} else {
+  setTheme(themeIndex);
+}
 
-themeBtn.addEventListener("click", () => {
-  const idx = themes.indexOf(currentTheme);
-  const next = themes[(idx + 1) % themes.length];
-  currentTheme = next;
-  applyTheme(next);
+themeToggle.addEventListener('click', () => {
+  themeIndex = (themeIndex + 1) % themes.length;
+  setTheme(themeIndex);
 });
 
-// NAV ACTIVE STATE ON SCROLL (optional)
+// ASK NEEL – simple fake replies
+const askForm = document.getElementById('ask-form');
+const askInput = document.getElementById('ask-input');
+const askMessages = document.getElementById('ask-messages');
+const quickButtons = document.querySelectorAll('.ask-quick-links button');
 
-const navLinks = document.querySelectorAll(".nav-link");
-const sections = ["home", "about", "projects", "skills"]
-  .map(id => document.getElementById(id))
-  .filter(Boolean);
-
-window.addEventListener("scroll", () => {
-  let current = "home";
-  const offset = window.innerHeight / 3;
-
-  sections.forEach(sec => {
-    const top = sec.getBoundingClientRect().top;
-    if (top <= offset) current = sec.id;
-  });
-
-  navLinks.forEach(link => {
-    link.classList.toggle(
-      "active",
-      link.getAttribute("href") === `#${current}`
-    );
-  });
-});
-
-// ASK NEEL CHAT
-
-const form = document.getElementById("ask-form");
-const input = document.getElementById("ask-input");
-const messages = document.getElementById("ask-messages");
-const quickButtons = document.querySelectorAll(".ask-quick-links button");
-
-function addMessage(text, type) {
-  const div = document.createElement("div");
-  div.className = `msg ${type}`;
+function addMessage(text, who) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + who;
   div.innerHTML = `<p>${text}</p>`;
-  messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
+  askMessages.appendChild(div);
+  askMessages.scrollTop = askMessages.scrollHeight;
 }
 
-function botReply(question) {
-  const reply =
-    "Good question. I’d break this into smaller parts, run a tiny experiment, and then iterate. That’s basically how I handle most problems, from code to exams.";
-  addMessage(reply, "bot");
-}
-
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const question = input.value.trim();
-  if (!question) return;
-  addMessage(question, "user");
-  input.value = "";
-  setTimeout(() => botReply(question), 500);
-});
-
-quickButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const prompt = btn.getAttribute("data-prompt");
-    addMessage(prompt, "user");
-    setTimeout(() => botReply(prompt), 400);
+quickButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const prompt = btn.dataset.prompt;
+    askInput.value = prompt;
+    askInput.focus();
   });
 });
 
-// DOT GRID FOLLOWING MOUSE (grey in light, white in others)
+askForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const text = askInput.value.trim();
+  if (!text) return;
+  addMessage(text, 'user');
+  askInput.value = '';
 
-const canvas = document.getElementById("dotCanvas");
-const ctx = canvas.getContext("2d");
-let width, height;
-let mouseX = 0.5;
-let mouseY = 0.5;
-
-function resizeCanvas() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-window.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX / width;
-  mouseY = e.clientY / height;
+  setTimeout(() => {
+    addMessage("This is a static front‑end demo reply. Wire this to your backend/AI later.", 'bot');
+  }, 500);
 });
 
-function drawDots() {
-  ctx.clearRect(0, 0, width, height);
+// DOT CANVAS BACKGROUND (mouse motion)
+const canvas = document.getElementById('dotCanvas');
+const ctx = canvas.getContext('2d');
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
 
-  const spacing = 32;
-  const offsetX = (mouseX - 0.5) * 40;
-  const offsetY = (mouseY - 0.5) * 40;
+const dots = [];
+const DOT_COUNT = 80;
 
-  const theme = body.getAttribute("data-theme");
-  const isLight = theme === "light";
-
-  for (let x = -spacing; x < width + spacing; x += spacing) {
-    for (let y = -spacing; y < height + spacing; y += spacing) {
-      const dx = x + offsetX;
-      const dy = y + offsetY;
-
-      const alpha = isLight
-        ? 0.18 + Math.random() * 0.08
-        : 0.05 + Math.random() * 0.07;
-
-      const color = isLight ? 120 : 255;
-      ctx.fillStyle = `rgba(${color},${color},${color},${alpha})`;
-      ctx.fillRect(dx, dy, isLight ? 1.6 : 1.2, isLight ? 1.6 : 1.2);
-    }
-  }
-
-  requestAnimationFrame(drawDots);
+for (let i = 0; i < DOT_COUNT; i++) {
+  dots.push({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    r: 1 + Math.random() * 2,
+    vx: (Math.random() - 0.5) * 0.15,
+    vy: (Math.random() - 0.5) * 0.15
+  });
 }
-drawDots();
+
+let mouse = { x: width / 2, y: height / 2 };
+
+window.addEventListener('mousemove', e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+window.addEventListener('resize', () => {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+});
+
+function render() {
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = 'rgba(148, 163, 184, 0.45)';
+
+  dots.forEach(d => {
+    d.x += d.vx;
+    d.y += d.vy;
+
+    if (d.x < 0 || d.x > width) d.vx *= -1;
+    if (d.y < 0 || d.y > height) d.vy *= -1;
+
+    const dx = d.x - mouse.x;
+    const dy = d.y - mouse.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const maxDist = 200;
+    const scale = 1 - Math.min(dist / maxDist, 1);
+
+    const radius = d.r + scale * 2;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  requestAnimationFrame(render);
+}
+
+render();
