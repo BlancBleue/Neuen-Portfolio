@@ -37,7 +37,7 @@
         </h1>
       </div>
 
-      <!-- Ask Neel card in center -->
+      <!-- Ask Neel card -->
       <section class="ask-neel" id="ask-neel">
         <p class="ask-title">Ask me anything about Neel…</p>
 
@@ -68,103 +68,118 @@
       </section>
     </section>
 
-    <!-- MID GRID SECTION -->
-    <section class="mid mid-grid" id="about">
-      <div class="mid-inner-grid">
+    <!-- MID SECTION (3‑column glass layout) -->
+    <section class="mid-section" id="about">
+      <div class="mid-bg"></div>
+
+      <div class="mid-inner">
         <!-- LEFT COLUMN -->
         <div class="mid-col">
-          <article class="glass-card name-card">
-            <h2>Neel Nikhil – <span>Fullstack Developer</span></h2>
-            <p>
-              I build small, opinionated web tools that mix clean interfaces with
-              practical systems thinking – from study utilities to AI‑powered helpers.
-            </p>
+          <!-- Identity card -->
+          <article class="glass-card identity-card">
+            <h2>Neel Nikhil</h2>
+            <p class="identity-role">FULLSTACK DEVELOPER</p>
           </article>
 
+          <!-- Mindset card -->
           <article class="glass-card mindset-card">
-            <header>
+            <header class="card-header">
               <h3>Mindset</h3>
-              <p class="tagline">Long‑term &gt; quick wins</p>
+              <span class="heading-accent"></span>
             </header>
-            <p>
-              Ship fast, learn faster, and keep the feedback loop tight. Most of my
-              work starts as a tiny experiment and grows if it proves useful.
+            <p class="card-body-text">
+              Discipline over motivation. I try to stack small, boring wins every day – in code,
+              exams, and training – instead of chasing rare bursts of inspiration.
             </p>
-            <div class="mindset-mini">
-              <div class="mindset-avatar"></div>
-              <div class="mindset-copy">
-                <p>Building from <strong>first principles</strong>, not tutorials.</p>
-              </div>
+            <div class="mindset-layout">
+              <div class="mindset-photo"></div>
+              <p class="mindset-caption">
+                Calisthenics and running keep my brain in shipping mode.
+              </p>
             </div>
           </article>
         </div>
 
         <!-- CENTER COLUMN -->
         <div class="mid-col">
+          <!-- Portrait card (light contrast) -->
           <article class="glass-card portrait-card">
-            <div class="portrait-circle">
-              <!-- replace with real image if you want -->
-              <div class="portrait-inner"></div>
+            <div class="portrait-frame">
+              <!-- Replace with <img src="your-photo.jpg" alt="Neel Nikhil" /> later -->
+              <div class="portrait-placeholder"></div>
             </div>
-            <p class="portrait-caption">
-              Trying to keep code, exams and curiosity in the same orbit.
-            </p>
           </article>
 
+          <!-- Location card -->
           <article class="glass-card location-card">
-            <p class="location-label">Location</p>
-            <p class="location-main">BANGALORE, INDIA</p>
-            <p class="location-sub">GMT+5:30 · Open to remote collabs</p>
+            <div class="location-texture"></div>
+            <div class="location-inner">
+              <p class="location-label">Location</p>
+              <p class="location-main">BANGALORE, INDIA</p>
+              <p class="location-coords">12.9716° N · 77.5946° E</p>
+              <div class="location-footer">
+                <div class="location-line"></div>
+                <span class="location-gmt">GMT+5:30</span>
+              </div>
+            </div>
           </article>
         </div>
 
         <!-- RIGHT COLUMN -->
         <div class="mid-col">
-          <article class="glass-card xp-card">
-            <header>
-              <h3>Experience &amp; Education</h3>
-              <p class="tagline">Hover to explore</p>
+          <!-- Interactive journey card -->
+          <article class="glass-card journey-card">
+            <header class="card-header">
+              <h3>Journey</h3>
+              <p class="card-subtitle">Hover to read more</p>
             </header>
-            <ul class="xp-list">
-              <li class="xp-item">
-                <div class="xp-pill">Now</div>
-                <div>
-                  <p class="xp-title">Student · PCMC stream</p>
-                  <p class="xp-meta">Deep into physics, math, and comp‑sci basics.</p>
-                </div>
-              </li>
-              <li class="xp-item">
-                <div class="xp-pill">Enigma AI</div>
-                <div>
-                  <p class="xp-title">Founder / Builder</p>
-                  <p class="xp-meta">Brand, landing pages, tiny AI tools and agents.</p>
-                </div>
-              </li>
-              <li class="xp-item">
-                <div class="xp-pill">Self‑taught</div>
-                <div>
-                  <p class="xp-title">Code &amp; design</p>
-                  <p class="xp-meta">JS, Python, Firebase, APIs, and UI experiments.</p>
-                </div>
-              </li>
-            </ul>
+
+            <div class="journey-collapsed">
+              <p class="card-body-text">
+                Boards, JEE prep, student projects, and a growing obsession with building tools.
+              </p>
+            </div>
+
+            <div class="journey-expanded">
+              <section class="journey-block">
+                <h4>School</h4>
+                <p>PCMC stream, focusing on physics, math, computer science, and problem solving.</p>
+              </section>
+              <section class="journey-block">
+                <h4>Projects</h4>
+                <p>Study helpers, AI mini‑apps, and small web tools shipped for real usage.</p>
+              </section>
+              <section class="journey-block">
+                <h4>Competitions</h4>
+                <p>Olympiad‑style practice and contests that force me to think beyond the syllabus.</p>
+              </section>
+            </div>
           </article>
 
+          <!-- Craft card -->
           <article class="glass-card craft-card">
-            <header>
+            <header class="card-header">
               <h3>Craft</h3>
-              <p class="tagline">Tools I reach for</p>
+              <span class="heading-accent"></span>
             </header>
-            <ul class="stack-grid">
-              <li>JavaScript</li>
-              <li>React basics</li>
-              <li>Python</li>
-              <li>HTML / CSS</li>
-              <li>Firebase &amp; APIs</li>
-              <li>Figma</li>
-              <li>Tailwind‑style utility thinking</li>
-              <li>Prompting &amp; AI tooling</li>
-            </ul>
+            <p class="card-body-text">
+              I enjoy designing and shipping small, robust systems – apps, sites, and automations
+              that quietly remove friction.
+            </p>
+
+            <div class="craft-tech">
+              <span class="tech-chip">React</span>
+              <span class="tech-chip">TypeScript</span>
+              <span class="tech-chip">Python</span>
+              <span class="tech-chip">Firebase</span>
+              <span class="tech-chip">Next.js</span>
+              <span class="tech-chip">Figma</span>
+            </div>
+
+            <div class="craft-availability">
+              <span class="availability-dot"></span>
+              <span>Open to selective collabs &amp; freelance work.</span>
+            </div>
           </article>
         </div>
       </div>
