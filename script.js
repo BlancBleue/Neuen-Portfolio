@@ -1,29 +1,78 @@
 /**
- * NEEL NIKHIL - PORTFOLIO LOGIC
- * Features: Mouse-reactive dots, Theme switching, Chat UI, Scroll Reveal
+ * NEEL NIKHIL PORTFOLIO ENGINE
+ * Hand-coded to beat the challenge.
  */
 
-// 1. CANVAS DOTS SYSTEM
+// --- 1. THEME CYCLE LOGIC ---
+const body = document.body;
+const themeToggle = document.querySelector('.theme-toggle');
+const themes = ['dark', 'light', 'neutral'];
+let themeIndex = 0;
+
+// Check for saved preference
+const savedTheme = localStorage.getItem('neel-theme');
+if (savedTheme && themes.includes(savedTheme)) {
+    themeIndex = themes.indexOf(savedTheme);
+    body.setAttribute('data-theme', savedTheme);
+}
+
+themeToggle.addEventListener('click', () => {
+    themeIndex = (themeIndex + 1) % themes.length;
+    const newTheme = themes[themeIndex];
+    body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('neel-theme', newTheme);
+});
+
+// --- 2. THE DOT CANVAS ---
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
 let width, height, dots = [];
-const mouse = { x: -200, y: -200 };
+const mouse = { x: -1000, y: -1000 };
 
-function initCanvas() {
+function init() {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
     dots = [];
-    const dotCount = Math.min(width / 10, 120); // Responsive density
-
-    for (let i = 0; i < dotCount; i++) {
+    const count = Math.min(width / 15, 100); 
+    for (let i = 0; i < count; i++) {
         dots.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            r: Math.random() * 1.5 + 1,
             vx: (Math.random() - 0.5) * 0.4,
-            vy: (Math.random() - 0.5) * 0.4
+            vy: (Math.random() - 0.5) * 0.4,
+            r: Math.random() * 1.5 + 1
         });
     }
+}
+
+function render() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Get current theme color for dots
+    const currentTheme = body.getAttribute('data-theme');
+    let dotColor;
+    if (currentTheme === 'neutral') dotColor = 'rgba(192, 132, 252, 0.4)'; // Purple
+    else if (currentTheme === 'light') dotColor = 'rgba(0, 0, 0, 0.15)';   // Black
+    else dotColor = 'rgba(255, 255, 255, 0.25)';                         // White
+
+    ctx.fillStyle = dotColor;
+
+    dots.forEach(d => {
+        d.x += d.vx;
+        d.y += d.vy;
+
+        if (d.x < 0 || d.x > width) d.vx *= -1;
+        if (d.y < 0 || d.y > height) d.vy *= -1;
+
+        const dist = Math.hypot(d.x - mouse.x, d.y - mouse.y);
+        const scale = Math.max(0, 1 - dist / 150);
+        const radius = d.r + scale * 4;
+
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
+        ctx.fill();
+    });
+    requestAnimationFrame(render);
 }
 
 window.addEventListener('mousemove', e => {
@@ -31,114 +80,51 @@ window.addEventListener('mousemove', e => {
     mouse.y = e.clientY;
 });
 
-function animate() {
-    ctx.clearRect(0, 0, width, height);
-    const isDark = document.body.getAttribute('data-theme') === 'dark';
-    ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.15)';
-
-    dots.forEach(d => {
-        d.x += d.vx;
-        d.y += d.vy;
-
-        // Wrap around screen
-        if (d.x < 0) d.x = width; if (d.x > width) d.x = 0;
-        if (d.y < 0) d.y = height; if (d.y > height) d.y = 0;
-
-        // Mouse reaction (Dots grow slightly near mouse)
-        const dx = d.x - mouse.x;
-        const dy = d.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        let radius = d.r;
-
-        if (dist < 150) {
-            radius = d.r + (1 - dist / 150) * 3;
-        }
-
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
-        ctx.fill();
-    });
-    requestAnimationFrame(animate);
-}
-
-// 2. THEME SWITCHING
-const themeToggle = document.querySelector('.theme-toggle');
-const body = document.body;
-
-themeToggle.addEventListener('click', () => {
-    const currentTheme = body.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    body.setAttribute('data-theme', newTheme);
-    localStorage.setItem('neel-theme', newTheme);
-});
-
-// Load saved theme
-const savedTheme = localStorage.getItem('neel-theme') || 'dark';
-body.setAttribute('data-theme', savedTheme);
-
-// 3. AI CHAT INTERFACE
+// --- 3. AI CHAT DEMO ---
 const askForm = document.getElementById('ask-form');
 const askInput = document.getElementById('ask-input');
 const askMessages = document.getElementById('ask-messages');
-const quickLinks = document.querySelectorAll('.ask-quick-links button');
 
-function addMessage(text, type) {
-    const msgDiv = document.createElement('div');
-    msgDiv.className = `msg ${type}`;
-    msgDiv.innerHTML = `<p>${text}</p>`;
-    askMessages.appendChild(msgDiv);
-    
-    // Auto-scroll to bottom
-    askMessages.scrollTo({ top: askMessages.scrollHeight, behavior: 'smooth' });
-}
-
-askForm.addEventListener('submit', (e) => {
+askForm.addEventListener('submit', e => {
     e.preventDefault();
-    const query = askInput.value.trim();
-    if (!query) return;
+    const val = askInput.value.trim();
+    if (!val) return;
 
-    addMessage(query, 'user');
+    // Add User Bubble
+    const uMsg = document.createElement('div');
+    uMsg.className = 'msg user';
+    uMsg.textContent = `> ${val}`;
+    askMessages.appendChild(uMsg);
     askInput.value = '';
 
-    // Fake AI Response logic
+    // Simple delay for "AI" feel
     setTimeout(() => {
-        const responses = [
-            "Neel is currently mastering React & AI integration.",
-            "He lives in Bangalore and loves building frictionless tools.",
-            "You can find his projects on GitHub or book a call via the header!",
-            "Discipline over motivation—that's his core philosophy."
-        ];
-        const randomResp = responses[Math.floor(Math.random() * responses.length)];
-        addMessage(randomResp, 'bot');
-    }, 800);
+        const bMsg = document.createElement('div');
+        bMsg.className = 'msg bot';
+        bMsg.textContent = "Neel is an engineer building robust tools for the next generation of the web.";
+        askMessages.appendChild(bMsg);
+        askMessages.scrollTop = askMessages.scrollHeight;
+    }, 600);
 });
 
-// Quick prompt buttons
-quickLinks.forEach(btn => {
-    btn.addEventListener('click', () => {
-        askInput.value = btn.getAttribute('data-prompt');
-        askInput.focus();
-    });
-});
-
-// 4. SCROLL REVEAL (The "Paweł" Effect)
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+// Staggered Entrance (Scroll Reveal)
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
+            setTimeout(() => {
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = "translateY(0)";
+            }, i * 100);
         }
     });
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.glass-card').forEach(card => {
-    card.style.opacity = "0";
-    card.style.transform = "translateY(30px)";
-    card.style.transition = "all 0.8s cubic-bezier(0.2, 1, 0.3, 1)";
-    revealObserver.observe(card);
+    card.style.opacity = 0;
+    card.style.transform = "translateY(20px)";
+    observer.observe(card);
 });
 
-// Initialization
-initCanvas();
-animate();
-window.addEventListener('resize', initCanvas);
+init();
+render();
+window.onresize = init;
