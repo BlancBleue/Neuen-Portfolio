@@ -1,134 +1,144 @@
-// THEME TOGGLE
-const body = document.body;
-const themeToggle = document.querySelector('.theme-toggle');
+/**
+ * NEEL NIKHIL - PORTFOLIO LOGIC
+ * Features: Mouse-reactive dots, Theme switching, Chat UI, Scroll Reveal
+ */
 
-const themes = ['neutral', 'dark', 'light'];
-let themeIndex = 0;
+// 1. CANVAS DOTS SYSTEM
+const canvas = document.getElementById('dotCanvas');
+const ctx = canvas.getContext('2d');
+let width, height, dots = [];
+const mouse = { x: -200, y: -200 };
 
-function setTheme(index) {
-  const theme = themes[index];
-  body.setAttribute('data-theme', theme);
-  localStorage.setItem('neel-theme', theme);
+function initCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    dots = [];
+    const dotCount = Math.min(width / 10, 120); // Responsive density
+
+    for (let i = 0; i < dotCount; i++) {
+        dots.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            r: Math.random() * 1.5 + 1,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.4
+        });
+    }
 }
 
-const savedTheme = localStorage.getItem('neel-theme');
-if (savedTheme && themes.includes(savedTheme)) {
-  themeIndex = themes.indexOf(savedTheme);
-  setTheme(themeIndex);
-} else {
-  setTheme(themeIndex);
-}
-
-themeToggle.addEventListener('click', () => {
-  themeIndex = (themeIndex + 1) % themes.length;
-  setTheme(themeIndex);
+window.addEventListener('mousemove', e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
 });
 
-// ASK NEEL – simple fake replies
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.15)';
+
+    dots.forEach(d => {
+        d.x += d.vx;
+        d.y += d.vy;
+
+        // Wrap around screen
+        if (d.x < 0) d.x = width; if (d.x > width) d.x = 0;
+        if (d.y < 0) d.y = height; if (d.y > height) d.y = 0;
+
+        // Mouse reaction (Dots grow slightly near mouse)
+        const dx = d.x - mouse.x;
+        const dy = d.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        let radius = d.r;
+
+        if (dist < 150) {
+            radius = d.r + (1 - dist / 150) * 3;
+        }
+
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
+        ctx.fill();
+    });
+    requestAnimationFrame(animate);
+}
+
+// 2. THEME SWITCHING
+const themeToggle = document.querySelector('.theme-toggle');
+const body = document.body;
+
+themeToggle.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('neel-theme', newTheme);
+});
+
+// Load saved theme
+const savedTheme = localStorage.getItem('neel-theme') || 'dark';
+body.setAttribute('data-theme', savedTheme);
+
+// 3. AI CHAT INTERFACE
 const askForm = document.getElementById('ask-form');
 const askInput = document.getElementById('ask-input');
 const askMessages = document.getElementById('ask-messages');
-const quickButtons = document.querySelectorAll('.ask-quick-links button');
+const quickLinks = document.querySelectorAll('.ask-quick-links button');
 
-function addMessage(text, who) {
-  const div = document.createElement('div');
-  div.className = 'msg ' + who;
-  div.innerHTML = `<p>${text}</p>`;
-  askMessages.appendChild(div);
-  askMessages.scrollTop = askMessages.scrollHeight;
+function addMessage(text, type) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `msg ${type}`;
+    msgDiv.innerHTML = `<p>${text}</p>`;
+    askMessages.appendChild(msgDiv);
+    
+    // Auto-scroll to bottom
+    askMessages.scrollTo({ top: askMessages.scrollHeight, behavior: 'smooth' });
 }
 
-quickButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const prompt = btn.dataset.prompt;
-    askInput.value = prompt;
-    askInput.focus();
-  });
+askForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const query = askInput.value.trim();
+    if (!query) return;
+
+    addMessage(query, 'user');
+    askInput.value = '';
+
+    // Fake AI Response logic
+    setTimeout(() => {
+        const responses = [
+            "Neel is currently mastering React & AI integration.",
+            "He lives in Bangalore and loves building frictionless tools.",
+            "You can find his projects on GitHub or book a call via the header!",
+            "Discipline over motivation—that's his core philosophy."
+        ];
+        const randomResp = responses[Math.floor(Math.random() * responses.length)];
+        addMessage(randomResp, 'bot');
+    }, 800);
 });
 
-askForm.addEventListener('submit', e => {
-  e.preventDefault();
-  const text = askInput.value.trim();
-  if (!text) return;
-  addMessage(text, 'user');
-  askInput.value = '';
-
-  setTimeout(() => {
-    addMessage("This is a static front‑end demo reply. Wire this to your backend/AI later.", 'bot');
-  }, 500);
+// Quick prompt buttons
+quickLinks.forEach(btn => {
+    btn.addEventListener('click', () => {
+        askInput.value = btn.getAttribute('data-prompt');
+        askInput.focus();
+    });
 });
 
-// DOT CANVAS BACKGROUND (mouse motion + theme-aware colors)
-const canvas = document.getElementById('dotCanvas');
-const ctx = canvas.getContext('2d');
-let width = window.innerWidth;
-let height = window.innerHeight;
-canvas.width = width;
-canvas.height = height;
+// 4. SCROLL REVEAL (The "Paweł" Effect)
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+        }
+    });
+}, { threshold: 0.1 });
 
-const dots = [];
-const DOT_COUNT = 80;
-
-for (let i = 0; i < DOT_COUNT; i++) {
-  dots.push({
-    x: Math.random() * width,
-    y: Math.random() * height,
-    r: 1 + Math.random() * 2,
-    vx: (Math.random() - 0.5) * 0.15,
-    vy: (Math.random() - 0.5) * 0.15
-  });
-}
-
-let mouse = { x: width / 2, y: height / 2 };
-
-window.addEventListener('mousemove', e => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
+document.querySelectorAll('.glass-card').forEach(card => {
+    card.style.opacity = "0";
+    card.style.transform = "translateY(30px)";
+    card.style.transition = "all 0.8s cubic-bezier(0.2, 1, 0.3, 1)";
+    revealObserver.observe(card);
 });
 
-window.addEventListener('resize', () => {
-  width = window.innerWidth;
-  height = window.innerHeight;
-  canvas.width = width;
-  canvas.height = height;
-});
-
-function render() {
-  const theme = body.getAttribute('data-theme');
-  
-  // Theme-based dot colors
-  let dotColor;
-  if (theme === 'neutral') {
-    dotColor = 'rgba(34, 211, 238, 0.6)'; // cyan
-  } else if (theme === 'dark') {
-    dotColor = 'rgba(99, 102, 241, 0.55)'; // indigo
-  } else { // light
-    dotColor = 'rgba(79, 70, 229, 0.65)'; // blue
-  }
-
-  ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = dotColor;
-
-  dots.forEach(d => {
-    d.x += d.vx;
-    d.y += d.vy;
-
-    if (d.x < 0 || d.x > width) d.vx *= -1;
-    if (d.y < 0 || d.y > height) d.vy *= -1;
-
-    const dx = d.x - mouse.x;
-    const dy = d.y - mouse.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const maxDist = 200;
-    const scale = 1 - Math.min(dist / maxDist, 1);
-
-    const radius = d.r + scale * 2;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
-    ctx.fill();
-  });
-
-  requestAnimationFrame(render);
-}
-
-render();
+// Initialization
+initCanvas();
+animate();
+window.addEventListener('resize', initCanvas);
