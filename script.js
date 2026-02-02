@@ -1,9 +1,7 @@
-// ===== THEME TOGGLE (neutral -> dark -> light) =====
+// THEME TOGGLE (neutral -> dark -> light)
 
 const body = document.body;
 const themeBtn = document.querySelector(".theme-toggle");
-const themeIcon = document.getElementById("theme-icon");
-
 const themes = ["neutral", "dark", "light"];
 let currentTheme = localStorage.getItem("neel-theme") || "neutral";
 
@@ -21,7 +19,7 @@ themeBtn.addEventListener("click", () => {
   applyTheme(next);
 });
 
-// ===== ASK NEEL CHAT LOGIC =====
+// ASK NEEL CHAT
 
 const form = document.getElementById("ask-form");
 const input = document.getElementById("ask-input");
@@ -59,7 +57,7 @@ quickButtons.forEach((btn) => {
   });
 });
 
-// ===== DOT GRID FOLLOWING MOUSE =====
+// DOT GRID FOLLOWING MOUSE (greyish in light, white in neutral/dark)
 
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
@@ -94,9 +92,9 @@ function drawDots() {
       const dx = x + offsetX;
       const dy = y + offsetY;
       const alpha = isLight
-        ? 0.03 + Math.random() * 0.04
+        ? 0.03 + Math.random() * 0.05
         : 0.04 + Math.random() * 0.06;
-      const color = isLight ? 120 : 255; // grey in light, white in neutral/dark
+      const color = isLight ? 140 : 255; // grey dots for light, white-ish for others
       ctx.fillStyle = `rgba(${color},${color},${color},${alpha})`;
       ctx.fillRect(dx, dy, 1.2, 1.2);
     }
