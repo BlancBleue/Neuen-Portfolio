@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Neel | Student & Builder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-layer bg-layer--back"></div>
+  <div class="bg-layer bg-layer--front"></div>
+
+  <header class="site-header">
+    <div class="logo">neel.dev</div>
+    <nav class="nav">
+      <a href="#hero">Home</a>
+      <a href="#craft">Craft</a>
+      <a href="#projects">Projects</a>
+      <a href="#mindset">Mindset</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="section hero" id="hero">
+      <div class="hero-badge">Open to collabs & side projects</div>
+
+      <div class="hero-layout">
+        <div class="hero-left reveal">
+          <p class="hero-kicker">Hi, I'm</p>
+          <h1 class="hero-title">
+            <span>Neel</span>
+            <span class="hero-title-secondary">Nikhil</span>
+          </h1>
+          <p class="hero-role">Student · Web & AI builder</p>
+          <p class="hero-text">
+            I’m a Class 10 student in Bengaluru, building web and AI projects while prepping for competitive exams.
+            I like shipping small, useful tools that feel fast and intentional.
+          </p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn primary">Featured projects</a>
+            <a href="#craft" class="btn ghost">Scroll to explore ↓</a>
+          </div>
+        </div>
+
+        <div class="hero-right reveal">
+          <div class="hero-photo-card">
+            <!-- Put your photo here -->
+            <img src="Neel.jpg" alt="Neel portrait" class="hero-photo" />
+            <div class="hero-photo-meta">
+              <p class="meta-label">Based in</p>
+              <p class="meta-value">Bengaluru, India</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CRAFT -->
+    <section class="section" id="craft">
+      <div class="section-header reveal">
+        <h2>Craft</h2>
+        <p>Building apps, websites, and automations.</p>
+      </div>
+      <div class="section-body reveal">
+        <p>
+          I enjoy turning rough ideas into clean, working software. Right now that means
+          dark‑themed websites, small AI assistants, and tools that make studying and daily workflows smoother.
+        </p>
+        <p class="section-tags">
+          JavaScript · Python · React (basic) · HTML/CSS · APIs · Figma
+        </p>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="section-header reveal">
+        <h2>Featured Projects</h2>
+        <p>A curated selection of work that represents what I like building.</p>
+      </div>
+      <div class="cards-grid">
+        <article class="card reveal">
+          <h3>Enigma AI Website</h3>
+          <p class="card-meta">Web · 2025</p>
+          <p>
+            Dark-themed marketing site for my AI project, highlighting features, team, and branding with
+            smooth scrolling sections.
+          </p>
+          <p class="card-tags">HTML · CSS · JavaScript</p>
+        </article>
+
+        <article class="card reveal">
+          <h3>J.A.R.V.I.S. Assistant</h3>
+          <p class="card-meta">Web · 2025</p>
+          <p>
+            Browser-based voice assistant that can open apps, fetch info, and respond to commands using
+            JavaScript and web APIs.
+          </p>
+          <p class="card-tags">JavaScript · Web APIs</p>
+        </article>
+
+        <article class="card reveal">
+          <h3>Nexus Dashboard</h3>
+          <p class="card-meta">Web · 2025</p>
+          <p>
+            Central dashboard for quick tools, shortcuts, and widgets to speed up daily workflows and study routines.
+          </p>
+          <p class="card-tags">JavaScript · UI</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- MINDSET -->
+    <section class="section" id="mindset">
+      <div class="section-header reveal">
+        <h2>Mindset</h2>
+        <p>Building more than just software.</p>
+      </div>
+      <div class="section-body reveal">
+        <p>
+          Competitive exams, chess, and running force me to practice discipline, patience, and focus.
+          I try to build projects the same way: consistent reps, small improvements, and long‑term thinking.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="section-header reveal">
+        <h2>Let’s Connect</h2>
+        <p>Always open to chatting about projects, ideas, or collaborations.</p>
+      </div>
+      <div class="section-body reveal">
+        <p>Email: <a href="mailto:youremail@example.com">youremail@example.com</a></p>
+        <p>GitHub: <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
+        <p>Location: Bengaluru, India</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Neel. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
