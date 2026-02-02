@@ -68,120 +68,124 @@
       </section>
     </section>
 
-    <!-- MID SECTION (3‑column glass layout) -->
+    <!-- MID SECTION (3×3 A–F layout) -->
     <section class="mid-section" id="about">
       <div class="mid-bg"></div>
 
-      <div class="mid-inner">
-        <!-- LEFT COLUMN -->
-        <div class="mid-col">
-          <!-- Identity card -->
-          <article class="glass-card identity-card">
-            <h2>Neel Nikhil</h2>
-            <p class="identity-role">FULLSTACK DEVELOPER</p>
-          </article>
+      <div class="mid-inner mid-grid-3x3">
+        <!-- A: Name -->
+        <article class="glass-card identity-card area-a">
+          <h2>Neel Nikhil</h2>
+          <p class="identity-role">FULLSTACK DEVELOPER</p>
+        </article>
 
-          <!-- Mindset card -->
-          <article class="glass-card mindset-card">
-            <header class="card-header">
-              <h3>Mindset</h3>
-              <span class="heading-accent"></span>
-            </header>
+        <!-- B: Journey (top-right, spanning 2 cols) -->
+        <article class="glass-card journey-card area-b">
+          <header class="card-header">
+            <h3>Journey</h3>
+            <p class="card-subtitle">Hover to read more</p>
+          </header>
+
+          <div class="journey-collapsed">
             <p class="card-body-text">
-              Discipline over motivation. I try to stack small, boring wins every day – in code,
-              exams, and training – instead of chasing rare bursts of inspiration.
+              Boards, JEE prep, student projects, and a growing obsession with building tools.
             </p>
-            <div class="mindset-layout">
-              <div class="mindset-photo"></div>
-              <p class="mindset-caption">
-                Calisthenics and running keep my brain in shipping mode.
-              </p>
-            </div>
-          </article>
-        </div>
+          </div>
 
-        <!-- CENTER COLUMN -->
-        <div class="mid-col">
-          <!-- Portrait card (light contrast) -->
-          <article class="glass-card portrait-card">
-            <div class="portrait-frame">
-              <!-- Replace with <img src="your-photo.jpg" alt="Neel Nikhil" /> later -->
-              <div class="portrait-placeholder"></div>
-            </div>
-          </article>
+          <div class="journey-expanded">
+            <section class="journey-block">
+              <h4>School</h4>
+              <p>PCMC stream, focusing on physics, math, computer science, and problem solving.</p>
+            </section>
+            <section class="journey-block">
+              <h4>Projects</h4>
+              <p>Study helpers, AI mini‑apps, and small web tools shipped for real usage.</p>
+            </section>
+            <section class="journey-block">
+              <h4>Competitions</h4>
+              <p>Olympiad‑style practice and contests that force me to think beyond the syllabus.</p>
+            </section>
+          </div>
+        </article>
 
-          <!-- Location card -->
-          <article class="glass-card location-card">
-            <div class="location-texture"></div>
-            <div class="location-inner">
-              <p class="location-label">Location</p>
-              <p class="location-main">BANGALORE, INDIA</p>
-              <p class="location-coords">12.9716° N · 77.5946° E</p>
-              <div class="location-footer">
-                <div class="location-line"></div>
-                <span class="location-gmt">GMT+5:30</span>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        <!-- RIGHT COLUMN -->
-        <div class="mid-col">
-          <!-- Interactive journey card -->
-          <article class="glass-card journey-card">
-            <header class="card-header">
-              <h3>Journey</h3>
-              <p class="card-subtitle">Hover to read more</p>
-            </header>
-
-            <div class="journey-collapsed">
-              <p class="card-body-text">
-                Boards, JEE prep, student projects, and a growing obsession with building tools.
-              </p>
-            </div>
-
-            <div class="journey-expanded">
-              <section class="journey-block">
-                <h4>School</h4>
-                <p>PCMC stream, focusing on physics, math, computer science, and problem solving.</p>
-              </section>
-              <section class="journey-block">
-                <h4>Projects</h4>
-                <p>Study helpers, AI mini‑apps, and small web tools shipped for real usage.</p>
-              </section>
-              <section class="journey-block">
-                <h4>Competitions</h4>
-                <p>Olympiad‑style practice and contests that force me to think beyond the syllabus.</p>
-              </section>
-            </div>
-          </article>
-
-          <!-- Craft card -->
-          <article class="glass-card craft-card">
-            <header class="card-header">
-              <h3>Craft</h3>
-              <span class="heading-accent"></span>
-            </header>
-            <p class="card-body-text">
-              I enjoy designing and shipping small, robust systems – apps, sites, and automations
-              that quietly remove friction.
+        <!-- C: Mindset (left, 2 rows) -->
+        <article class="glass-card mindset-card area-c">
+          <header class="card-header">
+            <h3>Mindset</h3>
+            <span class="heading-accent heading-accent-c"></span>
+          </header>
+          <p class="card-body-text">
+            Discipline over motivation. I stack small, boring wins every day – in code,
+            exams, and training – instead of chasing rare bursts of inspiration.
+          </p>
+          <div class="mindset-layout">
+            <div class="mindset-photo"></div>
+            <p class="mindset-caption">
+              Training and routines keep my brain in execution mode.
             </p>
+          </div>
+        </article>
 
-            <div class="craft-tech">
-              <span class="tech-chip">React</span>
-              <span class="tech-chip">TypeScript</span>
-              <span class="tech-chip">Python</span>
-              <span class="tech-chip">Firebase</span>
-              <span class="tech-chip">Next.js</span>
-              <span class="tech-chip">Figma</span>
-            </div>
+        <!-- D: Craft (right, 2 rows) -->
+        <article class="glass-card craft-card area-d">
+          <header class="card-header">
+            <h3>Craft</h3>
+            <span class="heading-accent heading-accent-d"></span>
+          </header>
+          <p class="card-body-text">
+            I like designing and shipping small, robust systems – apps, sites, and automations
+            that quietly remove friction.
+          </p>
 
-            <div class="craft-availability">
-              <span class="availability-dot"></span>
-              <span>Open to selective collabs &amp; freelance work.</span>
+          <div class="craft-tech">
+            <span class="tech-chip">React</span>
+            <span class="tech-chip">TypeScript</span>
+            <span class="tech-chip">Python</span>
+            <span class="tech-chip">Firebase</span>
+            <span class="tech-chip">Next.js</span>
+            <span class="tech-chip">Figma</span>
+          </div>
+
+          <div class="craft-availability">
+            <span class="availability-dot"></span>
+            <span>Open to selective collabs &amp; freelance work.</span>
+          </div>
+        </article>
+
+        <!-- E: Location with map (bottom center, 2 cols) -->
+        <article class="glass-card location-card area-e">
+          <div class="location-texture"></div>
+          <div class="location-inner">
+            <p class="location-label">Location</p>
+            <p class="location-main">BANGALORE, INDIA</p>
+            <p class="location-coords">12.9716° N · 77.5946° E</p>
+            <div class="location-footer">
+              <div class="location-line"></div>
+              <span class="location-gmt">GMT+5:30</span>
             </div>
-          </article>
-        </div>
+          </div>
+
+          <div class="location-map-wrapper">
+            <!-- Replace src with your own embed if you want a different view -->
+            <iframe
+              class="location-map"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.865331186694!2d77.5946!3d12.9716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c3555555%3A0xabcdefabcdefabcd!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000"
+              style="border:0;"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </article>
+
+        <!-- F: Picture (middle row, 2 cols) -->
+        <article class="glass-card portrait-card area-f">
+          <div class="portrait-frame">
+            <!-- Replace with actual image -->
+            <!-- <img src="neel.jpg" alt="Neel Nikhil" class="portrait-img" /> -->
+            <div class="portrait-placeholder"></div>
+          </div>
+        </article>
       </div>
     </section>
 
