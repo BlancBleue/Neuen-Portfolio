@@ -660,3 +660,15 @@ body[data-theme="light"] .contact-links a {
   .glass-card { padding: 1rem; }
   .site-header { padding: 1rem 1.2rem 0.8rem; }
 }
+/* TEXT VISIBILITY - ADD THIS LAST */
+[data-theme="neutral"], [data-theme="dark"] {
+  --text-main-dark: #ffffff !important;
+  --text-muted-dark: #d1d5db !important;
+}
+
+.glass-card *, .identity-card h2, .location-main {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+.site-header, .top-nav a { color: #f9fafb !important; }
