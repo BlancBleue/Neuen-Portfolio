@@ -9,13 +9,22 @@
 <body class="theme-dark">
   <header class="site-header">
     <div class="logo">neelnikhil.com</div>
+    <nav class="nav">
+      <a href="#home">Home</a>
+      <a href="#craft">Craft</a>
+      <a href="#projects">Projects</a>
+      <a href="#mindset">Mindset</a>
+      <a href="#ask-neel">Ask Neel</a>
+      <a href="#contact">Contact</a>
+    </nav>
     <button class="theme-toggle" aria-label="Toggle theme">
       <span class="theme-toggle-knob"></span>
     </button>
   </header>
 
   <main>
-    <section class="intro">
+    <!-- INTRO / HOME -->
+    <section class="intro" id="home">
       <p class="intro-kicker">/ home</p>
 
       <h1 class="intro-title">
@@ -35,42 +44,88 @@
 
       <p class="intro-cta">
         If you’re here, you’re probably searching for something too.
-        You’ll find breadcrumbs in the links below.
+        You’ll find breadcrumbs in the sections below.
       </p>
 
       <nav class="intro-links">
         <a href="#craft">Craft</a>
         <a href="#projects">Projects</a>
         <a href="#mindset">Mindset</a>
-        <a href="#contact">Contact</a>
+        <a href="#ask-neel">Ask Neel</a>
       </nav>
     </section>
 
+    <!-- CRAFT -->
     <section class="section" id="craft">
       <h2>Craft</h2>
       <p>
         I like building tools that feel intentional: dark‑themed websites, small AI assistants,
         and automations that remove friction from studying and everyday life.
       </p>
+      <p>
+        My current stack lives around JavaScript, Python, React (basic), HTML/CSS, APIs, and Figma.
+      </p>
     </section>
 
+    <!-- PROJECTS -->
     <section class="section" id="projects">
       <h2>Featured projects</h2>
       <ul class="list">
-        <li><strong>Enigma AI</strong> — dark launch site for an AI project.</li>
-        <li><strong>J.A.R.V.I.S.</strong> — browser voice assistant for quick commands.</li>
-        <li><strong>Nexus</strong> — dashboard for shortcuts and study tools.</li>
+        <li>
+          <strong>Enigma AI</strong> — dark launch site and experiments for an AI project, exploring branding and UX.
+        </li>
+        <li>
+          <strong>J.A.R.V.I.S.</strong> — browser voice assistant for quick commands, shortcuts, and web actions.
+        </li>
+        <li>
+          <strong>Nexus</strong> — dashboard for shortcuts, notes, and study utilities, built to reduce friction.
+        </li>
       </ul>
     </section>
 
+    <!-- MINDSET -->
     <section class="section" id="mindset">
       <h2>Mindset</h2>
       <p>
         Exams, chess, and running teach me discipline and pattern recognition.
         I treat code the same way: consistent reps, deliberate practice, and long‑term experiments.
       </p>
+      <p>
+        I like problems that feel slightly too big for me. They force better thinking, better systems,
+        and better questions.
+      </p>
     </section>
 
+    <!-- ASK NEEL (AI BOX) -->
+    <section class="section ask-neel" id="ask-neel">
+      <h2>Ask Neel (AI)</h2>
+      <p class="ask-description">
+        A small experiment: an AI‑powered interface that tries to answer questions the way I would.
+        Type something in and see what it says.
+      </p>
+
+      <div class="ask-card">
+        <div class="ask-messages" id="ask-messages">
+          <div class="msg bot">
+            <p>Hey, I’m Neel‑AI. Ask me about projects, exams, or how I think about building things.</p>
+          </div>
+        </div>
+        <form class="ask-input-row" id="ask-form">
+          <textarea
+            id="ask-input"
+            rows="1"
+            placeholder="Ask Neel‑AI anything..."
+          ></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </div>
+
+      <p class="ask-note">
+        (This is a front‑end prototype. We can wire it to a real API later.)
+      </p>
+    </section>
+
+    <!-- CONTACT -->
     <section class="section" id="contact">
       <h2>Contact</h2>
       <p>Email: <a href="mailto:you@example.com">you@example.com</a></p>
