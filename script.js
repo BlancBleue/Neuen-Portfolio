@@ -19,6 +19,28 @@ themeBtn.addEventListener("click", () => {
   applyTheme(next);
 });
 
+// NAV ACTIVE STATE ON SCROLL (optional)
+
+const navLinks = document.querySelectorAll(".nav-link");
+const sections = ["home", "about", "projects", "skills"].map(id =>
+  document.getElementById(id)
+);
+
+window.addEventListener("scroll", () => {
+  let current = "home";
+  const offset = window.innerHeight / 3;
+
+  sections.forEach(sec => {
+    if (!sec) return;
+    const top = sec.getBoundingClientRect().top;
+    if (top <= offset) current = sec.id;
+  });
+
+  navLinks.forEach(link => {
+    link.classList.toggle("active", link.getAttribute("href") === `#${current}`);
+  });
+});
+
 // ASK NEEL CHAT
 
 const form = document.getElementById("ask-form");
@@ -92,12 +114,11 @@ function drawDots() {
       const dx = x + offsetX;
       const dy = y + offsetY;
 
-      // Stronger alpha + larger size so you can see them on light bg
       const alpha = isLight
         ? 0.18 + Math.random() * 0.08
         : 0.05 + Math.random() * 0.07;
 
-      const color = isLight ? 120 : 255; // grey vs white
+      const color = isLight ? 120 : 255;
       ctx.fillStyle = `rgba(${color},${color},${color},${alpha})`;
       ctx.fillRect(dx, dy, isLight ? 1.6 : 1.2, isLight ? 1.6 : 1.2);
     }
