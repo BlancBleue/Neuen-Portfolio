@@ -1,48 +1,77 @@
-// Theme Toggle
-const btn = document.getElementById('theme-btn');
-btn.onclick = () => {
-    const isDark = document.body.getAttribute('data-theme') === 'dark';
-    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+const body = document.body;
+const themeBtn = document.getElementById('theme-switcher');
+const themes = ['dark', 'light', 'neutral'];
+let themeIndex = 0;
+
+themeBtn.onclick = () => {
+    themeIndex = (themeIndex + 1) % themes.length;
+    body.setAttribute('data-theme', themes[themeIndex]);
 };
 
-// AI Form
-const form = document.getElementById('ai-form');
-const input = document.getElementById('ai-input');
-const res = document.getElementById('ai-response');
+// AI Search Logic
+const askForm = document.getElementById('ask-form');
+const askInput = document.getElementById('ask-input');
+const responseShell = document.getElementById('ai-response');
+const responseText = responseShell.querySelector('.response-text');
+const typingIndicator = responseShell.querySelector('.typing-indicator');
 
-form.onsubmit = (e) => {
+askForm.onsubmit = (e) => {
     e.preventDefault();
-    if(!input.value) return;
-    res.style.display = 'block';
-    res.innerText = `Thinking... Neel Nikhil is currently taking on new projects in Bangalore. Focus: Fullstack & AI.`;
-    input.value = '';
+    const query = askInput.value.trim();
+    if(!query) return;
+
+    responseShell.classList.add('active');
+    responseText.textContent = "";
+    typingIndicator.style.display = 'flex';
+
+    setTimeout(() => {
+        typingIndicator.style.display = 'none';
+        responseText.textContent = `Processing "${query}"... Neel is currently architecting digital experiences in Bangalore. He specializes in high-performance fullstack apps.`;
+        askInput.value = "";
+    }, 1200);
 };
 
-// Ultra-Light Background
+// --- GRID DISPLACEMENT CANVAS ---
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
-let dots = [];
+let width, height, dots = [];
+const spacing = 45;
+const mouse = { x: -1000, y: -1000 };
 
 function init() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
     dots = [];
-    for(let i=0; i<50; i++) {
-        dots.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height });
+    for (let x = 0; x < width; x += spacing) {
+        for (let y = 0; y < height; y += spacing) {
+            dots.push({ baseX: x, baseY: y, x: x, y: y });
+        }
     }
 }
 
-function draw() {
-    ctx.clearRect(0,0,canvas.width, canvas.height);
-    ctx.fillStyle = document.body.getAttribute('data-theme') === 'light' ? '#000' : '#fff';
+function render() {
+    ctx.clearRect(0, 0, width, height);
+    const theme = body.getAttribute('data-theme');
+    ctx.fillStyle = theme === 'neutral' ? 'rgba(167,139,250,0.15)' : theme === 'light' ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.06)';
+
     dots.forEach(d => {
-        ctx.globalAlpha = 0.2;
-        ctx.beginPath(); ctx.arc(d.x, d.y, 1, 0, Math.PI*2); ctx.fill();
-        d.y -= 0.2;
-        if(d.y < 0) d.y = canvas.height;
+        const dx = mouse.x - d.baseX;
+        const dy = mouse.y - d.baseY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 140) {
+            const force = (140 - dist) / 140;
+            const angle = Math.atan2(dy, dx);
+            d.x = d.baseX - Math.cos(angle) * force * 15;
+            d.y = d.baseY - Math.sin(angle) * force * 15;
+            ctx.beginPath(); ctx.arc(d.x, d.y, 1 + force * 2, 0, Math.PI * 2); ctx.fill();
+        } else {
+            d.x = d.baseX; d.y = d.baseY;
+            ctx.beginPath(); ctx.arc(d.x, d.y, 0.8, 0, Math.PI * 2); ctx.fill();
+        }
     });
-    requestAnimationFrame(draw);
+    requestAnimationFrame(render);
 }
 
+window.onmousemove = e => { mouse.x = e.clientX; mouse.y = e.clientY; };
 window.onresize = init;
-init(); draw();
+init(); render();
