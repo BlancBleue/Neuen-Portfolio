@@ -3,63 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil</title>
+    <title>Neel Nikhil | Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
 </head>
 <body data-theme="dark">
 
     <canvas id="dotCanvas"></canvas>
 
-    <div class="ui-wrapper">
-        <header class="site-header">
-            <div class="theme-switch" id="theme-btn">
-                <div class="indicator"></div>
+    <header class="site-header">
+        <button class="theme-toggle" id="theme-switcher">
+            <div class="toggle-track">
+                <div class="toggle-indicator"></div>
             </div>
-            <nav class="nav">
-                <a href="#home">Home</a>
-                <a href="#work">Work</a>
-            </nav>
-            <button class="cta">Book a Call</button>
-        </header>
+            <span class="theme-label">Theme</span>
+        </button>
 
-        <main id="home">
-            <section class="hero">
-                <p class="pre-title">Hi, I'm</p>
-                <h1 class="glimmer-text">NEEL NIKHIL</h1>
+        <nav class="top-nav">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+        </nav>
 
-                <div class="search-container">
-                    <form id="ai-form" class="search-bar">
-                        <span class="icon">✦</span>
-                        <input type="text" id="ai-input" placeholder="Ask me anything..." autocomplete="off">
-                        <div class="badge">AI</div>
+        <button class="cta-btn">Book a Call</button>
+    </header>
+
+    <main id="home">
+        <section class="hero">
+            <p class="hero-hi">Hi, I'm</p>
+            <h1 class="hero-name-main color-cycle">NEEL NIKHIL</h1>
+            
+            <div class="ai-search-container">
+                <div class="ai-search-wrapper">
+                    <form class="ai-search-bar" id="ask-form">
+                        <span class="ai-spark">✨</span>
+                        <input type="text" id="ask-input" placeholder="Ask my digital twin..." autocomplete="off">
+                        <div class="ai-badge">AI</div>
                     </form>
-                    <div id="ai-response" class="response-box"></div>
                 </div>
-            </section>
+                <div id="ai-response" class="ai-response-shell">
+                    <div class="typing-indicator"><span></span><span></span><span></span></div>
+                    <p class="response-text"></p>
+                </div>
+            </div>
+        </section>
 
-            <section class="bento-container">
-                <div class="bento-box focus">
-                    <small>Focus</small>
-                    <h3>Fullstack Developer</h3>
-                </div>
-                <div class="bento-box craft">
-                    <small>Craft</small>
-                    <div class="tags">
-                        <span>React</span><span>Next.js</span><span>Node</span>
+        <section class="bento-grid">
+            <article class="glass-card area-a">
+                <p class="card-label">Focus</p>
+                <h3>Fullstack Developer</h3>
+                <p class="muted-text">Engineering digital products with high precision.</p>
+            </article>
+
+            <article class="glass-card area-b">
+                <p class="card-label">Journey</p>
+                <h3>Building the future</h3>
+                <p class="muted-text">From physics and logic to shipping production apps.</p>
+            </article>
+
+            <article class="glass-card area-c">
+                <p class="card-label">Mindset</p>
+                <h3>Discipline > Motivation</h3>
+                <div class="mindset-visual"></div>
+            </article>
+
+            <article class="glass-card area-f">
+                <div class="portrait-img"></div>
+            </article>
+
+            <article class="glass-card area-d">
+                <p class="card-label">Craft</p>
+                <div class="tech-stack-container">
+                    <div class="tech-row">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Next.js</span>
+                    </div>
+                    <div class="tech-row">
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Node</span>
+                    </div>
+                    <div class="tech-row">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">PostgreSQL</span>
                     </div>
                 </div>
-                <div class="bento-box mindset">
-                    <small>Mindset</small>
-                    <h3>Discipline > Motivation</h3>
-                </div>
-                <div class="bento-box loc">
-                    <small>Location</small>
+            </article>
+
+            <article class="glass-card area-e">
+                <div class="map-static-bg"></div>
+                <div class="location-overlay">
+                    <p class="card-label">Location</p>
                     <h3>Bangalore, IN</h3>
+                    <p class="coords">12.9716° N, 77.5946° E</p>
                 </div>
-            </section>
-        </main>
-    </div>
+            </article>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
