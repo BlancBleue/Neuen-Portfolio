@@ -3,84 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | AI OS Portfolio</title>
+    <title>Neel Nikhil</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body data-theme="dark">
 
     <canvas id="dotCanvas"></canvas>
 
-    <header class="site-header">
-        <button class="theme-toggle" aria-label="Cycle Theme">
-            <div class="icon-dot"></div>
-        </button>
-
-        <nav class="top-nav">
-            <a href="#home" class="active">Home</a>
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-        </nav>
-
-        <button class="cta-btn">Book a Call</button>
-    </header>
-
-    <main id="home">
-        <section class="hero">
-            <p class="hero-hi">HI, I'M</p>
-            <h1 class="hero-name-main">NEEL NIKHIL</h1>
-            
-            <div class="ai-search-container">
-                <form class="ai-search-bar" id="ask-form">
-                    <div class="ai-icon">✨</div>
-                    <input type="text" id="ask-input" placeholder="Ask me anything..." autocomplete="off">
-                    <div class="ai-shortcut">Enter</div>
-                </form>
-                <div id="ai-response" class="ai-response-popup"></div>
+    <div class="ui-wrapper">
+        <header class="site-header">
+            <div class="theme-switch" id="theme-btn">
+                <div class="indicator"></div>
             </div>
-        </section>
+            <nav class="nav">
+                <a href="#home">Home</a>
+                <a href="#work">Work</a>
+            </nav>
+            <button class="cta">Book a Call</button>
+        </header>
 
-        <section class="bento-grid" id="about">
-            <article class="glass-card area-a">
-                <p class="card-label">Focus</p>
-                <h3>Fullstack Developer</h3>
-                <p class="muted-text">Engineering digital products with high precision.</p>
-            </article>
+        <main id="home">
+            <section class="hero">
+                <p class="pre-title">Hi, I'm</p>
+                <h1 class="glimmer-text">NEEL NIKHIL</h1>
 
-            <article class="glass-card area-b">
-                <p class="card-label">Journey</p>
-                <h3>Building the future</h3>
-                <p class="muted-text">From physics and logic to shipping production apps.</p>
-            </article>
-
-            <article class="glass-card area-c">
-                <p class="card-label">Mindset</p>
-                <h3>Discipline > Motivation</h3>
-                <div class="image-strip"></div>
-            </article>
-
-            <article class="glass-card area-d">
-                <p class="card-label">Craft</p>
-                <div class="tech-stack">
-                    <span>React</span><span>Next.js</span><span>TS</span><span>Node</span>
+                <div class="search-container">
+                    <form id="ai-form" class="search-bar">
+                        <span class="icon">✦</span>
+                        <input type="text" id="ai-input" placeholder="Ask me anything..." autocomplete="off">
+                        <div class="badge">AI</div>
+                    </form>
+                    <div id="ai-response" class="response-box"></div>
                 </div>
-            </article>
+            </section>
 
-            <article class="glass-card area-e">
-                <div class="map-static-bg"></div>
-                <div class="location-overlay">
-                    <p class="card-label">Location</p>
+            <section class="bento-container">
+                <div class="bento-box focus">
+                    <small>Focus</small>
+                    <h3>Fullstack Developer</h3>
+                </div>
+                <div class="bento-box craft">
+                    <small>Craft</small>
+                    <div class="tags">
+                        <span>React</span><span>Next.js</span><span>Node</span>
+                    </div>
+                </div>
+                <div class="bento-box mindset">
+                    <small>Mindset</small>
+                    <h3>Discipline > Motivation</h3>
+                </div>
+                <div class="bento-box loc">
+                    <small>Location</small>
                     <h3>Bangalore, IN</h3>
-                    <p class="coords">12.9716° N, 77.5946° E</p>
                 </div>
-            </article>
-
-            <article class="glass-card area-f">
-                <div class="portrait-img"></div>
-            </article>
-        </section>
-    </main>
+            </section>
+        </main>
+    </div>
 
     <script src="script.js"></script>
 </body>
