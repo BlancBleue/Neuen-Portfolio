@@ -10,15 +10,6 @@ let currentTheme = localStorage.getItem("neel-theme") || "neutral";
 function applyTheme(theme) {
   body.setAttribute("data-theme", theme);
   localStorage.setItem("neel-theme", theme);
-
-  // icon: neutral = dot, dark = moon, light = sun
-  if (theme === "neutral") {
-    themeIcon.textContent = "·";
-  } else if (theme === "dark") {
-    themeIcon.textContent = "🌙";
-  } else {
-    themeIcon.textContent = "☀️";
-  }
 }
 
 applyTheme(currentTheme);
@@ -46,9 +37,8 @@ function addMessage(text, type) {
 }
 
 function botReply(question) {
-  // simple placeholder logic
   const reply =
-    "Good question. I’d probably break this into smaller parts, run a tiny experiment, and then iterate. That’s basically how I handle most problems, from code to exams.";
+    "Good question. I’d break this into smaller parts, run a tiny experiment, and then iterate. That’s basically how I handle most problems, from code to exams.";
   addMessage(reply, "bot");
 }
 
@@ -96,12 +86,18 @@ function drawDots() {
   const offsetX = (mouseX - 0.5) * 40;
   const offsetY = (mouseY - 0.5) * 40;
 
+  const theme = body.getAttribute("data-theme");
+  const isLight = theme === "light";
+
   for (let x = -spacing; x < width + spacing; x += spacing) {
     for (let y = -spacing; y < height + spacing; y += spacing) {
       const dx = x + offsetX;
       const dy = y + offsetY;
-      const alpha = 0.04 + Math.random() * 0.06;
-      ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+      const alpha = isLight
+        ? 0.03 + Math.random() * 0.04
+        : 0.04 + Math.random() * 0.06;
+      const color = isLight ? 120 : 255; // grey in light, white in neutral/dark
+      ctx.fillStyle = `rgba(${color},${color},${color},${alpha})`;
       ctx.fillRect(dx, dy, 1.2, 1.2);
     }
   }
