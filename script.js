@@ -4,11 +4,14 @@ document.getElementById("year").textContent = new Date().getFullYear();
 // Theme toggle
 const toggle = document.querySelector(".theme-toggle");
 const body = document.body;
+
+// Load saved theme
 const saved = localStorage.getItem("theme");
 if (saved === "light") {
   body.classList.remove("theme-dark");
   body.classList.add("theme-light");
 }
+
 toggle.addEventListener("click", () => {
   const isDark = body.classList.contains("theme-dark");
   body.classList.toggle("theme-dark", !isDark);
@@ -39,7 +42,7 @@ form.addEventListener("submit", (e) => {
 
   setTimeout(() => {
     const reply =
-      "If I were answering this properly, I’d probably break it into smaller questions, test one tiny thing, and ship a small experiment. That’s how I handle most problems.";
+      "Bro Idk Ask Neel";
     addMessage(reply, "bot");
   }, 500);
 });
