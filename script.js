@@ -22,22 +22,24 @@ themeBtn.addEventListener("click", () => {
 // NAV ACTIVE STATE ON SCROLL (optional)
 
 const navLinks = document.querySelectorAll(".nav-link");
-const sections = ["home", "about", "projects", "skills"].map(id =>
-  document.getElementById(id)
-);
+const sections = ["home", "about", "projects", "skills"]
+  .map(id => document.getElementById(id))
+  .filter(Boolean);
 
 window.addEventListener("scroll", () => {
   let current = "home";
   const offset = window.innerHeight / 3;
 
   sections.forEach(sec => {
-    if (!sec) return;
     const top = sec.getBoundingClientRect().top;
     if (top <= offset) current = sec.id;
   });
 
   navLinks.forEach(link => {
-    link.classList.toggle("active", link.getAttribute("href") === `#${current}`);
+    link.classList.toggle(
+      "active",
+      link.getAttribute("href") === `#${current}`
+    );
   });
 });
 
