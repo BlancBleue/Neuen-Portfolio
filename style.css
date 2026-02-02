@@ -1,9 +1,10 @@
 :root {
-  /* base palette */
-  --neutral-bg: radial-gradient(circle at top, #2b174a 0, #090019 45%, #020008 100%);
+  /* backgrounds */
+  --neutral-bg: radial-gradient(circle at top, #27134a 0, #090019 45%, #020008 100%);
   --dark-bg: radial-gradient(circle at top, #020617 0, #02020a 45%, #000 100%);
-  --light-bg: #f9fafb;
+  --light-bg: #f5f5f7;
 
+  /* accents */
   --neutral-accent1: #a855f7;
   --neutral-accent2: #22d3ee;
   --neutral-accent3: #f97316;
@@ -12,7 +13,7 @@
   --dark-accent2: #6366f1;
   --dark-accent3: #a855f7;
 
-  --light-accent1: #6366f1;
+  --light-accent1: #4f46e5;
   --light-accent2: #ec4899;
   --light-accent3: #f97316;
 
@@ -25,7 +26,6 @@
 
 /* THEME STATES */
 
-/* Neutral (default purple) */
 body[data-theme="neutral"] {
   background: var(--neutral-bg);
   color: var(--text-main-dark);
@@ -42,7 +42,6 @@ body[data-theme="neutral"] .top-nav {
   background: radial-gradient(circle at top, #1e1635ee, #050014f0);
 }
 
-/* Dark */
 body[data-theme="dark"] {
   background: var(--dark-bg);
   color: var(--text-main-dark);
@@ -59,7 +58,6 @@ body[data-theme="dark"] .top-nav {
   background: radial-gradient(circle at top, #111827ee, #020617f0);
 }
 
-/* Light */
 body[data-theme="light"] {
   background: var(--light-bg);
   color: var(--text-main-light);
@@ -71,14 +69,29 @@ body[data-theme="light"] .hero-name-gradient {
 }
 body[data-theme="light"] .ask-card {
   background: #ffffff;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
 }
 body[data-theme="light"] .top-nav {
   background: #111827;
 }
-body[data-theme="light"] .ask-messages,
 body[data-theme="light"] .hero-hi,
 body[data-theme="light"] .ask-title {
   color: var(--text-muted-light);
+}
+body[data-theme="light"] .ask-messages {
+  color: var(--text-muted-light);
+}
+body[data-theme="light"] .ask-input-row {
+  background: #e5e7eb;
+  border-color: rgba(148, 163, 184, 0.6);
+}
+body[data-theme="light"] #ask-input {
+  color: var(--text-main-light);
+}
+body[data-theme="light"] .ask-quick-links button {
+  background: #e5e7eb;
+  color: var(--text-main-light);
+  border-color: rgba(148, 163, 184, 0.7);
 }
 
 /* Base reset */
@@ -122,7 +135,7 @@ body {
   padding-inline: 3rem;
 }
 
-/* Theme toggle with icons */
+/* Theme toggle with outlined icons */
 
 .theme-toggle {
   width: 44px;
@@ -134,12 +147,58 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #f9fafb;
-  font-size: 1.2rem;
 }
 
-#theme-icon {
-  line-height: 1;
+.theme-icon {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+/* Neutral: simple circle outline */
+body[data-theme="neutral"] #theme-icon::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 999px;
+  border: 2px solid #e5e7eb;
+}
+
+/* Dark: moon outline */
+body[data-theme="dark"] #theme-icon::before,
+body[data-theme="dark"] #theme-icon::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+}
+body[data-theme="dark"] #theme-icon::before {
+  inset: 1px;
+  border: 2px solid #e5e7eb;
+}
+body[data-theme="dark"] #theme-icon::after {
+  width: 16px;
+  height: 16px;
+  right: -2px;
+  top: 2px;
+  background: #1f2937;
+}
+
+/* Light: sun outline with rays */
+body[data-theme="light"] #theme-icon::before,
+body[data-theme="light"] #theme-icon::after {
+  content: "";
+  position: absolute;
+}
+body[data-theme="light"] #theme-icon::before {
+  inset: 4px;
+  border-radius: 999px;
+  border: 2px solid #111827;
+}
+body[data-theme="light"] #theme-icon::after {
+  inset: -1px;
+  border-radius: 999px;
+  border: 2px solid rgba(17, 24, 39, 0.5);
 }
 
 /* Center pill nav */
@@ -286,6 +345,11 @@ main {
   align-self: flex-start;
   background: rgba(15, 23, 42, 0.9);
   color: var(--text-main-dark);
+}
+
+body[data-theme="light"] .msg.bot {
+  background: #e5e7eb;
+  color: var(--text-main-light);
 }
 
 .msg.user {
