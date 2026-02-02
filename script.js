@@ -58,7 +58,7 @@ askForm.addEventListener('submit', e => {
   }, 500);
 });
 
-// DOT CANVAS BACKGROUND (mouse motion)
+// DOT CANVAS BACKGROUND (mouse motion + theme-aware colors)
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
 let width = window.innerWidth;
@@ -94,8 +94,20 @@ window.addEventListener('resize', () => {
 });
 
 function render() {
+  const theme = body.getAttribute('data-theme');
+  
+  // Theme-based dot colors
+  let dotColor;
+  if (theme === 'neutral') {
+    dotColor = 'rgba(34, 211, 238, 0.6)'; // cyan
+  } else if (theme === 'dark') {
+    dotColor = 'rgba(99, 102, 241, 0.55)'; // indigo
+  } else { // light
+    dotColor = 'rgba(79, 70, 229, 0.65)'; // blue
+  }
+
   ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = 'rgba(148, 163, 184, 0.45)';
+  ctx.fillStyle = dotColor;
 
   dots.forEach(d => {
     d.x += d.vx;
