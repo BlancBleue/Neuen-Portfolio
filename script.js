@@ -3,13 +3,13 @@ const themeToggle = document.querySelector('.theme-toggle');
 const themes = ['dark', 'light', 'neutral'];
 let themeIndex = 0;
 
-// Theme Cycling
-themeToggle.addEventListener('click', () => {
+// Cycle Theme
+themeToggle.onclick = () => {
     themeIndex = (themeIndex + 1) % themes.length;
     body.setAttribute('data-theme', themes[themeIndex]);
-});
+};
 
-// Canvas Setup
+// Dot Background
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
 let width, height, dots = [];
@@ -26,9 +26,8 @@ function init() {
 
 function render() {
     ctx.clearRect(0, 0, width, height);
-    const theme = body.getAttribute('data-theme');
-    ctx.fillStyle = theme === 'neutral' ? 'rgba(192, 132, 252, 0.4)' : theme === 'light' ? 'rgba(0, 0, 0, 0.15)' : 'rgba(255, 255, 255, 0.25)';
-
+    const t = body.getAttribute('data-theme');
+    ctx.fillStyle = t === 'neutral' ? 'rgba(192, 132, 252, 0.4)' : t === 'light' ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.25)';
     dots.forEach(d => {
         d.x += d.vx; d.y += d.vy;
         if (d.x < 0 || d.x > width) d.vx *= -1;
@@ -40,27 +39,22 @@ function render() {
     requestAnimationFrame(render);
 }
 
-window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+window.onmousemove = e => { mouse.x = e.clientX; mouse.y = e.clientY; };
 
-// AI Chat
+// AI Search Box Logic
 const askForm = document.getElementById('ask-form');
-const askMessages = document.getElementById('ask-messages');
+const aiResponse = document.getElementById('ai-response');
 askForm.onsubmit = (e) => {
     e.preventDefault();
     const input = document.getElementById('ask-input');
     if(!input.value) return;
-    const msg = document.createElement('div');
-    msg.className = 'msg user';
-    msg.textContent = `> ${input.value}`;
-    askMessages.appendChild(msg);
-    input.value = '';
+
+    aiResponse.classList.remove('active');
+    
     setTimeout(() => {
-        const bot = document.createElement('div');
-        bot.className = 'msg bot';
-        bot.textContent = "Neel builds high-end digital experiences.";
-        askMessages.appendChild(bot);
-        askMessages.scrollTop = askMessages.scrollHeight;
-    }, 600);
+        aiResponse.textContent = "Neel Nikhil is a Fullstack Developer specializing in AI-driven interfaces and high-performance web systems.";
+        aiResponse.classList.add('active');
+    }, 400);
 };
 
 init(); render();
