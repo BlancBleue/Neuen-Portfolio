@@ -1,6 +1,6 @@
 /**
- * 1. THEME TOGGLE LOGIC
- * Switches between 'dark' and 'light' modes
+ * 1. THEME TOGGLE & PERSISTENCE
+ * Handles switching between Dark and Light mode
  */
 function toggleTheme() {
     const body = document.body;
@@ -8,17 +8,16 @@ function toggleTheme() {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     
     body.setAttribute('data-theme', newTheme);
-    // Optional: Save preference to localStorage
-    localStorage.setItem('portfolio-theme', newTheme);
+    localStorage.setItem('selected-theme', newTheme);
 }
 
 /**
- * 2. HEADER SCROLL EFFECT
- * Adds 'scrolled' class to header to trigger CSS color/blur changes
+ * 2. DYNAMIC HEADER SCROLL LOGIC
+ * Triggers the color shift and blur when the user scrolls
  */
 window.addEventListener('scroll', () => {
     const header = document.getElementById('main-header');
-    if (window.scrollY > 50) {
+    if (window.scrollY > 60) {
         header.classList.add('scrolled');
     } else {
         header.classList.remove('scrolled');
@@ -27,56 +26,58 @@ window.addEventListener('scroll', () => {
 
 /**
  * 3. NEEL-AI CHATBOX LOGIC
- * Handles user questions and generates responses
+ * Manages user input and generates AI responses
  */
 function askAI() {
     const input = document.getElementById('ai-input');
     const display = document.getElementById('chat-display');
-    const val = input.value.trim();
+    const query = input.value.trim().toLowerCase();
 
-    if (!val) return;
+    if (!query) return;
 
-    // Show User Message
-    const userMsg = document.createElement('div');
-    userMsg.style.cssText = "align-self: flex-end; color: #fff; font-size: 0.85rem; margin-bottom: 8px; opacity: 0.8;";
-    userMsg.innerText = `You: ${val}`;
-    display.appendChild(userMsg);
+    // Display user query
+    const userDiv = document.createElement('div');
+    userDiv.style.cssText = "align-self: flex-end; color: var(--txt); opacity: 0.6; font-size: 0.8rem; margin-bottom: 8px; text-align: right;";
+    userDiv.innerText = `You: ${input.value}`;
+    display.appendChild(userDiv);
 
-    // AI Response Logic
-    let response = "I'm Neel's AI twin. I'm currently analyzing that request...";
-    const query = val.toLowerCase();
-
+    // AI logic response mapping
+    let response = "Analyzing data... Neel is currently optimizing high-end web architectures.";
+    
     if (query.includes('skill') || query.includes('tech')) {
-        response = "Neel specializes in React, Next.js, and Python. He's a beast at Frontend Architecture.";
+        response = "Neel's core stack includes React, Next.js, and Python. He specializes in geometric UI/UX.";
     } else if (query.includes('location') || query.includes('bangalore')) {
-        response = "He's based in Bangalore, India—the 12.9716° N, 77.5946° E coordinates in the grid.";
-    } else if (query.includes('experience')) {
-        response = "Neel has a history of building scalable products from 0 to 1 with a focus on clean UI.";
+        response = "He is based in Bangalore, India. Check the real-time clock and coordinates in the bento grid!";
+    } else if (query.includes('contact') || query.includes('hire')) {
+        response = "You can book a call with Neel using the button in the top right corner.";
     }
 
-    // Delayed "Bot Typing" Effect
+    // Delay response to simulate "thinking"
     setTimeout(() => {
         const botBubble = document.createElement('div');
         botBubble.className = "bot-bubble";
         botBubble.innerText = response;
         display.appendChild(botBubble);
-        display.scrollTop = display.scrollHeight; // Auto-scroll
+        
+        // Auto-scroll to the newest message
+        display.scrollTop = display.scrollHeight;
     }, 500);
 
     input.value = '';
 }
 
-// Allow "Enter" key for AI input
+// Enable "Enter" key for AI input
 document.getElementById('ai-input')?.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') askAI();
 });
 
 /**
- * 4. REAL-TIME BANGALORE CLOCK (IST)
+ * 4. BANGALORE REAL-TIME CLOCK (IST)
  */
-function updateTime() {
-    const clock = document.getElementById('time-display');
-    if (clock) {
+function updateClock() {
+    const clockElement = document.getElementById('time-display');
+    if (clockElement) {
+        const now = new Date();
         const options = {
             timeZone: 'Asia/Kolkata',
             hour: '2-digit',
@@ -84,27 +85,26 @@ function updateTime() {
             second: '2-digit',
             hour12: false
         };
-        const now = new Intl.DateTimeFormat('en-GB', options).format(new Date());
-        clock.innerText = `${now} IST`;
+        const timeString = new Intl.DateTimeFormat('en-GB', options).format(now);
+        clockElement.innerText = `${timeString} IST`;
     }
 }
-setInterval(updateTime, 1000);
+setInterval(updateClock, 1000);
 
 /**
- * 5. PHOTO SWAPPER (BENTO GRID)
+ * 5. BENTO GRID HOBBY INTERACTION
  */
 function showHobby(type) {
     const img = document.getElementById('main-photo');
     if (!img) return;
 
     const images = {
-        'coding': 'coding-me.jpg', // Replace with your actual paths
-        'chess': 'chess-me.jpg',
-        'snooker': 'snooker-me.jpg',
+        'coding': 'coding-portrait.jpg',
+        'chess': 'chess-portrait.jpg',
         'default': 'me.jpg'
     };
 
-    img.style.opacity = '0.5';
+    img.style.opacity = '0.4';
     setTimeout(() => {
         img.src = images[type] || images['default'];
         img.style.opacity = '1';
@@ -112,34 +112,34 @@ function showHobby(type) {
 }
 
 /**
- * 6. 3D SPHERE INITIALIZATION
+ * 6. 3D SPHERE INITIALIZATION (TAGCLOUD)
  */
 window.onload = () => {
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('portfolio-theme');
+    // Load saved theme
+    const savedTheme = localStorage.getItem('selected-theme');
     if (savedTheme) {
         document.body.setAttribute('data-theme', savedTheme);
     }
 
     const myTags = [
-        'JavaScript', 'CSS', 'Python', 'React', 'Next.js', 
-        'MongoDB', 'Tailwind', 'Git', 'TypeScript', 'Node.js', 
-        'AWS', 'SQL', 'C++', 'Figma'
+        'JavaScript', 'Python', 'React', 'Next.js', 
+        'MongoDB', 'Tailwind', 'Node.js', 'TypeScript', 
+        'Figma', 'AWS', 'Docker', 'Git', 'SQL', 'Redux'
     ];
     
     const container = '.tagcloud';
     const options = {
-        radius: 230,
+        radius: 240,            // Matches CSS mesh-sphere size
         maxSpeed: 'fast',
         initSpeed: 'fast',
         direction: 135,
         keep: true
     };
 
-    // Ensure TagCloud library is loaded via CDN in HTML
+    // Initialize TagCloud
     if (typeof TagCloud !== 'undefined') {
         TagCloud(container, myTags, options);
     }
 
-    updateTime(); // Initial clock call
+    updateClock(); // Initial clock call
 };
