@@ -1,25 +1,21 @@
-/* --- 1. DESIGN TOKENS & DYNAMIC THEMES --- */
+/* --- 1. CORE TOKENS & THEMES --- */
 :root {
     --bg: #050505;
     --txt: #ffffff;
     --accent: #8b5cf6; 
     --card-bg: rgba(255, 255, 255, 0.03);
-    --border: rgba(255, 255, 255, 0.15);
-    /* HYPER-VISIBLE BACKGROUND DOTS */
-    --dot-color: rgba(255, 255, 255, 0.45);
-    /* RETINA-THIN SPHERE GRID */
-    --sphere-line: rgba(255, 255, 255, 0.12);
+    --border: rgba(255, 255, 255, 0.12);
+    --sphere-line: rgba(255, 255, 255, 0.1);
     --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body[data-theme="light"] {
-    --bg: #ffffff;
-    --txt: #000000;
+    --bg: #fdfdfd;
+    --txt: #0a0a0a;
     --accent: #6366f1;
-    --card-bg: rgba(0, 0, 0, 0.04);
-    --border: rgba(0, 0, 0, 0.15);
-    --dot-color: rgba(0, 0, 0, 0.2);
-    --sphere-line: rgba(0, 0, 0, 0.1);
+    --card-bg: rgba(0, 0, 0, 0.03);
+    --border: rgba(0, 0, 0, 0.08);
+    --sphere-line: rgba(0, 0, 0, 0.08);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,13 +25,21 @@ body {
     color: var(--txt);
     font-family: 'Inter', sans-serif;
     transition: background var(--transition);
-    /* GLOBAL BOLD DOT GRID */
-    background-image: radial-gradient(var(--dot-color) 2px, transparent 2px);
-    background-size: 50px 50px;
     overflow-x: hidden;
 }
 
-/* --- 2. DYNAMIC SCROLL HEADER --- */
+/* --- 2. INTERACTIVE DOT CANVAS --- */
+#dotCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Behind everything */
+    pointer-events: none;
+}
+
+/* --- 3. DYNAMIC HEADER --- */
 .site-header {
     display: flex;
     justify-content: space-between;
@@ -45,19 +49,20 @@ body {
     width: 100%;
     top: 0;
     z-index: 1000;
-    transition: var(--transition);
 }
 
-.site-header.scrolled {
-    background: rgba(var(--bg), 0.8);
-    backdrop-filter: blur(25px);
-    border-bottom: 1px solid var(--accent);
-    padding: 1.2rem 5%;
+.logo { font-weight: 900; font-size: 1.6rem; letter-spacing: -2px; }
+
+.nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: var(--txt);
+    font-weight: 600;
+    font-size: 0.85rem;
+    opacity: 0.6;
 }
 
-.logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -1.5px; }
-
-/* --- 3. MASSIVE COLOR-FLOW HERO --- */
+/* --- 4. THE SPOTLIGHT HERO --- */
 .hero {
     height: 100vh;
     display: flex;
@@ -65,69 +70,55 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding-top: 100px;
 }
 
 .massive-hero {
-    font-size: clamp(4rem, 15vw, 10rem);
+    font-size: clamp(4.5rem, 18vw, 12rem);
     font-weight: 900;
-    line-height: 0.85;
-    letter-spacing: -6px;
-    /* DYNAMIC COLOR GRADIENT */
-    background: linear-gradient(
-        to right, 
-        #ffffff, 
-        var(--accent), 
-        #f472b6, 
-        #3b82f6, 
-        #ffffff
-    );
-    background-size: 200% auto;
+    letter-spacing: -8px;
+    line-height: 0.8;
+    margin: 0;
+    /* Subtle color shift from top to bottom */
+    background: linear-gradient(to bottom, #fff 40%, var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: textFlow 5s linear infinite;
 }
 
-@keyframes textFlow {
-    to { background-position: 200% center; }
-}
-
-.pre-title {
+.hero-subtitle {
     font-family: 'JetBrains Mono', monospace;
     letter-spacing: 12px;
     text-transform: uppercase;
-    font-size: 1.1rem;
-    margin-bottom: 25px;
-    color: var(--accent);
+    opacity: 0.4;
+    margin-top: 25px;
+    font-size: 0.9rem;
     font-weight: 800;
 }
 
-/* --- 4. CURVED AI TERMINAL --- */
+/* --- 5. CURVED AI TERMINAL --- */
 .ai-chat-box {
-    max-width: 550px;
+    max-width: 500px;
     width: 90%;
-    margin-top: 50px;
-    padding: 35px;
+    padding: 30px;
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 50px; /* EXTRA CURVED */
+    border-radius: 45px;
     backdrop-filter: blur(20px);
+    margin-top: 60px;
 }
 
 .bot-bubble {
-    background: rgba(139, 92, 246, 0.2);
-    padding: 15px 25px;
-    border-radius: 30px;
-    font-size: 1rem;
+    background: rgba(139, 92, 246, 0.12);
+    padding: 14px 22px;
+    border-radius: 25px;
     color: var(--accent);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    font-size: 0.95rem;
 }
 
 .chat-input-row {
     display: flex;
-    background: rgba(0,0,0,0.4);
-    border-radius: 40px;
-    padding: 8px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 35px;
+    padding: 6px;
     border: 1px solid var(--border);
     margin-top: 20px;
 }
@@ -145,80 +136,75 @@ body {
     background: var(--accent);
     border: none;
     color: #fff;
-    padding: 10px 30px;
-    border-radius: 35px;
+    padding: 10px 25px;
+    border-radius: 30px;
     cursor: pointer;
     font-weight: 800;
 }
 
-/* --- 5. BENTO GRID --- */
+/* --- 6. BENTO GRID (WITH EXTENDED MAP) --- */
 .main-grid {
     display: grid;
-    max-width: 1200px;
-    margin: 80px auto;
-    padding: 0 20px;
-    gap: 24px;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 260px;
+    max-width: 1250px;
+    margin: 100px auto;
+    padding: 0 25px;
+    gap: 25px;
+    /* Grid layout: Portrait on left, Map & Mindset on right */
+    grid-template-columns: 1fr 2fr;
+    grid-auto-rows: 300px;
 }
 
 .card {
     background: var(--card-bg);
-    border: 2px solid var(--border);
-    border-radius: 45px; /* DEEP CURVES */
-    padding: 35px;
+    border: 1px solid var(--border);
+    border-radius: 45px;
+    padding: 40px;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(10px);
 }
 
-.area-portrait { grid-area: 1 / 1 / 3 / 2; padding: 0; }
-.area-portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.6s ease; }
-.area-portrait:hover img { filter: grayscale(0); transform: scale(1.05); }
+.area-portrait { grid-row: span 2; padding: 0; }
+.area-portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.8s; }
 
-.area-mindset { grid-area: 2 / 2 / 3 / 4; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-
-.hobby-triggers span {
-    margin: 0 15px;
-    cursor: pointer;
-    font-weight: 900;
-    color: var(--accent);
-    font-size: 1.3rem;
-    transition: 0.3s;
-}
-
-.hobby-triggers span:hover { text-shadow: 0 0 15px var(--accent); }
-
-/* --- 6. LOCATION & MAP --- */
-.area-location { padding: 0 !important; background: #000; }
+/* EXTENDED MAP STYLE */
+.area-location { grid-column: 2; padding: 0; background: #000; }
 .map-bg-image {
     position: absolute;
     inset: 0;
-    background: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80') center;
+    background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop') center;
     background-size: cover;
-    opacity: 0.3;
+    opacity: 0.4;
     filter: grayscale(1);
+    transition: 0.5s;
 }
 
 .loc-overlay {
     position: absolute;
-    bottom: 30px;
-    left: 30px;
-    right: 30px;
+    bottom: 35px;
+    left: 40px;
+    right: 40px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     z-index: 10;
 }
 
-.coords {
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--accent);
-    font-weight: 800;
-    font-size: 1rem;
-}
+.coords { font-family: 'JetBrains Mono'; color: var(--accent); font-weight: 800; margin-top: 8px; }
 
-/* --- 7. THE RETINA-GRID SPHERE --- */
+/* HOBBY TRIGGER STYLING */
+.hobby-triggers { margin-top: 25px; display: flex; gap: 20px; }
+.hobby-triggers span {
+    font-weight: 900;
+    color: var(--accent);
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    transition: 0.3s;
+}
+.hobby-triggers span:hover { transform: translateY(-3px); text-shadow: 0 0 10px var(--accent); }
+
+/* --- 7. RETINA-GRID SPHERE & LOGOS --- */
 .sphere-wrapper {
     position: relative;
     width: 600px;
@@ -226,7 +212,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
+    margin: 50px auto;
 }
 
 .mesh-sphere {
@@ -234,73 +220,38 @@ body {
     width: 550px;
     height: 550px;
     border-radius: 50%;
-    /* 0.5px THIN STRAIGHT LINES */
     border: 0.5px solid var(--sphere-line);
+    /* 0.5px Straight Grid lines */
     background: 
         linear-gradient(to right, var(--sphere-line) 0.5px, transparent 0.5px) 0 0 / 50px 100%,
         linear-gradient(to bottom, var(--sphere-line) 0.5px, transparent 0.5px) 0 0 / 100% 50px;
-    box-shadow: inset 0 0 100px rgba(139, 92, 246, 0.05);
     animation: rotateSphere 45s linear infinite;
 }
 
-@keyframes rotateSphere {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
+@keyframes rotateSphere { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-/* --- 8. LOGO STYLING IN SPHERE --- */
-.tagcloud--item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    z-index: 5;
-}
-
+/* LOGO FIX */
+.tagcloud { display: flex; justify-content: center; align-items: center; }
+.tagcloud--item { display: block !important; }
 .tagcloud--item img {
-    width: 45px;
-    height: 45px;
-    filter: grayscale(1) brightness(1.2);
+    width: 50px;
+    height: 50px;
+    filter: grayscale(1) brightness(1.5);
     transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+.tagcloud--item:hover img { filter: grayscale(0) brightness(1); transform: scale(1.6); }
 
-.tagcloud--item:hover img {
-    filter: grayscale(0) brightness(1);
-    transform: scale(1.4);
-}
+/* --- 8. THEME SWITCH --- */
+.theme-switch { width: 60px; height: 32px; background: var(--border); border-radius: 50px; position: relative; cursor: pointer; }
+.switch-ball { width: 24px; height: 24px; background: var(--accent); border-radius: 50%; position: absolute; top: 4px; left: 4px; transition: 0.4s; }
+body[data-theme="light"] .switch-ball { transform: translateX(28px); }
 
-.tagcloud--item::after {
-    content: attr(data-name);
+/* --- 9. STATUS BAR FOOTER --- */
+.status-bar {
+    padding: 30px 5%;
+    display: flex;
+    justify-content: space-between;
     font-size: 0.75rem;
     font-family: 'JetBrains Mono';
-    color: var(--accent);
-    opacity: 0;
-    transition: 0.3s;
-    margin-top: 8px;
-    font-weight: 800;
+    opacity: 0.5;
 }
-
-.tagcloud--item:hover::after { opacity: 1; }
-
-/* --- 9. THEME SWITCH UI --- */
-.theme-switch {
-    width: 60px;
-    height: 30px;
-    background: var(--border);
-    border-radius: 50px;
-    position: relative;
-    cursor: pointer;
-}
-
-.switch-ball {
-    width: 24px;
-    height: 24px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: absolute;
-    top: 3px;
-    left: 4px;
-    transition: 0.4s;
-}
-
-body[data-theme="light"] .switch-ball { transform: translateX(28px); }
