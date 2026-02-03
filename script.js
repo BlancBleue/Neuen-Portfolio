@@ -16,11 +16,26 @@ function handleSearch(event) {
 }
 
 function showHobby(type) {
-    const layer = document.getElementById('hobby-photo');
     const img = document.getElementById('main-photo');
-    if(type === 'coding') { layer.style.background = 'rgba(34, 211, 238, 0.2)'; img.style.filter = 'grayscale(0)'; }
-    else if(type === 'chess') { layer.style.background = 'rgba(244, 114, 182, 0.2)'; img.style.filter = 'sepia(0.5)'; }
-    else { layer.style.background = 'transparent'; img.style.filter = 'grayscale(1)'; }
+    
+    // Define the images for each state
+    const images = {
+        'coding': 'coding-me.jpg',
+        'chess': 'chess-me.jpg',
+        'snooker': 'snooker-me.jpg',
+        'default': 'me.jpg'
+    };
+
+    // Update the image source based on the type, fallback to default
+    img.src = images[type] || images['default'];
+
+    // Ensure it stays grayscale
+    img.style.filter = 'grayscale(1)';
+    
+    // Optional: Add a slight brightness boost on hover to show interaction
+    if (type !== 'default') {
+        img.style.filter = 'grayscale(1) brightness(1.1)';
+    }
 }
 
 const canvas = document.getElementById('dotCanvas');
