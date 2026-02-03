@@ -75,3 +75,48 @@ function draw() {
 window.addEventListener('resize', init);
 init();
 draw();
+const hobbyPhotos = {
+    'coding': 'url("coding-me.jpg")',
+    'chess': 'url("chess-me.jpg")',
+    'snooker': 'url("snooker-me.jpg")'
+};
+
+function showHobby(type) {
+    const mainPhoto = document.getElementById('main-photo');
+    const hobbyLayer = document.getElementById('hobby-photo');
+    
+    if (type === 'default') {
+        hobbyLayer.style.opacity = "0";
+        mainPhoto.style.opacity = "1";
+    } else {
+        // Apply the styles directly to ensure the "Top-Aligned" aesthetic stays
+        hobbyLayer.style.backgroundImage = hobbyPhotos[type];
+        hobbyLayer.style.backgroundSize = "cover";
+        hobbyLayer.style.backgroundPosition = "top center"; 
+        hobbyLayer.style.opacity = "1";
+        mainPhoto.style.opacity = "0"; 
+    }
+}
+
+// Typing Effect for AI Search
+function handleSearch(event) {
+    event.preventDefault();
+    const input = document.getElementById('ai-input');
+    const res = document.getElementById('ai-response');
+    const text = `✦ Neel is architecting systems in Bangalore. Try asking about Snooker or Chess!`;
+    
+    if(input.value.trim() !== "") {
+        res.style.display = 'block';
+        res.innerHTML = "";
+        let i = 0;
+        const typeWriter = () => {
+            if (i < text.length) {
+                res.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 30);
+            }
+        };
+        typeWriter();
+        input.value = "";
+    }
+}
