@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neel Nikhil | Digital Architect</title>
+    
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
 </head>
 <body data-theme="dark">
@@ -25,10 +30,10 @@
         </nav>
 
         <div class="header-right">
-            <div class="theme-switch" onclick="toggleTheme()">
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Visual Mode">
                 <div class="switch-ball"></div>
             </div>
-            <button class="cta">Connect</button>
+            <button class="cta-button">Connect</button>
         </div>
     </header>
 
@@ -40,10 +45,10 @@
 
         <div class="ai-chat-box">
             <div class="chat-display" id="chat-display">
-                <div class="bot-bubble">Systems optimal. Neel-AI standing by.</div>
+                <div class="bot-bubble">System: Protocol accepted. Neel-AI standing by.</div>
             </div>
             <div class="chat-input-row">
-                <input type="text" id="ai-input" placeholder="Query Neel-AI...">
+                <input type="text" id="ai-input" placeholder="Query the system...">
                 <button onclick="askAI()">Send</button>
             </div>
         </div>
@@ -59,7 +64,7 @@
             <div class="loc-overlay">
                 <div class="loc-text">
                     <small>Operating From</small>
-                    <h3>Bangalore, Karnataka, IN</h3>
+                    <h3>Bangalore, India</h3>
                     <p class="coords">12.9716° N, 77.5946° E</p>
                 </div>
                 <div id="time-display" class="time-box">00:00:00 IST</div>
@@ -67,12 +72,16 @@
         </div>
 
         <div class="card area-mindset">
-            <small>The Philosophy</small>
-            <h3>Discipline > Motivation</h3>
-            <div class="hobby-triggers">
-                <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
-                <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
-                <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
+            <div class="mindset-content">
+                <small>The Philosophy</small>
+                <h3>Discipline > Motivation</h3>
+                <p class="muted-text">Consistent action beats temporary inspiration.</p>
+                
+                <div class="hobby-triggers">
+                    <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
+                    <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
+                    <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
+                </div>
             </div>
         </div>
     </main>
@@ -83,6 +92,11 @@
             <div class="tagcloud"></div>
         </div>
     </section>
+
+    <footer class="status-bar">
+        <div class="status-item">● Active in Development</div>
+        <div class="status-item">© 2026 NEEL NIKHIL</div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
