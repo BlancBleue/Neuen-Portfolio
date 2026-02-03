@@ -11,30 +11,33 @@
             --bg: #0b0a0f; --txt: #ffffff; --accent: #fb923c; --blue: #3b82f6;
             --dot-white: rgba(255, 255, 255, 0.08); --dot-blue: rgba(59, 130, 246, 0.5);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: transform 0.3s ease; }
-        body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; min-height: 100vh; }
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: 0.3s; }
+        body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* --- OS BACKGROUND --- */
+        /* --- OS MASKING BACKGROUND --- */
         .bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .dots-base { position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; background-image: radial-gradient(var(--dot-white) 1px, transparent 1px); background-size: 35px 35px; }
         .dots-active { position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; background-image: radial-gradient(var(--dot-blue) 1.5px, transparent 1.5px); background-size: 35px 35px; -webkit-mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%); mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%); }
 
         .container { max-width: 800px; margin: 0 auto; padding: 100px 5%; position: relative; z-index: 1; }
+        
+        /* --- RATINGS --- */
         .header { text-align: center; margin-bottom: 50px; }
         .big-avg { font-size: 7rem; font-weight: 900; color: var(--blue); line-height: 1; letter-spacing: -6px; }
-        
+        .stars-main { color: var(--accent); font-size: 1.2rem; letter-spacing: 5px; margin: 10px 0; }
+
         .form-area { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 30px; border-radius: 30px; margin-bottom: 50px; backdrop-filter: blur(10px); }
         input, select, textarea { width: 100%; background: #000; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; font-family: 'Inter'; outline: none; }
         
-        .submit-btn { width: 100%; background: var(--blue); color: #fff; border: none; padding: 18px; border-radius: 50px; font-weight: 900; cursor: pointer; font-family: 'JetBrains Mono'; text-transform: uppercase; }
+        .submit-btn { width: 100%; background: var(--blue); color: #fff; border: none; padding: 20px; border-radius: 100px; font-weight: 900; cursor: pointer; font-family: 'JetBrains Mono'; text-transform: uppercase; letter-spacing: 2px; }
         .submit-btn:hover { background: #fff; color: #000; transform: translateY(-3px); }
 
-        .entry { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 25px; margin-bottom: 15px; }
-        .entry:hover { border-color: var(--blue); background: rgba(59, 130, 246, 0.02); }
-        .entry-name { font-weight: 900; color: var(--blue); display: flex; align-items: center; gap: 8px; }
-        .v-badge { background: var(--blue); color: #fff; font-size: 0.5rem; padding: 2px 6px; border-radius: 4px; }
-        .stars { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.8rem; margin-top: 5px; }
-        .del-btn { color: #ff4444; background: none; border: none; font-size: 0.6rem; cursor: pointer; opacity: 0.2; margin-top: 15px; font-family: 'JetBrains Mono'; }
+        .entry { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 25px; margin-bottom: 15px; position: relative; }
+        .entry-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .name-tag { font-weight: 900; color: var(--blue); display: flex; align-items: center; gap: 8px; }
+        .verified { background: var(--blue); color: #fff; font-size: 0.5rem; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+        
+        .del-btn { color: #ff4444; background: none; border: none; font-size: 0.6rem; cursor: pointer; opacity: 0.2; font-family: 'JetBrains Mono'; margin-top: 15px; }
         .del-btn:hover { opacity: 1; }
     </style>
 </head>
@@ -47,52 +50,53 @@
 
     <div class="container">
         <div class="header">
-            <p style="letter-spacing: 5px; color: var(--accent); font-size: 0.7rem; font-family: 'JetBrains Mono';">PUBLIC_FEEDBACK_LOOP</p>
-            <div class="big-avg" id="avgDisplay">0.0</div>
-            <div id="starRow" style="color:var(--accent); font-size: 1.2rem; margin: 10px 0;">☆☆☆☆☆</div>
-            <p id="countDisplay" style="opacity: 0.4; font-size: 0.7rem; font-family: 'JetBrains Mono';">SYNCING_DATABASE...</p>
+            <p style="letter-spacing: 5px; color: var(--accent); font-size: 0.7rem; font-family: 'JetBrains Mono';">USER_FEEDBACK_UPLINK</p>
+            <div class="big-avg" id="avgVal">0.0</div>
+            <div class="stars-main" id="avgStars">☆☆☆☆☆</div>
+            <p id="totalLogs" style="opacity: 0.4; font-size: 0.7rem; font-family: 'JetBrains Mono'; uppercase;">INITIALIZING...</p>
         </div>
 
         <div class="form-area">
-            <input type="text" id="name" placeholder="Enter Your Name">
-            <select id="rating">
+            <input type="text" id="nameInp" placeholder="Enter Your Name">
+            <select id="rateInp">
                 <option value="5">RANK: 5 (PEAK)</option>
                 <option value="4">RANK: 4 (ELITE)</option>
                 <option value="3">RANK: 3 (STABLE)</option>
                 <option value="2">RANK: 2 (MID)</option>
                 <option value="1">RANK: 1 (BAD)</option>
             </select>
-            <textarea id="message" rows="3" placeholder="Leave a review..."></textarea>
-            <button class="submit-btn" id="submitBtn" onclick="postToDB()">Post Review</button>
+            <textarea id="msgInp" rows="3" placeholder="Leave a review..."></textarea>
+            <button class="submit-btn" id="postBtn" onclick="postReview()">Transmit Signature</button>
         </div>
 
-        <div id="logFeed"></div>
+        <div id="feed"></div>
     </div>
 
     <script>
-        // --- CONFIG ---
-        const PROJECT_URL = 'https://whksaeziivfacqkokyosi.supabase.co'; // Fixed URL
-        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa3NhZXppdmZhcWNvcWt5b3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDEzODAsImV4cCI6MjA4NTcxNzM4MH0.k2EU1lt-UcPuvzMPqTWTE7wApjJloAGT4CPdpvxoEH4';
-        const _supabase = supabase.createClient(PROJECT_URL, ANON_KEY);
+        // --- CONFIG FIXED FROM KEY DATA ---
+        const SUPA_URL = 'https://whksaeziivfacqkokyosi.supabase.co'; 
+        const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa3NhZXppdmZhcWNvcWt5b3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDEzODAsImV4cCI6MjA4NTcxNzM4MH0.k2EU1lt-UcPuvzMPqTWTE7wApjJloAGT4CPdpvxoEH4';
+        
+        const _supabase = supabase.createClient(SUPA_URL, SUPA_KEY);
 
-        // --- BACKGROUND ---
+        // --- BG LOGIC ---
         window.addEventListener('mousemove', e => {
             document.documentElement.style.setProperty('--x', e.clientX + 'px');
             document.documentElement.style.setProperty('--y', e.clientY + 'px');
         });
 
-        // --- FETCH ---
-        async function fetchLogs() {
+        async function loadData() {
             const { data, error } = await _supabase.from('signatures').select('*').order('created_at', { ascending: false });
             if (error) {
-                document.getElementById('countDisplay').innerText = "CONNECTION_ERROR: " + error.message;
+                document.getElementById('totalLogs').innerText = "CONNECTION_ERROR: CHECK_RLS_POLICIES";
+                console.error(error);
             } else {
-                renderLogs(data);
+                render(data);
             }
         }
 
-        function renderLogs(logs) {
-            const feed = document.getElementById('logFeed');
+        function render(logs) {
+            const feed = document.getElementById('feed');
             feed.innerHTML = '';
             let total = 0;
             const admins = ["Neel Nikhil", "Neel", "Admin"];
@@ -102,46 +106,48 @@
                 const isV = admins.includes(log.name);
                 feed.innerHTML += `
                     <div class="entry">
-                        <div class="entry-name">
-                            ${log.name} ${isV ? '<span class="v-badge">VERIFIED</span>' : ''}
+                        <div class="entry-top">
+                            <span class="name-tag">${log.name} ${isV ? '<span class="verified">Verified</span>' : ''}</span>
+                            <span style="color:var(--accent); font-family: 'JetBrains Mono'; font-size:0.8rem;">${'★'.repeat(log.rating)}${'☆'.repeat(5-log.rating)}</span>
                         </div>
-                        <div class="stars">${'★'.repeat(log.rating)}${'☆'.repeat(5-log.rating)}</div>
-                        <p style="opacity:0.7; margin-top:10px;">${log.message}</p>
-                        <button class="del-btn" onclick="deleteLog(${log.id})">[ PURGE ]</button>
+                        <p style="opacity:0.7; font-size:1.05rem; line-height:1.6;">${log.message}</p>
+                        <button class="del-btn" onclick="deleteEntry(${log.id})">[ PURGE_LOG ]</button>
                     </div>
                 `;
             });
 
             const avg = logs.length ? (total / logs.length).toFixed(1) : '0.0';
-            document.getElementById('avgDisplay').innerText = avg;
-            document.getElementById('starRow').innerText = '★'.repeat(Math.round(avg)) + '☆'.repeat(5-Math.round(avg));
-            document.getElementById('countDisplay').innerText = `${logs.length} TOTAL_REVIEWS`;
+            document.getElementById('avgVal').innerText = avg;
+            document.getElementById('avgStars').innerText = '★'.repeat(Math.round(avg)) + '☆'.repeat(5-Math.round(avg));
+            document.getElementById('totalLogs').innerText = `${logs.length} ENTRIES_SYNCED`;
         }
 
-        async function postToDB() {
-            const name = document.getElementById('name').value;
-            const rating = parseInt(document.getElementById('rating').value);
-            const message = document.getElementById('message').value;
+        async function postReview() {
+            const name = document.getElementById('nameInp').value;
+            const rating = parseInt(document.getElementById('rateInp').value);
+            const message = document.getElementById('msgInp').value;
 
-            if (!name || !message) return alert("Fields missing!");
+            if (!name || !message) return alert("All fields required.");
 
             const { error } = await _supabase.from('signatures').insert([{ name, rating, message }]);
-            if (error) alert("Error: " + error.message);
-            
-            document.getElementById('name').value = '';
-            document.getElementById('message').value = '';
-            fetchLogs();
-        }
-
-        async function deleteLog(id) {
-            const pw = prompt("Admin Password:");
-            if (pw === "neel123") {
-                await _supabase.from('signatures').delete().eq('id', id);
-                fetchLogs();
+            if (error) {
+                alert("Table not found. Go to Supabase SQL and run: create table signatures...");
+            } else {
+                document.getElementById('nameInp').value = '';
+                document.getElementById('msgInp').value = '';
+                loadData();
             }
         }
 
-        fetchLogs();
+        async function deleteEntry(id) {
+            const pw = prompt("Enter Master Password:");
+            if (pw === "neel123") {
+                await _supabase.from('signatures').delete().eq('id', id);
+                loadData();
+            }
+        }
+
+        loadData();
     </script>
 </body>
 </html>
