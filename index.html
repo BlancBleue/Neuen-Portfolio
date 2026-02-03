@@ -4,13 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neel Nikhil | Digital Architect</title>
-    
     <link rel="stylesheet" href="style.css">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
-    
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
 </head>
 <body data-theme="dark">
@@ -19,13 +14,18 @@
 
     <header class="site-header" id="main-header">
         <div class="logo">NN</div>
-        <nav class="nav">
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
+        
+        <nav class="nav-container">
+            <div class="nav-links">
+                <a href="#home" class="nav-item">Home</a>
+                <a href="#about" class="nav-item">About</a>
+                <a href="#skills" class="nav-item">Skills</a>
+                <div class="nav-underline"></div>
+            </div>
         </nav>
+
         <div class="header-right">
-            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Visual Mode">
+            <div class="theme-switch" onclick="toggleTheme()">
                 <div class="switch-ball"></div>
             </div>
             <button class="cta">Connect</button>
@@ -40,10 +40,10 @@
 
         <div class="ai-chat-box">
             <div class="chat-display" id="chat-display">
-                <div class="bot-bubble">Terminal initialized. All systems nominal.</div>
+                <div class="bot-bubble">Systems optimal. Neel-AI standing by.</div>
             </div>
             <div class="chat-input-row">
-                <input type="text" id="ai-input" placeholder="Query the system...">
+                <input type="text" id="ai-input" placeholder="Query Neel-AI...">
                 <button onclick="askAI()">Send</button>
             </div>
         </div>
@@ -67,16 +67,12 @@
         </div>
 
         <div class="card area-mindset">
-            <div class="mindset-content">
-                <small>The Philosophy</small>
-                <h3>Discipline > Motivation</h3>
-                <p class="muted">Mastering the craft through consistency.</p>
-                
-                <div class="hobby-triggers">
-                    <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
-                    <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
-                    <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
-                </div>
+            <small>The Philosophy</small>
+            <h3>Discipline > Motivation</h3>
+            <div class="hobby-triggers">
+                <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
+                <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
+                <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
             </div>
         </div>
     </main>
@@ -87,13 +83,6 @@
             <div class="tagcloud"></div>
         </div>
     </section>
-
-    <footer class="status-bar">
-        <div class="status-item">
-            <span class="pulse-dot"></span> Available for projects
-        </div>
-        <div class="status-item">© 2026 NEEL NIKHIL</div>
-    </footer>
 
     <script src="script.js"></script>
 </body>
