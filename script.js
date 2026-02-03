@@ -1,6 +1,6 @@
 /**
  * 1. DYNAMIC REACTIVE DOT ENGINE
- * Creates a canvas grid where dots grow and glow on mouse hover
+ * Renders a canvas-based grid that reacts to mouse proximity
  */
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
@@ -20,7 +20,7 @@ window.onmousemove = (e) => {
 
 function initDots() {
     dots = [];
-    const spacing = 50; // Grid density
+    const spacing = 50; 
     for (let x = 0; x < canvas.width + spacing; x += spacing) {
         for (let y = 0; y < canvas.height + spacing; y += spacing) {
             dots.push({ x, y, baseSize: 1.5 });
@@ -32,7 +32,7 @@ function animateDots() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const isLight = document.body.getAttribute('data-theme') === 'light';
     const dotColor = isLight ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.25)';
-    const activeColor = isLight ? '#6366f1' : '#8b5cf6'; // Accent colors
+    const activeColor = isLight ? '#6366f1' : '#8b5cf6'; 
 
     dots.forEach(dot => {
         const dx = mouse.x - dot.x;
@@ -40,15 +40,14 @@ function animateDots() {
         const distance = Math.sqrt(dx * dx + dy * dy);
         let size = dot.baseSize;
 
-        // The "Growth" effect
-        if (distance < 150) {
-            size = 4.5; // Grow the dot
+        // "Raise" and "Glow" effect
+        if (distance < 130) {
+            size = 4.5; 
             ctx.fillStyle = activeColor;
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = activeColor;
+            ctx.globalAlpha = 1.0;
         } else {
             ctx.fillStyle = dotColor;
-            ctx.shadowBlur = 0;
+            ctx.globalAlpha = 0.6;
         }
 
         ctx.beginPath();
@@ -60,6 +59,7 @@ function animateDots() {
 
 /**
  * 2. 3D LOGO SPHERE INITIALIZATION
+ * Force-injects <img> tags into the TagCloud
  */
 function initLogoSphere() {
     const skills = [
@@ -73,17 +73,18 @@ function initLogoSphere() {
         { name: 'Node.js', icon: 'https://cdn.simpleicons.org/nodedotjs/339933' }
     ];
 
+    // Wrap icons in div to ensure HTML rendering
     const skillElements = skills.map(s => 
-        `<div class="tagcloud--item"><img src="${s.icon}" alt="${s.name}" title="${s.name}"></div>`
+        `<div class="tagcloud--item" data-name="${s.name}"><img src="${s.icon}" alt="${s.name}"></div>`
     );
 
     const options = {
         radius: 260,
         maxSpeed: 'fast',
-        initSpeed: 'fast',
+        initSpeed: 'normal',
         direction: 135,
         keep: true,
-        useHTML: true // Allows image rendering
+        useHTML: true // This is the switch that fixes text vs images
     };
 
     if (typeof TagCloud !== 'undefined') {
@@ -92,24 +93,19 @@ function initLogoSphere() {
 }
 
 /**
- * 3. THEME & UTILITIES
+ * 3. HOBBY PORTRAIT SWAPPER
  */
-function toggleTheme() {
-    const body = document.body;
-    const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    body.setAttribute('data-theme', newTheme);
-    localStorage.setItem('neel-portfolio-theme', newTheme);
-}
-
 function showHobby(type) {
     const img = document.getElementById('main-photo');
     if (!img) return;
+    
     const images = {
         'coding': 'coding-me.jpg',
         'chess': 'chess-me.jpg',
         'snooker': 'snooker-me.jpg',
         'default': 'me.jpg'
     };
+
     img.style.opacity = '0';
     setTimeout(() => {
         img.src = images[type] || images['default'];
@@ -117,28 +113,33 @@ function showHobby(type) {
     }, 200);
 }
 
+/**
+ * 4. THEME & AI UTILS
+ */
+function toggleTheme() {
+    const body = document.body;
+    const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    body.setAttribute('data-theme', newTheme);
+}
+
 function askAI() {
     const input = document.getElementById('ai-input');
     const display = document.getElementById('chat-display');
     if (!input.value) return;
     
-    display.innerHTML = `<div class="bot-bubble">NEEL-AI: Scanning request... Protocol accepted.</div>`;
+    display.innerHTML = `<div class="bot-bubble">NEEL-AI: Scanning request... User verified. Systems optimal.</div>`;
     input.value = '';
 }
 
 /**
- * 4. STARTUP
+ * 5. INITIALIZATION ON LOAD
  */
 window.onload = () => {
-    // Theme restore
-    const saved = localStorage.getItem('neel-portfolio-theme');
-    if (saved) document.body.setAttribute('data-theme', saved);
+    window.onresize(); 
+    animateDots();     
+    initLogoSphere();  
 
-    window.onresize(); // Setup Canvas
-    animateDots();     // Run Dot Engine
-    initLogoSphere();  // Run Sphere
-
-    // Bangalore Time Update
+    // Bangalore IST Clock
     setInterval(() => {
         const time = new Date().toLocaleTimeString('en-GB', { 
             timeZone: 'Asia/Kolkata', 
