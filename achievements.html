@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vault | Neel Nikhil</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0b0a0f; 
+            --txt: #ffffff; 
+            --accent: #fb923c; 
+            --glass: rgba(255, 255, 255, 0.03); 
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--txt); 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% -20%, #1a1a2e 0%, transparent 50%);
+        }
+
+        /* --- HEADER --- */
+        .site-header { position: fixed; width: 100%; top: 0; z-index: 999; display: flex; justify-content: space-between; align-items: center; padding: 25px 5%; }
+        .nav-pill { background: rgba(0,0,0,0.2); backdrop-filter: blur(20px); border: 1px solid var(--border); padding: 8px 25px; border-radius: 100px; display: flex; align-items: center; gap: 20px; }
+        .nav-item { text-decoration: none; color: var(--txt); font-weight: 600; font-size: 0.85rem; opacity: 0.6; }
+        .nav-item:hover { opacity: 1; }
+
+        /* --- HERO --- */
+        .ach-hero { padding: 160px 5% 40px; text-align: center; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--txt); opacity: 0.4; font-size: 0.9rem; margin-bottom: 30px; font-family: 'JetBrains Mono'; }
+        .back-link:hover { opacity: 1; transform: translateX(-5px); }
+        .label { font-family: 'JetBrains Mono'; color: var(--accent); font-size: 0.7rem; letter-spacing: 5px; font-weight: 800; text-transform: uppercase; margin-bottom: 20px; }
+        .title { font-size: clamp(3rem, 12vw, 7rem); font-weight: 900; letter-spacing: -4px; line-height: 0.9; margin-bottom: 25px; }
+        .title span { color: var(--accent); }
+        .system-count { font-family: 'JetBrains Mono'; font-size: 0.8rem; opacity: 0.3; margin-top: 10px; }
+
+        /* --- FILTERS --- */
+        .filter-group { display: flex; justify-content: center; gap: 12px; margin: 40px 0; flex-wrap: wrap; }
+        .pill { 
+            background: var(--glass); border: 1px solid var(--border); color: var(--txt); 
+            padding: 10px 22px; border-radius: 50px; cursor: pointer; font-family: 'JetBrains Mono';
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+        }
+        .pill.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 10px 20px rgba(251, 146, 60, 0.15); }
+
+        /* --- GRID --- */
+        .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 35px; max-width: 1300px; margin: 0 auto 150px; padding: 0 5%; }
+        .cert-card { opacity: 1; transform: translateY(0); }
+        .cert-card.hidden { display: none; }
+
+        .cert-img-wrapper { 
+            background: #121216; border-radius: 24px; overflow: hidden; 
+            border: 1px solid var(--border); aspect-ratio: 4/3; 
+            display: flex; align-items: center; justify-content: center;
+        }
+        .cert-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        .cert-card:hover img { opacity: 1; transform: scale(1.08); }
+        
+        .cert-card h3 { font-size: 1.1rem; font-weight: 700; margin-top: 15px; opacity: 0.9; text-align: center; }
+        .cert-card p { font-family: 'JetBrains Mono'; font-size: 0.65rem; opacity: 0.4; text-transform: uppercase; margin-top: 5px; text-align: center; }
+
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div style="font-weight: 900; font-size: 1.6rem; letter-spacing: -1px;">NN</div>
+        <nav class="nav-pill">
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="#" class="nav-item">About</a>
+            <a href="#" class="nav-item">Projects</a>
+            <a href="#" class="nav-item">Skills</a>
+        </nav>
+    </header>
+
+    <section class="ach-hero">
+        <a href="index.html" class="back-link">← Back to home</a>
+        <p class="label">Archive Access</p>
+        <h1 class="title">Certifi<span>cates</span></h1>
+        <div class="system-count">ENTRIES DETECTED: <span id="count-num">15</span></div>
+
+        <div class="filter-group">
+            <button class="pill active" onclick="filterCerts('all', this)">All</button>
+            <button class="pill" onclick="filterCerts('university', this)">University</button>
+            <button class="pill" onclick="filterCerts('company', this)">Companies</button>
+            <button class="pill" onclick="filterCerts('tech', this)">Tech Stack</button>
+        </div>
+    </section>
+
+    <main class="cert-grid" id="certGrid">
+        
+        <div class="cert-card" data-cat="university">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=1" alt="cert"></div>
+            <h3>Bachelor of Technology</h3>
+            <p>Computer Science Engineering</p>
+        </div>
+        <div class="cert-card" data-cat="company">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=2" alt="cert"></div>
+            <h3>Software Engineer Intern</h3>
+            <p>Google Cloud Platform</p>
+        </div>
+        <div class="cert-card" data-cat="tech">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=3" alt="cert"></div>
+            <h3>AWS Solutions Architect</h3>
+            <p>Amazon Web Services</p>
+        </div>
+
+        <div class="cert-card" data-cat="tech">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=4" alt="cert"></div>
+            <h3>React Advanced Patterns</h3>
+            <p>Frontend Development</p>
+        </div>
+        <div class="cert-card" data-cat="university">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=5" alt="cert"></div>
+            <h3>Dean's Honor List</h3>
+            <p>Academic Excellence</p>
+        </div>
+        <div class="cert-card" data-cat="company">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=6" alt="cert"></div>
+            <h3>Open Source Contributor</h3>
+            <p>Microsoft Azure SDK</p>
+        </div>
+
+        <div class="cert-card" data-cat="tech">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=7" alt="cert"></div>
+            <h3>Deep Learning Specialization</h3>
+            <p>Coursera / Stanford</p>
+        </div>
+        <div class="cert-card" data-cat="tech">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=8" alt="cert"></div>
+            <h3>Docker Certified Assoc.</h3>
+            <p>DevOps & Infrastructure</p>
+        </div>
+        <div class="cert-card" data-cat="company">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=9" alt="cert"></div>
+            <h3>FinTech Bootcamp</h3>
+            <p>Goldman Sachs</p>
+        </div>
+
+        <div class="cert-card" data-cat="university">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=10" alt="cert"></div>
+            <h3>Algorithm Masterclass</h3>
+            <p>Data Structures Spec.</p>
+        </div>
+        <div class="cert-card" data-cat="tech">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=11" alt="cert"></div>
+            <h3>Full Stack JavaScript</h3>
+            <p>FreeCodeCamp Professional</p>
+        </div>
+        <div class="cert-card" data-cat="company">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=12" alt="cert"></div>
+            <h3>Backend Arch Intern</h3>
+            <p>Uber Engineering</p>
+        </div>
+
+        <div class="cert-card" data-cat="tech">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=13" alt="cert"></div>
+            <h3>CCNA: Introduction</h3>
+            <p>Cisco Networking Academy</p>
+        </div>
+        <div class="cert-card" data-cat="university">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=14" alt="cert"></div>
+            <h3>Cyber Security 101</h3>
+            <p>University Workshop</p>
+        </div>
+        <div class="cert-card" data-cat="company">
+            <div class="cert-img-wrapper"><img src="https://picsum.photos/800/600?random=15" alt="cert"></div>
+            <h3>UX/UI Design Fellow</h3>
+            <p>Adobe Creative Jam</p>
+        </div>
+
+    </main>
+
+    <script>
+        function filterCerts(category, btn) {
+            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+
+            const cards = document.querySelectorAll('.cert-card');
+            let visibleCount = 0;
+            
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(10px)';
+                
+                setTimeout(() => {
+                    if (category === 'all' || card.getAttribute('data-cat') === category) {
+                        card.classList.remove('hidden');
+                        visibleCount++;
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                    document.getElementById('count-num').innerText = visibleCount;
+                }, 200);
+            });
+        }
+    </script>
+</body>
+</html>
