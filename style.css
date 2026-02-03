@@ -1,40 +1,43 @@
-/* --- 1. DESIGN TOKENS --- */
+/* --- 1. DESIGN TOKENS & THEMES --- */
 :root {
     --bg: #050505;
     --txt: #ffffff;
-    --accent: #8b5cf6; /* Main Purple */
-    --card-bg: rgba(255, 255, 255, 0.02);
-    --border: rgba(255, 255, 255, 0.08);
-    --header-blur: rgba(5, 5, 5, 0.8);
+    --accent: #8b5cf6; 
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.1);
+    /* HIGH VISIBILITY DOTS - opacity increased to 0.3 for "really visible" look */
+    --dot-color: rgba(255, 255, 255, 0.3); 
     --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Light Mode Variables */
 body[data-theme="light"] {
-    --bg: #f8f8f8;
+    --bg: #ffffff;
     --txt: #111111;
     --accent: #6366f1;
-    --card-bg: rgba(0, 0, 0, 0.03);
+    --card-bg: rgba(0, 0, 0, 0.05);
     --border: rgba(0, 0, 0, 0.1);
-    --header-blur: rgba(248, 248, 248, 0.8);
+    --dot-color: rgba(0, 0, 0, 0.2);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    background: var(--bg);
+    background-color: var(--bg);
     color: var(--txt);
     font-family: 'Inter', sans-serif;
-    transition: background var(--transition), color var(--transition);
+    transition: background var(--transition);
     overflow-x: hidden;
+    /* DITTO DOTS: Sharp, visible radial grid */
+    background-image: radial-gradient(var(--dot-color) 1.5px, transparent 1.5px);
+    background-size: 40px 40px;
 }
 
-/* --- 2. DYNAMIC HEADER --- */
+/* --- 2. DYNAMIC COLOR-SHIFTING HEADER --- */
 .site-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 5%;
+    padding: 1.8rem 5%;
     position: fixed;
     width: 100%;
     top: 0;
@@ -43,76 +46,48 @@ body {
     border-bottom: 1px solid transparent;
 }
 
-/* Color changing effect on scroll */
 .site-header.scrolled {
-    background: var(--header-blur);
-    backdrop-filter: blur(15px);
-    border-color: var(--accent); /* Header border lights up on scroll */
-    padding: 1rem 5%;
+    background: rgba(var(--bg), 0.7);
+    backdrop-filter: blur(20px);
+    border-bottom-color: var(--accent); /* Color shift on scroll */
+    padding: 1.2rem 5%;
 }
 
-.header-right { display: flex; align-items: center; gap: 20px; }
+.logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -1px; }
 
-/* --- 3. THEME SWITCHER --- */
-.theme-switch {
-    width: 54px;
-    height: 28px;
-    background: var(--border);
-    border-radius: 50px;
-    position: relative;
-    cursor: pointer;
-    border: 1px solid var(--border);
-}
-
-.switch-ball {
-    width: 20px;
-    height: 20px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: absolute;
-    top: 3px;
-    left: 4px;
-    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-body[data-theme="light"] .switch-ball {
-    transform: translateX(26px);
-}
-
-/* --- 4. CURVED AI CHATBOX --- */
+/* --- 3. CURVED AI CHATBOX --- */
 .ai-chat-box {
-    max-width: 550px;
+    max-width: 520px;
     margin: 40px auto;
     padding: 25px;
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 40px; /* Deep curves requested */
-    backdrop-filter: blur(20px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    border-radius: 45px; /* EXTRA CURVED */
+    backdrop-filter: blur(15px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
 }
 
 .chat-display {
     height: 100px;
     overflow-y: auto;
     margin-bottom: 15px;
-    scrollbar-width: none;
+    padding-right: 10px;
 }
 
 .bot-bubble {
-    background: rgba(139, 92, 246, 0.1);
-    padding: 12px 24px;
-    border-radius: 25px; /* Curved bubbles */
+    background: rgba(139, 92, 246, 0.15);
+    padding: 14px 22px;
+    border-radius: 25px; /* CURVED MESSAGE */
     font-size: 0.9rem;
     color: var(--accent);
-    display: inline-block;
-    max-width: 90%;
     border: 1px solid rgba(139, 92, 246, 0.2);
+    display: inline-block;
 }
 
 .chat-input-row {
     display: flex;
-    background: rgba(0,0,0,0.2);
-    border-radius: 40px; /* Curved input bar */
+    background: rgba(0,0,0,0.3);
+    border-radius: 35px; /* CURVED INPUT */
     padding: 6px;
     border: 1px solid var(--border);
 }
@@ -121,9 +96,10 @@ body[data-theme="light"] .switch-ball {
     flex: 1;
     background: transparent;
     border: none;
-    color: var(--txt);
+    color: #fff;
     padding-left: 20px;
     outline: none;
+    font-size: 0.9rem;
 }
 
 .chat-input-row button {
@@ -133,16 +109,32 @@ body[data-theme="light"] .switch-ball {
     padding: 10px 25px;
     border-radius: 30px;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 700;
+}
+
+/* --- 4. HERO SECTION --- */
+.hero { text-align: center; padding: 140px 20px 60px; }
+.glimmer-text { 
+    font-size: clamp(3rem, 10vw, 6rem); 
+    font-weight: 900; 
+    letter-spacing: -4px; 
+    margin-bottom: 10px;
+}
+.pre-title { 
+    text-transform: uppercase; 
+    letter-spacing: 6px; 
+    color: var(--accent); 
+    font-weight: 700; 
+    font-size: 0.85rem;
 }
 
 /* --- 5. BENTO GRID --- */
 .main-grid {
     display: grid;
-    max-width: 1100px;
-    margin: 140px auto 80px;
+    max-width: 1150px;
+    margin: 0 auto 100px;
     padding: 0 20px;
-    gap: 16px;
+    gap: 20px;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 240px;
 }
@@ -150,28 +142,27 @@ body[data-theme="light"] .switch-ball {
 .card {
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 32px;
+    border-radius: 35px;
     padding: 30px;
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(10px);
 }
 
 .area-portrait { grid-area: 1 / 1 / 3 / 2; padding: 0; }
-.area-portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: var(--transition); }
-.area-portrait:hover img { filter: grayscale(0); transform: scale(1.05); }
+.area-portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.5s; }
+.area-portrait:hover img { filter: grayscale(0); transform: scale(1.03); }
 
-.area-mindset { grid-area: 2 / 2 / 3 / 4; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.area-location { padding: 0 !important; background: #000; }
 
-/* --- 6. MAP & COORDINATES --- */
-.area-location { position: relative; padding: 0 !important; }
-
-.map-bg {
+/* MAP BACKGROUND */
+.map-bg-image {
     position: absolute;
     inset: 0;
     background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop') center;
     background-size: cover;
-    filter: grayscale(1) brightness(0.2);
-    opacity: 0.6;
+    opacity: 0.3;
+    filter: grayscale(1) brightness(0.5);
 }
 
 .loc-overlay {
@@ -188,61 +179,43 @@ body[data-theme="light"] .switch-ball {
 .coords {
     font-family: 'JetBrains Mono', monospace;
     color: var(--accent);
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     margin-top: 8px;
-    letter-spacing: 1px;
+    font-weight: 700;
 }
 
-.radar-ping {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 10px;
-    height: 10px;
-    background: var(--accent);
-    border-radius: 50%;
-}
-
-.radar-ping::after {
-    content: '';
-    position: absolute;
-    inset: -20px;
-    border: 1px solid var(--accent);
-    border-radius: 50%;
-    animation: ping 2s linear infinite;
-}
-
-@keyframes ping {
-    0% { transform: scale(0.5); opacity: 1; }
-    100% { transform: scale(2.5); opacity: 0; }
-}
-
-/* --- 7. SPHERE & SKILLS --- */
+/* --- 6. THE STRAIGHT-GRID SPHERE --- */
 .skills-section {
-    padding: 100px 0;
-    text-align: center;
-    background-image: radial-gradient(var(--border) 1px, transparent 1px);
-    background-size: 35px 35px; /* Dotted grid background */
-}
-
-.sphere-wrapper {
-    position: relative;
-    height: 600px;
+    padding: 120px 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
+.sphere-wrapper {
+    position: relative;
+    width: 550px;
+    height: 550px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* DITTO: Straight Sideways Criss-Cross Grid Sphere */
 
 .mesh-sphere {
     position: absolute;
     width: 500px;
     height: 500px;
     border-radius: 50%;
-    border: 1px solid var(--border);
+    border: 1.5px solid var(--border);
+    /* STRAIGHT SIDEWAYS CRISS CROSS PATTERN */
     background: 
-        repeating-linear-gradient(60deg, rgba(139, 92, 246, 0.05) 0px, transparent 1px, transparent 40px),
-        repeating-linear-gradient(-60deg, rgba(139, 92, 246, 0.05) 0px, transparent 1px, transparent 40px);
+        linear-gradient(to right, var(--border) 1.5px, transparent 1.5px) 0 0 / 45px 100%,
+        linear-gradient(to bottom, var(--border) 1.5px, transparent 1.5px) 0 0 / 100% 45px;
+    box-shadow: inset 0 0 100px rgba(139, 92, 246, 0.08);
     animation: rotateSphere 40s linear infinite;
+    z-index: 1;
 }
 
 @keyframes rotateSphere {
@@ -250,7 +223,19 @@ body[data-theme="light"] .switch-ball {
     to { transform: rotate(360deg); }
 }
 
-.tagcloud { 
-    font-weight: 700;
-    color: var(--txt);
+.tagcloud { font-weight: 900; color: var(--txt); }
+
+/* --- 7. THEME SWITCH UI --- */
+.theme-switch {
+    width: 55px; height: 28px; background: var(--border);
+    border-radius: 50px; position: relative; cursor: pointer;
+    border: 1.5px solid var(--border);
 }
+
+.switch-ball {
+    width: 20px; height: 20px; background: var(--accent);
+    border-radius: 50%; position: absolute; top: 2.5px; left: 4px;
+    transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+body[data-theme="light"] .switch-ball { transform: translateX(25px); }
