@@ -1,53 +1,59 @@
+const canvas = document.getElementById('dotCanvas');
+const ctx = canvas.getContext('2d');
+let dots = [];
+const spacing = 35; 
+let mouse = { x: null, y: null };
+
+window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+
 function toggleTheme() {
     const body = document.body;
-    const current = body.getAttribute('data-theme');
-    body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    body.setAttribute('data-theme', body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
 }
 
 function handleSearch(event) {
     event.preventDefault();
-    const input = document.getElementById('ai-input');
     const res = document.getElementById('ai-response');
-    if(input.value.trim() !== "") {
-        res.style.display = 'block';
-        res.innerHTML = `✦ Neel is currently architecting systems in Bangalore. Try asking about his Next.js projects!`;
-        input.value = "";
-    }
+    res.style.display = 'block';
+    res.innerHTML = `✦ Neel is architecting in Bangalore. Expertise: Next.js & Product Strategy.`;
 }
 
 function showHobby(type) {
     const layer = document.getElementById('hobby-photo');
-    const img = document.getElementById('main-photo');
-    if(type === 'coding') { layer.style.background = 'rgba(34, 211, 238, 0.2)'; img.style.filter = 'grayscale(0)'; }
-    else if(type === 'chess') { layer.style.background = 'rgba(244, 114, 182, 0.2)'; img.style.filter = 'sepia(0.5)'; }
-    else { layer.style.background = 'transparent'; img.style.filter = 'grayscale(1)'; }
+    layer.style.background = type === 'coding' ? 'rgba(34, 211, 238, 0.1)' : 'transparent';
 }
-
-const canvas = document.getElementById('dotCanvas');
-const ctx = canvas.getContext('2d');
-let dots = [];
 
 function init() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    dots = Array.from({length: 60}, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        s: Math.random() * 1.5 + 0.5,
-        v: Math.random() * 0.4 + 0.1
-    }));
+    dots = [];
+    for (let x = 0; x < canvas.width; x += spacing) {
+        for (let y = 0; y < canvas.height; y += spacing) {
+            dots.push({ x, y, baseX: x, baseY: y });
+        }
+    }
 }
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const isDark = document.body.getAttribute('data-theme') === 'dark';
-    ctx.fillStyle = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)';
+    ctx.fillStyle = isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.15)';
+
     dots.forEach(d => {
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
-        ctx.fill();
-        d.y -= d.v;
-        if(d.y < 0) d.y = canvas.height;
+        let dx = mouse.x - d.x;
+        let dy = mouse.y - d.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        let force = (100 - dist) / 100; // Radius of 100px
+
+        if (dist < 100) {
+            ctx.beginPath();
+            ctx.arc(d.x, d.y, 2.5, 0, Math.PI * 2); // Grow dots near mouse
+            ctx.fill();
+        } else {
+            ctx.beginPath();
+            ctx.arc(d.x, d.y, 0.8, 0, Math.PI * 2); // Small static dots
+            ctx.fill();
+        }
     });
     requestAnimationFrame(draw);
 }
