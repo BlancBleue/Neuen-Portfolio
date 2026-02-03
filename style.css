@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Hover RGB Fix</title>
-<style>
-/* 1. Variables & Theme */
 :root {
     --bg: #050505; --txt: #ffffff; --card: rgba(255,255,255,0.03); 
     --border: rgba(255,255,255,0.1); --accent: #22d3ee; --x: 4px;
@@ -82,20 +75,5 @@ body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-seri
 .portrait-container:hover .hobby-layer {
     opacity: 1;
 }
-</style>
-</head>
 
-<body>
-<div class="ui-wrapper">
-  <div class="main-grid">
-    <div class="card area-portrait">
-      <div class="portrait-container">
-        <img id="main-photo" src="https://picsum.photos/600/800" alt="Portrait">
-        <div class="hobby-layer" style="background-image:url('https://picsum.photos/600/800?2');"></div>
-        <div class="photo-overlay"></div>
-      </div>
-    </div>
-  </div>
-</div>
-</body>
 </html>
