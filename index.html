@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | Digital Architect</title>
+    <title>Neel Nikhil | Portfolio</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
@@ -28,10 +28,10 @@
             background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px);
             border: 1px solid var(--border); padding: 12px 30px; border-radius: 100px;
         }
-        .nav-links { display: flex; gap: 25px; position: relative; }
+        .nav-links { display: flex; gap: 25px; }
         .nav-item { text-decoration: none; color: white; font-weight: 700; font-size: 0.85rem; }
 
-        /* --- HERO & AI BOX --- */
+        /* --- HERO --- */
         .hero {
             height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
@@ -49,20 +49,7 @@
             opacity: 0.4; margin-top: 25px; font-weight: 800;
         }
 
-        .ai-terminal {
-            margin-top: 50px; width: 90%; max-width: 450px;
-            background: var(--glass); border: 1px solid var(--border);
-            padding: 25px; border-radius: 30px; backdrop-filter: blur(15px);
-        }
-        .ai-display { 
-            background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 15px;
-            color: var(--accent); margin-bottom: 15px; text-align: left; font-size: 0.85rem;
-        }
-        .ai-input-row { display: flex; background: rgba(0,0,0,0.3); border-radius: 50px; padding: 5px; border: 1px solid var(--border); }
-        .ai-input-row input { flex: 1; background: transparent; border: none; color: white; padding-left: 15px; outline: none; }
-        .ai-input-row button { background: var(--accent); border: none; color: white; padding: 10px 20px; border-radius: 50px; font-weight: 800; cursor: pointer; }
-
-        /* --- BENTO GRID (LOCATION FIX) --- */
+        /* --- BENTO GRID (LOCATION & PHILOSOPHY FIX) --- */
         .bento {
             display: grid; max-width: 1200px; margin: 80px auto; gap: 20px;
             grid-template-columns: 1fr 1.8fr; grid-template-rows: 300px 300px; padding: 0 20px;
@@ -71,31 +58,38 @@
 
         .portrait { grid-row: span 2; }
         .portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.5s; }
-        .portrait:hover img { filter: grayscale(0) saturate(1.5); }
 
         .location { grid-column: 2; background: #000; padding: 40px; display: flex; align-items: flex-end; }
         .map-img { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop') center/cover; opacity: 0.2; filter: grayscale(1); }
         
         .loc-info { position: relative; z-index: 5; display: flex; justify-content: space-between; width: 100%; align-items: flex-end; }
-        .loc-info h2 { font-size: 2.2rem; font-weight: 900; }
         .time-box { font-family: 'JetBrains Mono'; color: var(--accent); font-weight: 800; font-size: 1.2rem; }
 
         .mindset { grid-column: 2; padding: 40px; display: flex; align-items: center; }
-        .hobby-btns { display: flex; gap: 10px; margin-top: 20px; }
-        .hobby-btns span { padding: 8px 20px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; font-size: 0.8rem; }
-        .hobby-btns span:hover { background: var(--accent); color: white; }
+        .hobby-btns span { padding: 8px 20px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; margin-right: 10px; }
 
-        /* --- SPHERE FIX --- */
-        .sphere-container { height: 700px; display: flex; justify-content: center; align-items: center; position: relative; }
-        .tagcloud { color: var(--accent); font-weight: 800; }
+        /* --- LOGO SPHERE FIX --- */
+        .sphere-container { height: 700px; display: flex; justify-content: center; align-items: center; }
+        .tagcloud { pointer-events: auto; }
         
-        /* Force Images in Sphere to behave */
-        .tagcloud--item { display: flex !important; align-items: center; justify-content: center; }
-        .tagcloud--item img { 
-            width: 60px !important; height: 60px !important; 
-            filter: brightness(0) invert(1); transition: 0.3s;
+        /* This ensures the images inside the sphere don't show as text */
+        .tagcloud--item { 
+            display: flex !important; 
+            align-items: center; 
+            justify-content: center;
         }
-        .tagcloud--item:hover img { filter: brightness(1) invert(0); transform: scale(1.4); }
+        
+        .tagcloud--item img { 
+            width: 60px !important; 
+            height: 60px !important; 
+            filter: brightness(0) invert(1); /* Makes icons white */
+            transition: 0.3s ease;
+        }
+
+        .tagcloud--item:hover img {
+            filter: brightness(1) invert(0); /* Original color on hover */
+            transform: scale(1.3);
+        }
 
     </style>
 </head>
@@ -112,19 +106,12 @@
                 <a href="#" class="nav-item">Tech</a>
             </div>
         </nav>
-        <div><button style="background:var(--accent); color:white; border:none; padding:10px 25px; border-radius:50px; font-weight:800; cursor:pointer;">Contact</button></div>
+        <button style="background:var(--accent); color:white; border:none; padding:10px 25px; border-radius:50px; font-weight:800; cursor:pointer;">Contact</button>
     </header>
 
     <section class="hero">
         <h1 class="massive-hero">NEEL NIKHIL</h1>
         <p class="hero-subtitle">Front End Developer</p>
-        <div class="ai-terminal">
-            <div id="ai-out" class="ai-display">NEEL-AI: System status nominal. Ready for deployment.</div>
-            <div class="ai-input-row">
-                <input type="text" id="ai-in" placeholder="Query the architect...">
-                <button onclick="runAI()">Send</button>
-            </div>
-        </div>
     </section>
 
     <main class="bento">
@@ -143,10 +130,9 @@
             <div>
                 <small style="opacity:0.5; letter-spacing:3px;">PHILOSOPHY</small>
                 <h2 style="font-size:2.5rem; font-weight:900;">Discipline > Motivation</h2>
-                <div class="hobby-btns">
-                    <span onmouseover="swp('coding')" onmouseout="swp('default')">Coding</span>
-                    <span onmouseover="swp('chess')" onmouseout="swp('default')">Chess</span>
-                    <span onmouseover="swp('snooker')" onmouseout="swp('default')">Snooker</span>
+                <div class="hobby-btns" style="margin-top: 20px;">
+                    <span onmouseover="swp('coding')">Coding</span>
+                    <span onmouseover="swp('chess')">Chess</span>
                 </div>
             </div>
         </div>
@@ -180,50 +166,44 @@
         }
         draw();
 
-        // 2. THE SPHERE (CRITICAL FIX)
+        // 2. THE SPHERE FIX (NO MORE TEXT STRINGS)
         function initSphere() {
             const container = '.tagcloud';
-            // We pass the actual ICON URLS as strings, then let the CSS handle the img rendering
             const icons = [
-                'https://cdn.simpleicons.org/react/61DAFB',
-                'https://cdn.simpleicons.org/nextdotjs/ffffff',
-                'https://cdn.simpleicons.org/python/3776AB',
-                'https://cdn.simpleicons.org/tailwindcss/06B6D4',
-                'https://cdn.simpleicons.org/javascript/F7DF1E',
-                'https://cdn.simpleicons.org/typescript/3178C6',
-                'https://cdn.simpleicons.org/nodedotjs/339933',
-                'https://cdn.simpleicons.org/mongodb/47A248'
+                '<img src="https://cdn.simpleicons.org/react/61DAFB" />',
+                '<img src="https://cdn.simpleicons.org/nextdotjs/ffffff" />',
+                '<img src="https://cdn.simpleicons.org/python/3776AB" />',
+                '<img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" />',
+                '<img src="https://cdn.simpleicons.org/javascript/F7DF1E" />',
+                '<img src="https://cdn.simpleicons.org/typescript/3178C6" />',
+                '<img src="https://cdn.simpleicons.org/nodedotjs/339933" />',
+                '<img src="https://cdn.simpleicons.org/mongodb/47A248" />'
             ];
 
-            // Map URLs into actual HTML img tags
-            const imgTags = icons.map(url => `<img src="${url}" />`);
-
-            TagCloud(container, imgTags, {
+            const options = {
                 radius: 280,
                 maxSpeed: 'fast',
                 initSpeed: 'normal',
                 direction: 135,
                 keep: true,
-                useHTML: true // THIS IS THE MAGIC KEY
-            });
+                useHTML: true // This allows the library to render the <img> tags properly
+            };
+
+            TagCloud(container, icons, options);
         }
 
-        // 3. UTILS
         function swp(t) {
             const i = document.getElementById('p-img');
-            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'};
-            i.style.opacity = 0;
-            setTimeout(() => { i.src = m[t]||m.default; i.style.opacity = 1; }, 200);
+            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', default:'me.jpg'};
+            i.src = m[t]||m.default;
         }
-        function runAI() {
-            document.getElementById('ai-out').innerText = "NEEL-AI: Verifying parameters... Optimization complete.";
-            document.getElementById('ai-in').value = "";
-        }
+
         setInterval(() => {
             document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false}) + " IST";
         }, 1000);
 
-        window.onload = initSphere;
+        // INITIALIZE
+        window.addEventListener('DOMContentLoaded', initSphere);
     </script>
 </body>
 </html>
