@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | Portfolio 2026</title>
+    <title>Neel Nikhil | Digital Architect</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
@@ -12,104 +12,102 @@
         :root {
             --bg: #050505; --txt: #ffffff; --accent: #8b5cf6; 
             --glass: rgba(255, 255, 255, 0.04); --border: rgba(255, 255, 255, 0.1);
+            --sphere-web: rgba(139, 92, 246, 0.15);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+        [data-theme="light"] {
+            --bg: #f8fafc; --txt: #0f172a; --accent: #6366f1;
+            --glass: rgba(15, 23, 42, 0.05); --border: rgba(15, 23, 42, 0.1);
+            --sphere-web: rgba(99, 102, 241, 0.2);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
         body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.6; }
 
-        /* --- NAVIGATION --- */
+        /* --- HEADER & THEME TOGGLE --- */
         .site-header {
             position: fixed; width: 100%; top: 0; z-index: 9999;
-            display: flex; justify-content: space-between; align-items: center; padding: 25px 5%;
+            display: flex; justify-content: space-between; align-items: center; padding: 20px 5%;
         }
         .nav-pill {
-            background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px);
-            border: 1px solid var(--border); padding: 12px 35px; border-radius: 100px;
+            background: var(--glass); backdrop-filter: blur(20px);
+            border: 1px solid var(--border); padding: 10px 25px; border-radius: 100px;
+            display: flex; align-items: center; gap: 20px;
         }
-        .nav-item { text-decoration: none; color: white; font-weight: 700; font-size: 0.85rem; margin: 0 12px; transition: 0.3s; }
-        .nav-item:hover { color: var(--accent); }
-
-        /* --- HERO & FLOWING TEXT --- */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .nav-item { text-decoration: none; color: inherit; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; }
         
-        .massive-hero, .flowing-header {
-            font-weight: 900; letter-spacing: -6px; line-height: 0.8;
+        .theme-btn {
+            background: var(--accent); color: white; border: none; width: 40px; height: 40px; 
+            border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* --- HERO --- */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .massive-hero {
+            font-size: clamp(4rem, 15vw, 11rem); font-weight: 900; letter-spacing: -8px; line-height: 0.8;
             background: linear-gradient(to right, #8b5cf6, #3b82f6, #f472b6, #fbbf24, #8b5cf6);
             background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: colorCycle 5s linear infinite;
         }
-        .massive-hero { font-size: clamp(4rem, 15vw, 11rem); }
-        .flowing-header { font-size: clamp(3rem, 10vw, 6rem); letter-spacing: -3px; }
-
         @keyframes colorCycle { to { background-position: 300% center; } }
 
-        /* --- AI TERMINAL FIX --- */
-        .ai-terminal {
-            margin-top: 50px; width: 90%; max-width: 500px;
-            background: var(--glass); border: 1px solid var(--border);
-            padding: 25px; border-radius: 35px; backdrop-filter: blur(15px);
-            position: relative; z-index: 10;
-        }
-        .ai-display { 
-            background: rgba(0,0,0,0.5); padding: 18px; border-radius: 20px; 
-            color: var(--accent); margin-bottom: 20px; text-align: left; 
-            font-size: 0.85rem; font-family: 'JetBrains Mono';
-            border-left: 4px solid var(--accent); line-height: 1.5;
-        }
-        .ai-input-row { display: flex; background: rgba(0,0,0,0.6); border-radius: 50px; padding: 6px; border: 1px solid var(--border); }
-        .ai-input-row input { flex: 1; background: transparent; border: none; color: white; padding-left: 20px; outline: none; font-size: 0.9rem; }
-        .ai-input-row button { background: var(--accent); border: none; color: white; padding: 12px 25px; border-radius: 50px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .ai-input-row button:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--accent); }
-
-        /* --- BENTO GRID & RGB FIX --- */
-        .bento { display: grid; max-width: 1200px; margin: 100px auto; gap: 30px; grid-template-columns: 1fr 1.5fr; grid-template-rows: 350px 350px; padding: 0 25px; }
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 50px; position: relative; overflow: hidden; }
+        /* --- BENTO & RGB --- */
+        .bento { display: grid; max-width: 1200px; margin: 100px auto; gap: 25px; grid-template-columns: 1fr 1.8fr; grid-template-rows: 350px 350px; padding: 0 20px; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; overflow: hidden; position: relative; }
         
-        /* THE RGB GLITCH */
         .portrait { grid-row: span 2; }
-        .portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.3s ease-in-out; }
+        .portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.4s; }
         .portrait:hover img { 
             filter: grayscale(0);
-            box-shadow: 10px 0px 0px rgba(255,0,0,0.4), -10px 0px 0px rgba(0,255,255,0.4);
-            transform: scale(1.02);
+            box-shadow: 10px 0 0 rgba(255,0,0,0.3), -10px 0 0 rgba(0,255,255,0.3);
         }
 
-        /* MAP FIX */
-        .location { background: #000; padding: 50px; display: flex; align-items: flex-end; }
-        .map-bg { 
-            position: absolute; inset: 0; 
-            background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000&auto=format&fit=crop'); 
-            background-size: cover; background-position: center; opacity: 0.3; filter: grayscale(1) contrast(1.2);
+        .ai-terminal {
+            margin-top: 30px; width: 90%; max-width: 450px;
+            background: var(--glass); border: 1px solid var(--border);
+            padding: 20px; border-radius: 25px;
         }
-        .loc-content { position: relative; z-index: 2; display: flex; justify-content: space-between; width: 100%; align-items: flex-end; }
-        
-        .hobby-btns { display: flex; gap: 12px; margin-top: 30px; }
-        .hobby-btns span { padding: 12px 28px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .hobby-btns span:hover { background: var(--accent); color: white; }
+        .ai-display { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.8rem; margin-bottom: 10px; }
 
-        /* --- SKILLS SECTION --- */
-        .skills-section { padding: 100px 5%; text-align: center; }
-        .tech-stack-sub { font-family: 'JetBrains Mono'; letter-spacing: 8px; opacity: 0.4; text-transform: uppercase; margin-bottom: 10px; font-weight: 800; display: block; }
+        /* --- SPHERE WEB SYSTEM --- */
+        .skills-section { height: 800px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         
-        .sphere-container { height: 700px; width: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
-        
-        /* SPHERE HOVER ELEMENTS */
+        .sphere-web-overlay {
+            position: absolute; width: 650px; height: 650px;
+            border: 1px solid var(--sphere-web); border-radius: 50%;
+            pointer-events: none; opacity: 0.5;
+            background: radial-gradient(circle, transparent 60%, var(--sphere-web));
+            animation: pulse 4s infinite ease-in-out;
+        }
+        .sphere-web-overlay::before {
+            content: ''; position: absolute; inset: 0;
+            border: 1px solid var(--sphere-web); border-radius: 50%;
+            transform: rotateX(75deg);
+        }
+        .sphere-web-overlay::after {
+            content: ''; position: absolute; inset: 0;
+            border: 1px solid var(--sphere-web); border-radius: 50%;
+            transform: rotateY(75deg);
+        }
+
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.05); opacity: 0.6; } }
+
         .tagcloud { color: transparent !important; }
-        .tagcloud--item { display: flex !important; align-items: center; justify-content: center; position: relative; }
+        .tagcloud--item { display: flex !important; align-items: center; justify-content: center; }
         .tagcloud--item img { 
-            width: 70px !important; height: 70px !important; 
-            filter: brightness(0) invert(1); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 70px; height: 70px; 
+            filter: brightness(0.8) grayscale(0.5); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .tagcloud--item:hover img { filter: brightness(1) invert(0); transform: scale(1.8); }
+        .tagcloud--item:hover img { filter: brightness(1.2) grayscale(0); transform: scale(2) rotate(10deg); z-index: 50; }
+
         .tagcloud--item::after {
-            content: attr(data-name); position: absolute; bottom: -35px; background: var(--accent);
-            color: white; padding: 5px 15px; border-radius: 50px; font-size: 11px; font-weight: 900;
-            opacity: 0; transition: 0.3s; white-space: nowrap; pointer-events: none;
+            content: attr(data-name); position: absolute; top: 110%;
+            background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px;
+            font-size: 10px; font-weight: 800; opacity: 0; transition: 0.3s;
         }
-        .tagcloud--item:hover::after { opacity: 1; bottom: -45px; }
+        .tagcloud--item:hover::after { opacity: 1; top: 120%; }
 
     </style>
 </head>
@@ -118,86 +116,73 @@
     <canvas id="dotCanvas"></canvas>
 
     <header class="site-header">
-        <div style="font-weight: 900; font-size: 1.6rem; letter-spacing: -1px;">NN</div>
+        <div style="font-weight: 900; font-size: 1.5rem;">NN</div>
         <nav class="nav-pill">
-            <a href="#home" class="nav-item">HOME</a>
+            <a href="#home" class="nav-item">INDEX</a>
             <a href="#about" class="nav-item">BIO</a>
-            <a href="#skills" class="nav-item">SKILLS</a>
+            <a href="#skills" class="nav-item">TECH</a>
+            <button class="theme-btn" onclick="toggleTheme()" id="tBtn">🌙</button>
         </nav>
-        <button style="background:var(--accent); color:white; border:none; padding:12px 28px; border-radius:50px; font-weight:800; cursor:pointer;">CONNECT</button>
     </header>
 
     <section class="hero" id="home">
         <h1 class="massive-hero">NEEL NIKHIL</h1>
-        <p style="font-family:'JetBrains Mono'; letter-spacing: 12px; opacity: 0.4; font-weight: 800;">FRONT END DEVELOPER</p>
-        
         <div class="ai-terminal">
-            <div id="ai-out" class="ai-display">NEEL-AI: System online. All UI modules recalibrated for 2026.</div>
-            <div class="ai-input-row">
-                <input type="text" id="ai-in" placeholder="Query Neel-AI...">
-                <button onclick="runAI()">SEND</button>
+            <div id="ai-out" class="ai-display">AI: Mode - Dark. Web - Initialized.</div>
+            <div style="display:flex; background:rgba(0,0,0,0.1); border-radius:50px; padding:5px;">
+                <input type="text" id="ai-in" placeholder="Command..." style="flex:1; background:transparent; border:none; padding-left:15px; outline:none; color:inherit;">
+                <button onclick="runAI()" style="background:var(--accent); border:none; color:white; padding:8px 15px; border-radius:50px; cursor:pointer;">RUN</button>
             </div>
         </div>
     </section>
 
     <main class="bento" id="about">
         <div class="card portrait"><img src="me.jpg" id="p-img"></div>
-        <div class="card location">
-            <div class="map-bg"></div>
-            <div class="loc-content">
-                <div><small style="opacity:0.5; letter-spacing:4px;">LOCUS</small><h2 style="font-size:2.5rem; font-weight:900;">Bangalore, IN</h2></div>
-                <div id="clock" style="font-family:'JetBrains Mono'; color:var(--accent); font-weight:800; font-size:1.3rem;">00:00:00</div>
-            </div>
+        <div class="card" style="padding:40px; display:flex; flex-direction:column; justify-content:center;">
+            <h2 style="font-size:3rem; font-weight:900;">Bangalore, IN</h2>
+            <div id="clock" style="font-family:'JetBrains Mono'; color:var(--accent); font-weight:800; margin-top:10px;">00:00:00</div>
         </div>
-        <div class="card mindset">
-            <div style="padding:45px;">
-                <small style="opacity:0.5; letter-spacing:4px;">PHILOSOPHY</small>
-                <h2 style="font-size:2.8rem; font-weight:900; margin-top:10px;">Discipline > Motivation</h2>
-                <div class="hobby-btns">
-                    <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
-                    <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
-                    <span onmouseover="swp('snooker')" onmouseout="swp('default')">SNOOKER</span>
-                </div>
+        <div class="card" style="padding:40px;">
+            <h3 style="opacity:0.5; font-size:0.7rem; letter-spacing:5px;">MINDSET</h3>
+            <h2 style="font-size:2.2rem; font-weight:900; margin:10px 0;">Discipline > Motivation</h2>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <span style="border:1px solid var(--border); padding:8px 20px; border-radius:50px; cursor:pointer;" onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
+                <span style="border:1px solid var(--border); padding:8px 20px; border-radius:50px; cursor:pointer;" onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
             </div>
         </div>
     </main>
 
     <section class="skills-section" id="skills">
-        <span class="tech-stack-sub">TECH STACK</span>
-        <h2 class="flowing-header">MY SKILLS</h2>
-        <div class="sphere-container">
-            <div class="tagcloud"></div>
-        </div>
+        <div class="sphere-web-overlay"></div>
+        <div class="tagcloud"></div>
     </section>
 
     <script>
-        // 1. DOT BACKGROUND
-        const cvs = document.getElementById('dotCanvas');
-        const ctx = cvs.getContext('2d');
-        let dots = [], mouse = {x:-1000, y:-1000};
-        function setup() { cvs.width = window.innerWidth; cvs.height = window.innerHeight; dots = []; for(let x=0; x<cvs.width+50; x+=50) for(let y=0; y<cvs.height+50; y+=50) dots.push({x,y}); }
-        window.onmousemove = e => { mouse.x=e.clientX; mouse.y=e.clientY; };
-        window.onresize = setup; setup();
-        function draw() { ctx.clearRect(0,0,cvs.width,cvs.height); dots.forEach(d => { const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y); ctx.fillStyle = dist < 130 ? '#8b5cf6' : 'rgba(255,255,255,0.1)'; ctx.beginPath(); ctx.arc(d.x, d.y, dist<130?4:1.5, 0, Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
-        draw();
+        // 1. THEME TOGGLE
+        function toggleTheme() {
+            const body = document.documentElement;
+            const btn = document.getElementById('tBtn');
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            btn.innerText = isDark ? '☀️' : '🌙';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
 
-        // 2. TECH SPHERE (WITH SQL, CSS, ETC)
+        // 2. SPHERE WITH WEB EFFECT
         function initSphere() {
             const iconMap = {
                 'React': 'https://cdn.simpleicons.org/react/61DAFB',
                 'Next.js': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
-                'Python': 'https://cdn.simpleicons.org/python/3776AB',
-                'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
-                'JavaScript': 'https://cdn.simpleicons.org/javascript/F7DF1E',
-                'TypeScript': 'https://cdn.simpleicons.org/typescript/3178C6',
-                'Node.js': 'https://cdn.simpleicons.org/nodedotjs/339933',
-                'MongoDB': 'https://cdn.simpleicons.org/mongodb/47A248',
                 'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1',
-                'CSS3': 'https://cdn.simpleicons.org/css3/1572B6',
-                'HTML5': 'https://cdn.simpleicons.org/html5/E34F26',
+                'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
+                'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E',
+                'Python': 'https://cdn.simpleicons.org/python/3776AB',
+                'CSS': 'https://cdn.simpleicons.org/css3/1572B6',
+                'HTML': 'https://cdn.simpleicons.org/html5/E34F26',
+                'Node': 'https://cdn.simpleicons.org/nodedotjs/339933',
+                'C++': 'https://cdn.simpleicons.org/cplusplus/00599C',
                 'Git': 'https://cdn.simpleicons.org/git/F05032',
-                'Rust': 'https://cdn.simpleicons.org/rust/ffffff',
-                'Docker': 'https://cdn.simpleicons.org/docker/2496ED'
+                'Vercel': 'https://cdn.simpleicons.org/vercel/ffffff'
             };
 
             TagCloud('.tagcloud', Object.keys(iconMap), {
@@ -218,28 +203,18 @@
             }, 200);
         }
 
-        // 3. LOGIC FIXES
-        function swp(t) { 
-            const i = document.getElementById('p-img'); 
-            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'}; 
-            i.style.opacity = '0.5'; 
-            setTimeout(() => { i.src = m[t] || m.default; i.style.opacity = '1'; }, 100); 
-        }
+        // 3. CANVAS DOTS
+        const cvs = document.getElementById('dotCanvas');
+        const ctx = cvs.getContext('2d');
+        let dots = [], mouse = {x:-1000, y:-1000};
+        function setup() { cvs.width = window.innerWidth; cvs.height = window.innerHeight; dots = []; for(let x=0; x<cvs.width+50; x+=50) for(let y=0; y<cvs.height+50; y+=50) dots.push({x,y}); }
+        window.onmousemove = e => { mouse.x=e.clientX; mouse.y=e.clientY; };
+        window.onresize = setup; setup();
+        function draw() { ctx.clearRect(0,0,cvs.width,cvs.height); dots.forEach(d => { const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y); ctx.fillStyle = dist < 130 ? '#8b5cf6' : 'rgba(128,128,128,0.2)'; ctx.beginPath(); ctx.arc(d.x, d.y, dist<130?3:1, 0, Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
+        draw();
 
-        function runAI() { 
-            const out = document.getElementById('ai-out'); 
-            out.innerText = "NEEL-AI: Scanning query..."; 
-            setTimeout(() => { 
-                out.innerText = "NEEL-AI: Layout restored. 3D Sphere active. RGB Glitch enabled."; 
-                document.getElementById('ai-in').value = ""; 
-            }, 800); 
-        }
-
-        setInterval(() => { 
-            const clock = document.getElementById('clock'); 
-            if(clock) clock.innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false}) + " IST"; 
-        }, 1000);
-
+        function runAI() { document.getElementById('ai-out').innerText = "AI: Success. Sphere & Theme modules online."; }
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata'}) + " IST"; }, 1000);
         window.onload = initSphere;
     </script>
 </body>
