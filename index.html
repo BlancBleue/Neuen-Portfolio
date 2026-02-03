@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | Digital Architect</title>
+    <title>Neel Nikhil | Portfolio 2026</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
@@ -29,7 +29,7 @@
             border: 1px solid var(--border); padding: 12px 35px; border-radius: 100px;
         }
         .nav-links { display: flex; gap: 25px; }
-        .nav-item { text-decoration: none; color: white; font-weight: 700; font-size: 0.85rem; letter-spacing: 1px; }
+        .nav-item { text-decoration: none; color: white; font-weight: 700; font-size: 0.85rem; }
 
         /* --- HERO --- */
         .hero {
@@ -71,8 +71,7 @@
         }
         .card { background: var(--glass); border: 1px solid var(--border); border-radius: 45px; position: relative; overflow: hidden; }
 
-        /* RGB HOVER EFFECT */
-        .portrait { grid-row: span 2; cursor: crosshair; }
+        .portrait { grid-row: span 2; }
         .portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.4s ease; }
         .portrait:hover img { 
             filter: grayscale(0) drop-shadow(5px 0px 0px rgba(255,0,0,0.5)) drop-shadow(-5px 0px 0px rgba(0,255,255,0.5));
@@ -83,7 +82,6 @@
         .map-img { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop') center/cover; opacity: 0.2; filter: grayscale(1); }
         
         .loc-info { position: relative; z-index: 5; display: flex; justify-content: space-between; width: 100%; align-items: flex-end; }
-        .loc-info h2 { font-size: 2.2rem; font-weight: 900; }
         .time-box { font-family: 'JetBrains Mono'; color: var(--accent); font-weight: 800; font-size: 1.2rem; }
 
         .mindset { grid-column: 2; padding: 45px; display: flex; flex-direction: column; justify-content: center; }
@@ -92,16 +90,27 @@
             padding: 10px 25px; border: 1px solid var(--border); border-radius: 50px; 
             color: var(--accent); font-weight: 800; cursor: pointer; transition: 0.3s;
         }
-        .hobby-btns span:hover { background: var(--accent); color: white; box-shadow: 0 0 20px var(--accent); }
+        .hobby-btns span:hover { background: var(--accent); color: white; }
 
-        /* --- SPHERE --- */
-        .sphere-section { height: 800px; width: 100%; display: flex; justify-content: center; align-items: center; position: relative; margin-top: -50px; }
-        .tagcloud { color: transparent !important; }
-        .tagcloud--item img { 
-            width: 65px !important; height: 65px !important; 
-            filter: brightness(0) invert(1); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* --- SPHERE CSS (FORCED VISIBILITY) --- */
+        .sphere-section { 
+            height: 700px; width: 100%; display: flex; justify-content: center; align-items: center; 
+            position: relative; margin: 50px 0;
         }
-        .tagcloud--item:hover img { filter: brightness(1) invert(0); transform: scale(1.5); }
+        .tagcloud { 
+            font-size: 20px;
+        }
+        /* This is the critical part to make logos show up */
+        .tagcloud--item { 
+            display: flex !important; align-items: center; justify-content: center;
+        }
+        .tagcloud--item img { 
+            width: 60px !important; 
+            height: 60px !important; 
+            filter: brightness(0) invert(1); /* Makes them white */
+            display: block !important;
+            pointer-events: auto;
+        }
 
     </style>
 </head>
@@ -110,7 +119,7 @@
     <canvas id="dotCanvas"></canvas>
 
     <header class="site-header">
-        <div style="font-weight: 900; font-size: 1.6rem;">NN</div>
+        <div style="font-weight: 900; font-size: 1.5rem;">NN</div>
         <nav class="nav-pill">
             <div class="nav-links">
                 <a href="#home" class="nav-item">INDEX</a>
@@ -118,7 +127,7 @@
                 <a href="#skills" class="nav-item">TECH</a>
             </div>
         </nav>
-        <button style="background:var(--accent); color:white; border:none; padding:12px 28px; border-radius:50px; font-weight:800; cursor:pointer;">CONNECT</button>
+        <button style="background:var(--accent); color:white; border:none; padding:10px 25px; border-radius:50px; font-weight:800; cursor:pointer;">CONNECT</button>
     </header>
 
     <section class="hero" id="home">
@@ -126,7 +135,7 @@
         <p class="hero-subtitle">Front End Developer</p>
         
         <div class="ai-terminal">
-            <div id="ai-out" class="ai-display">NEEL-AI: Status Nominal. All systems calibrated for innovation.</div>
+            <div id="ai-out" class="ai-display">NEEL-AI: Ready for deployment. Systems 100% operational.</div>
             <div class="ai-input-row">
                 <input type="text" id="ai-in" placeholder="Query the system...">
                 <button onclick="runAI()">SEND</button>
@@ -135,24 +144,20 @@
     </section>
 
     <main class="bento" id="about">
-        <div class="card portrait">
-            <img src="me.jpg" id="p-img" alt="Neel Nikhil">
-        </div>
-        
+        <div class="card portrait"><img src="me.jpg" id="p-img"></div>
         <div class="card location">
             <div class="map-img"></div>
             <div class="loc-info">
                 <div>
-                    <small style="opacity:0.5; letter-spacing:4px;">LOCUS</small>
+                    <small style="opacity:0.5; letter-spacing:3px;">LOCUS</small>
                     <h2>Bangalore, IN</h2>
                 </div>
                 <div id="clock" class="time-box">00:00:00</div>
             </div>
         </div>
-
         <div class="card mindset">
-            <small style="opacity:0.5; letter-spacing:4px;">PHILOSOPHY</small>
-            <h2 style="font-size:2.8rem; font-weight:900; margin-top:10px;">Discipline > Motivation</h2>
+            <small style="opacity:0.5; letter-spacing:3px;">PHILOSOPHY</small>
+            <h2 style="font-size:2.5rem; font-weight:900;">Discipline > Motivation</h2>
             <div class="hobby-btns">
                 <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
                 <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
@@ -166,7 +171,7 @@
     </section>
 
     <script>
-        // 1. DOT ENGINE
+        // 1. DOT BACKGROUND
         const cvs = document.getElementById('dotCanvas');
         const ctx = cvs.getContext('2d');
         let dots = [], mouse = {x:-1000, y:-1000};
@@ -182,14 +187,14 @@
             ctx.clearRect(0,0,cvs.width,cvs.height);
             dots.forEach(d => {
                 const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y);
-                ctx.fillStyle = dist < 130 ? '#8b5cf6' : 'rgba(255,255,255,0.1)';
-                ctx.beginPath(); ctx.arc(d.x, d.y, dist<130?4:1.5, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = dist < 120 ? '#8b5cf6' : 'rgba(255,255,255,0.1)';
+                ctx.beginPath(); ctx.arc(d.x, d.y, dist<120?4:1.5, 0, Math.PI*2); ctx.fill();
             });
             requestAnimationFrame(draw);
         }
         draw();
 
-        // 2. TECH SPHERE (MANY LANGUAGES)
+        // 2. TECH SPHERE FIX
         function initSphere() {
             const icons = [
                 '<img src="https://cdn.simpleicons.org/react/61DAFB" />',
@@ -200,38 +205,34 @@
                 '<img src="https://cdn.simpleicons.org/typescript/3178C6" />',
                 '<img src="https://cdn.simpleicons.org/nodedotjs/339933" />',
                 '<img src="https://cdn.simpleicons.org/mongodb/47A248" />',
-                '<img src="https://cdn.simpleicons.org/git/F05032" />',
-                '<img src="https://cdn.simpleicons.org/three-dot-js/ffffff" />',
+                '<img src="https://cdn.simpleicons.org/rust/ffffff" />',
                 '<img src="https://cdn.simpleicons.org/html5/E34F26" />',
                 '<img src="https://cdn.simpleicons.org/css3/1572B6" />',
-                '<img src="https://cdn.simpleicons.org/cplusplus/00599C" />',
-                '<img src="https://cdn.simpleicons.org/rust/ffffff" />'
+                '<img src="https://cdn.simpleicons.org/git/F05032" />'
             ];
-            TagCloud('.tagcloud', icons, {
-                radius: 300,
+
+            const options = {
+                radius: 280,
                 maxSpeed: 'fast',
                 initSpeed: 'normal',
-                useHTML: true,
+                useHTML: true, // IMPORTANT
                 keep: true
-            });
+            };
+
+            TagCloud('.tagcloud', icons, options);
         }
 
-        // 3. UTILS & HOBBY SWAP
+        // 3. UTILS
         function swp(t) {
             const i = document.getElementById('p-img');
             const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'};
-            i.style.opacity = '0.5';
-            setTimeout(() => { i.src = m[t] || m.default; i.style.opacity = '1'; }, 100);
+            i.src = m[t] || m.default;
         }
 
         function runAI() {
             const out = document.getElementById('ai-out');
-            const input = document.getElementById('ai-in');
-            out.innerText = "NEEL-AI: Thinking...";
-            setTimeout(() => {
-                out.innerText = "NEEL-AI: Parameters received. Deployment schedule optimized for 2026.";
-                input.value = "";
-            }, 600);
+            out.innerText = "NEEL-AI: Parameters verified. Optimizing stack...";
+            setTimeout(() => { out.innerText = "NEEL-AI: Ready for new projects."; }, 1500);
         }
 
         setInterval(() => {
