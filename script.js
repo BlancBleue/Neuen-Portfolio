@@ -18,7 +18,6 @@ function handleSearch(event) {
 function showHobby(type) {
     const img = document.getElementById('main-photo');
     
-    // Define the images for each state
     const images = {
         'coding': 'coding-me.jpg',
         'chess': 'chess-me.jpg',
@@ -26,16 +25,11 @@ function showHobby(type) {
         'default': 'me.jpg'
     };
 
-    // Update the image source based on the type, fallback to default
+    // Swap the source
     img.src = images[type] || images['default'];
-
-    // Ensure it stays grayscale
-    img.style.filter = 'grayscale(1)';
     
-    // Optional: Add a slight brightness boost on hover to show interaction
-    if (type !== 'default') {
-        img.style.filter = 'grayscale(1) brightness(1.1)';
-    }
+    // Keep it grayscale when swapping via text links
+    img.style.filter = 'grayscale(1)';
 }
 
 const canvas = document.getElementById('dotCanvas');
