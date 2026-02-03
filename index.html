@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | Digital Architect</title>
+    <title>Neel Nikhil | Portfolio 2026</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
@@ -15,6 +15,7 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
         #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
@@ -28,70 +29,87 @@
             background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px);
             border: 1px solid var(--border); padding: 12px 35px; border-radius: 100px;
         }
-        .nav-item { text-decoration: none; color: white; font-weight: 700; font-size: 0.85rem; margin: 0 12px; }
+        .nav-item { text-decoration: none; color: white; font-weight: 700; font-size: 0.85rem; margin: 0 12px; transition: 0.3s; }
+        .nav-item:hover { color: var(--accent); }
 
-        /* --- HERO & AI --- */
+        /* --- HERO & FLOWING TEXT --- */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .massive-hero {
-            font-size: clamp(4rem, 15vw, 11rem); font-weight: 900; letter-spacing: -8px; line-height: 0.8;
+        
+        .massive-hero, .flowing-header {
+            font-weight: 900; letter-spacing: -6px; line-height: 0.8;
             background: linear-gradient(to right, #8b5cf6, #3b82f6, #f472b6, #fbbf24, #8b5cf6);
             background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: colorCycle 5s linear infinite;
         }
+        .massive-hero { font-size: clamp(4rem, 15vw, 11rem); }
+        .flowing-header { font-size: clamp(3rem, 10vw, 6rem); letter-spacing: -3px; }
+
         @keyframes colorCycle { to { background-position: 300% center; } }
 
+        /* --- AI TERMINAL FIX --- */
         .ai-terminal {
-            margin-top: 40px; width: 90%; max-width: 450px;
+            margin-top: 50px; width: 90%; max-width: 500px;
             background: var(--glass); border: 1px solid var(--border);
-            padding: 25px; border-radius: 30px; backdrop-filter: blur(15px);
+            padding: 25px; border-radius: 35px; backdrop-filter: blur(15px);
+            position: relative; z-index: 10;
         }
-        .ai-display { background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 15px; color: var(--accent); margin-bottom: 15px; text-align: left; font-size: 0.85rem; border-left: 3px solid var(--accent); }
+        .ai-display { 
+            background: rgba(0,0,0,0.5); padding: 18px; border-radius: 20px; 
+            color: var(--accent); margin-bottom: 20px; text-align: left; 
+            font-size: 0.85rem; font-family: 'JetBrains Mono';
+            border-left: 4px solid var(--accent); line-height: 1.5;
+        }
+        .ai-input-row { display: flex; background: rgba(0,0,0,0.6); border-radius: 50px; padding: 6px; border: 1px solid var(--border); }
+        .ai-input-row input { flex: 1; background: transparent; border: none; color: white; padding-left: 20px; outline: none; font-size: 0.9rem; }
+        .ai-input-row button { background: var(--accent); border: none; color: white; padding: 12px 25px; border-radius: 50px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .ai-input-row button:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--accent); }
 
-        /* --- BENTO --- */
-        .bento { display: grid; max-width: 1200px; margin: 100px auto; gap: 25px; grid-template-columns: 1fr 1.8fr; grid-template-rows: 320px 320px; padding: 0 20px; }
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 45px; position: relative; overflow: hidden; }
-        .portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.4s ease; }
-        .portrait:hover img { filter: grayscale(0) drop-shadow(8px 0px 0px rgba(255,0,0,0.6)) drop-shadow(-8px 0px 0px rgba(0,255,255,0.6)); transform: scale(1.03); }
-        .location { background: #000; padding: 40px; display: flex; align-items: flex-end; }
-        .time-box { font-family: 'JetBrains Mono'; color: var(--accent); font-weight: 800; font-size: 1.2rem; }
-        .hobby-btns span { padding: 10px 25px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; margin-right: 10px; transition: 0.3s; }
+        /* --- BENTO GRID & RGB FIX --- */
+        .bento { display: grid; max-width: 1200px; margin: 100px auto; gap: 30px; grid-template-columns: 1fr 1.5fr; grid-template-rows: 350px 350px; padding: 0 25px; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 50px; position: relative; overflow: hidden; }
+        
+        /* THE RGB GLITCH */
+        .portrait { grid-row: span 2; }
+        .portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.3s ease-in-out; }
+        .portrait:hover img { 
+            filter: grayscale(0);
+            box-shadow: 10px 0px 0px rgba(255,0,0,0.4), -10px 0px 0px rgba(0,255,255,0.4);
+            transform: scale(1.02);
+        }
+
+        /* MAP FIX */
+        .location { background: #000; padding: 50px; display: flex; align-items: flex-end; }
+        .map-bg { 
+            position: absolute; inset: 0; 
+            background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000&auto=format&fit=crop'); 
+            background-size: cover; background-position: center; opacity: 0.3; filter: grayscale(1) contrast(1.2);
+        }
+        .loc-content { position: relative; z-index: 2; display: flex; justify-content: space-between; width: 100%; align-items: flex-end; }
+        
+        .hobby-btns { display: flex; gap: 12px; margin-top: 30px; }
+        .hobby-btns span { padding: 12px 28px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; transition: 0.3s; }
         .hobby-btns span:hover { background: var(--accent); color: white; }
 
-        /* --- SPHERE (THE UPGRADE) --- */
-        .sphere-section { height: 800px; width: 100%; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
+        /* --- SKILLS SECTION --- */
+        .skills-section { padding: 100px 5%; text-align: center; }
+        .tech-stack-sub { font-family: 'JetBrains Mono'; letter-spacing: 8px; opacity: 0.4; text-transform: uppercase; margin-bottom: 10px; font-weight: 800; display: block; }
         
+        .sphere-container { height: 700px; width: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
+        
+        /* SPHERE HOVER ELEMENTS */
         .tagcloud { color: transparent !important; }
-
-        .tagcloud--item { 
-            display: flex !important; align-items: center; justify-content: center;
-            position: relative; transition: all 0.3s ease;
-        }
-
+        .tagcloud--item { display: flex !important; align-items: center; justify-content: center; position: relative; }
         .tagcloud--item img { 
-            width: 65px !important; height: 65px !important; 
-            filter: brightness(0) invert(1); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 1;
+            width: 70px !important; height: 70px !important; 
+            filter: brightness(0) invert(1); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        /* Hover: Enlarge + Name Label */
-        .tagcloud--item:hover img { 
-            filter: brightness(1) invert(0); 
-            transform: scale(1.8) translateY(-10px); 
-            z-index: 10;
-        }
-
+        .tagcloud--item:hover img { filter: brightness(1) invert(0); transform: scale(1.8); }
         .tagcloud--item::after {
-            content: attr(data-name);
-            position: absolute; bottom: -30px;
-            background: var(--accent); color: white;
-            padding: 4px 12px; border-radius: 50px;
-            font-size: 12px; font-weight: 800; text-transform: uppercase;
-            opacity: 0; transform: translateY(10px);
-            transition: 0.3s ease; pointer-events: none;
-            white-space: nowrap; box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+            content: attr(data-name); position: absolute; bottom: -35px; background: var(--accent);
+            color: white; padding: 5px 15px; border-radius: 50px; font-size: 11px; font-weight: 900;
+            opacity: 0; transition: 0.3s; white-space: nowrap; pointer-events: none;
         }
-
-        .tagcloud--item:hover::after { opacity: 1; transform: translateY(0); }
+        .tagcloud--item:hover::after { opacity: 1; bottom: -45px; }
 
     </style>
 </head>
@@ -100,22 +118,23 @@
     <canvas id="dotCanvas"></canvas>
 
     <header class="site-header">
-        <div style="font-weight: 900; font-size: 1.6rem;">NN</div>
+        <div style="font-weight: 900; font-size: 1.6rem; letter-spacing: -1px;">NN</div>
         <nav class="nav-pill">
-            <a href="#home" class="nav-item">INDEX</a>
+            <a href="#home" class="nav-item">HOME</a>
             <a href="#about" class="nav-item">BIO</a>
-            <a href="#skills" class="nav-item">TECH</a>
+            <a href="#skills" class="nav-item">SKILLS</a>
         </nav>
         <button style="background:var(--accent); color:white; border:none; padding:12px 28px; border-radius:50px; font-weight:800; cursor:pointer;">CONNECT</button>
     </header>
 
     <section class="hero" id="home">
         <h1 class="massive-hero">NEEL NIKHIL</h1>
-        <p class="hero-subtitle">Front End Developer</p>
+        <p style="font-family:'JetBrains Mono'; letter-spacing: 12px; opacity: 0.4; font-weight: 800;">FRONT END DEVELOPER</p>
+        
         <div class="ai-terminal">
-            <div id="ai-out" class="ai-display">NEEL-AI: Sphere protocols initialized. 3D depth active.</div>
+            <div id="ai-out" class="ai-display">NEEL-AI: System online. All UI modules recalibrated for 2026.</div>
             <div class="ai-input-row">
-                <input type="text" id="ai-in" placeholder="Query the system...">
+                <input type="text" id="ai-in" placeholder="Query Neel-AI...">
                 <button onclick="runAI()">SEND</button>
             </div>
         </div>
@@ -124,15 +143,16 @@
     <main class="bento" id="about">
         <div class="card portrait"><img src="me.jpg" id="p-img"></div>
         <div class="card location">
-            <div class="loc-info" style="display:flex; justify-content:space-between; width:100%; align-items:flex-end;">
-                <div><small style="opacity:0.5; letter-spacing:4px;">LOCUS</small><h2>Bangalore, IN</h2></div>
-                <div id="clock" class="time-box">00:00:00</div>
+            <div class="map-bg"></div>
+            <div class="loc-content">
+                <div><small style="opacity:0.5; letter-spacing:4px;">LOCUS</small><h2 style="font-size:2.5rem; font-weight:900;">Bangalore, IN</h2></div>
+                <div id="clock" style="font-family:'JetBrains Mono'; color:var(--accent); font-weight:800; font-size:1.3rem;">00:00:00</div>
             </div>
         </div>
         <div class="card mindset">
-            <div style="padding:40px;">
+            <div style="padding:45px;">
                 <small style="opacity:0.5; letter-spacing:4px;">PHILOSOPHY</small>
-                <h2 style="font-size:2.8rem; font-weight:900; margin:10px 0 25px 0;">Discipline > Motivation</h2>
+                <h2 style="font-size:2.8rem; font-weight:900; margin-top:10px;">Discipline > Motivation</h2>
                 <div class="hobby-btns">
                     <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
                     <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
@@ -142,12 +162,16 @@
         </div>
     </main>
 
-    <section class="sphere-section" id="skills">
-        <div class="tagcloud"></div>
+    <section class="skills-section" id="skills">
+        <span class="tech-stack-sub">TECH STACK</span>
+        <h2 class="flowing-header">MY SKILLS</h2>
+        <div class="sphere-container">
+            <div class="tagcloud"></div>
+        </div>
     </section>
 
     <script>
-        // 1. DOT ENGINE
+        // 1. DOT BACKGROUND
         const cvs = document.getElementById('dotCanvas');
         const ctx = cvs.getContext('2d');
         let dots = [], mouse = {x:-1000, y:-1000};
@@ -157,52 +181,65 @@
         function draw() { ctx.clearRect(0,0,cvs.width,cvs.height); dots.forEach(d => { const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y); ctx.fillStyle = dist < 130 ? '#8b5cf6' : 'rgba(255,255,255,0.1)'; ctx.beginPath(); ctx.arc(d.x, d.y, dist<130?4:1.5, 0, Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
         draw();
 
-        // 2. SPHERE WITH HOVER NAMES
+        // 2. TECH SPHERE (WITH SQL, CSS, ETC)
         function initSphere() {
             const iconMap = {
                 'React': 'https://cdn.simpleicons.org/react/61DAFB',
                 'Next.js': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
                 'Python': 'https://cdn.simpleicons.org/python/3776AB',
                 'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
-                'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E',
-                'TS': 'https://cdn.simpleicons.org/typescript/3178C6',
+                'JavaScript': 'https://cdn.simpleicons.org/javascript/F7DF1E',
+                'TypeScript': 'https://cdn.simpleicons.org/typescript/3178C6',
                 'Node.js': 'https://cdn.simpleicons.org/nodedotjs/339933',
                 'MongoDB': 'https://cdn.simpleicons.org/mongodb/47A248',
+                'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1',
+                'CSS3': 'https://cdn.simpleicons.org/css3/1572B6',
+                'HTML5': 'https://cdn.simpleicons.org/html5/E34F26',
                 'Git': 'https://cdn.simpleicons.org/git/F05032',
                 'Rust': 'https://cdn.simpleicons.org/rust/ffffff',
-                'HTML5': 'https://cdn.simpleicons.org/html5/E34F26',
-                'CSS3': 'https://cdn.simpleicons.org/css3/1572B6',
-                'C++': 'https://cdn.simpleicons.org/cplusplus/00599C',
-                'Vercel': 'https://cdn.simpleicons.org/vercel/ffffff'
+                'Docker': 'https://cdn.simpleicons.org/docker/2496ED'
             };
 
-            const placeholders = Object.keys(iconMap);
-
-            TagCloud('.tagcloud', placeholders, {
-                radius: 320,
+            TagCloud('.tagcloud', Object.keys(iconMap), {
+                radius: 300,
                 maxSpeed: 'normal',
                 initSpeed: 'normal',
-                direction: 135,
                 keep: true
             });
 
-            // The Logic: Swap text for Image + Add Data Attribute for Tooltip
             setTimeout(() => {
-                const items = document.querySelectorAll('.tagcloud--item');
-                items.forEach(item => {
+                document.querySelectorAll('.tagcloud--item').forEach(item => {
                     const name = item.innerText.trim();
                     if (iconMap[name]) {
-                        item.setAttribute('data-name', name); // Sets the name for the tooltip
+                        item.setAttribute('data-name', name);
                         item.innerHTML = `<img src="${iconMap[name]}" alt="${name}">`;
                     }
                 });
-            }, 150);
+            }, 200);
         }
 
-        function swp(t) { const i = document.getElementById('p-img'); const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'}; i.style.opacity = '0.5'; setTimeout(() => { i.src = m[t] || m.default; i.style.opacity = '1'; }, 100); }
-        function runAI() { const out = document.getElementById('ai-out'); out.innerText = "NEEL-AI: Thinking..."; setTimeout(() => { out.innerText = "NEEL-AI: Sphere stabilized. Hover to inspect tech stack."; document.getElementById('ai-in').value = ""; }, 800); }
-        setInterval(() => { const clock = document.getElementById('clock'); if(clock) clock.innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false}) + " IST"; }, 1000);
-        
+        // 3. LOGIC FIXES
+        function swp(t) { 
+            const i = document.getElementById('p-img'); 
+            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'}; 
+            i.style.opacity = '0.5'; 
+            setTimeout(() => { i.src = m[t] || m.default; i.style.opacity = '1'; }, 100); 
+        }
+
+        function runAI() { 
+            const out = document.getElementById('ai-out'); 
+            out.innerText = "NEEL-AI: Scanning query..."; 
+            setTimeout(() => { 
+                out.innerText = "NEEL-AI: Layout restored. 3D Sphere active. RGB Glitch enabled."; 
+                document.getElementById('ai-in').value = ""; 
+            }, 800); 
+        }
+
+        setInterval(() => { 
+            const clock = document.getElementById('clock'); 
+            if(clock) clock.innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false}) + " IST"; 
+        }, 1000);
+
         window.onload = initSphere;
     </script>
 </body>
