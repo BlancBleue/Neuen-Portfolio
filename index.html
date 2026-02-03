@@ -81,6 +81,19 @@
         .tagcloud--item img { width: 75px !important; height: 75px !important; filter: brightness(0) invert(1); transition: 0.4s; }
         [data-theme="light"] .tagcloud--item img { filter: brightness(0); }
         .tagcloud--item:hover img { filter: brightness(1) invert(0) !important; transform: scale(1.8) translateZ(50px); }
+
+        /* --- EXPLORE SECTION --- */
+        .explore-section { padding: 100px 5%; text-align: center; max-width: 1200px; margin: 0 auto; }
+        .explore-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 50px; }
+        .explore-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 40px; text-align: left; transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1); position: relative; overflow: hidden; }
+        .explore-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.06); border-color: var(--accent); }
+        .ex-icon { font-size: 2rem; margin-bottom: 20px; width: 60px; height: 60px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border-radius: 15px; border: 1px solid var(--border); }
+        .explore-card h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
+        .explore-card p { opacity: 0.6; font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; }
+        .ex-link { text-decoration: none; font-weight: 700; font-size: 0.9rem; color: var(--accent); transition: 0.3s; }
+        .explore-card.purple h3 { color: #a78bfa; }
+        .explore-card.orange h3 { color: #fb923c; }
+        .explore-card.blue h3 { color: #38bdf8; }
     </style>
 </head>
 <body>
@@ -106,7 +119,7 @@
         <h1 class="massive-hero">NEEL NIKHIL</h1>
         <p style="font-family:'JetBrains Mono'; letter-spacing: 12px; opacity: 0.5; font-weight: 800; margin-top: 10px;">FULL STACK DEVELOPER</p>
         <div class="ai-terminal">
-            <div id="ai-out" class="ai-display">AI: Waiting for input...</div>
+            <div id="ai-out" class="ai-display">AI: System Ready.</div>
             <div style="display:flex; background:rgba(0,0,0,0.1); border-radius:50px; padding:5px;">
                 <input type="text" id="ai-in" placeholder="Query..." style="flex:1; background:transparent; border:none; padding-left:15px; outline:none; color:inherit;">
                 <button onclick="runAI()" style="background:var(--accent); border:none; color:white; padding:8px 20px; border-radius:50px; font-weight:800; cursor:pointer;">RUN</button>
@@ -144,8 +157,17 @@
         </div>
     </section>
 
+    <section class="explore-section">
+        <h2 class="flowing-header" style="font-size: 3.5rem; letter-spacing: -2px;">More to <span style="-webkit-text-fill-color: var(--txt);">Explore</span></h2>
+        <p style="opacity: 0.5; margin-top: 10px; font-family: 'JetBrains Mono';">Check out these additional resources and connect with me</p>
+        <div class="explore-grid">
+            <div class="explore-card purple"><div class="ex-icon">📖</div><h3>Guestbook</h3><p>Leave your mark and see what others have to say</p><a href="#" class="ex-link">Explore →</a></div>
+            <div class="explore-card orange"><div class="ex-icon">🏆</div><h3>Achievements</h3><p>Milestones, certifications, and accomplishments</p><a href="#" class="ex-link">Explore →</a></div>
+            <div class="explore-card blue"><div class="ex-icon">🔗</div><h3>My Links</h3><p>Find me across the web and social platforms</p><a href="#" class="ex-link">Explore →</a></div>
+        </div>
+    </section>
+
     <script>
-        // --- THEME ---
         function toggleTheme() {
             const b = document.documentElement;
             const isDark = b.getAttribute('data-theme') === 'dark';
@@ -153,7 +175,6 @@
             document.getElementById('tBtn').innerText = isDark ? '☀️' : '🌙';
         }
 
-        // --- INTRO SCRAMBLE LOGIC ---
         const targetText = "NEEL NIKHIL";
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
         let iteration = 0;
@@ -169,15 +190,14 @@
                     document.getElementById('status').style.color = "#8b5cf6";
                     setTimeout(() => {
                         document.body.classList.add('loaded');
-                        initCanvas(); // Start canvas after reveal
-                        initSphere(); // Start sphere after reveal
+                        initCanvas();
+                        initSphere();
                     }, 800);
                 }
                 iteration += 1/3;
             }, 50);
         }
 
-        // --- CANVAS DOTS ---
         const cvs = document.getElementById('dotCanvas');
         const ctx = cvs.getContext('2d');
         let dots = [], mouse = {x:-1000, y:-1000};
@@ -207,7 +227,6 @@
 
         window.onmousemove = e => { mouse.x=e.clientX; mouse.y=e.clientY; };
 
-        // --- SPHERE ---
         function initSphere() {
             const icons = {
                 'React': 'https://cdn.simpleicons.org/react/61DAFB',
@@ -232,16 +251,14 @@
             }, 200);
         }
 
-        // --- UTILS ---
         function swp(t) { 
             const i = document.getElementById('p-img'); 
             const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'}; 
             i.src = m[t] || m.default; 
         }
-        function runAI() { document.getElementById('ai-out').innerText = "AI: System Optimized. Welcome, Architect."; }
+        function runAI() { document.getElementById('ai-out').innerText = "AI: Grid Reconfigured. Status: Peak."; }
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata'}) + " IST"; }, 1000);
 
-        // Start the sequence
         window.onload = () => setTimeout(startIntro, 500);
     </script>
 </body>
