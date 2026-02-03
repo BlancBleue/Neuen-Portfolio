@@ -15,7 +15,14 @@ function handleSearch(event) {
     }
 }
 
-// Background Canvas Logic
+function showHobby(type) {
+    const layer = document.getElementById('hobby-photo');
+    const img = document.getElementById('main-photo');
+    if(type === 'coding') { layer.style.background = 'rgba(34, 211, 238, 0.2)'; img.style.filter = 'grayscale(0)'; }
+    else if(type === 'chess') { layer.style.background = 'rgba(244, 114, 182, 0.2)'; img.style.filter = 'sepia(0.5)'; }
+    else { layer.style.background = 'transparent'; img.style.filter = 'grayscale(1)'; }
+}
+
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
 let dots = [];
