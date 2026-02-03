@@ -1,6 +1,6 @@
 /**
- * 1. THEME TOGGLE & PERSISTENCE
- * Handles switching between Dark and Light mode
+ * 1. PERSISTENT THEME TOGGLE
+ * Switches between Dark and Light mode and saves to local storage
  */
 function toggleTheme() {
     const body = document.body;
@@ -8,12 +8,12 @@ function toggleTheme() {
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     
     body.setAttribute('data-theme', newTheme);
-    localStorage.setItem('selected-theme', newTheme);
+    localStorage.setItem('neel-portfolio-theme', newTheme);
 }
 
 /**
- * 2. DYNAMIC HEADER SCROLL LOGIC
- * Triggers the color shift and blur when the user scrolls
+ * 2. DYNAMIC HEADER & COLOR SHIFT
+ * Adds a border and background blur as the user scrolls
  */
 window.addEventListener('scroll', () => {
     const header = document.getElementById('main-header');
@@ -25,8 +25,8 @@ window.addEventListener('scroll', () => {
 });
 
 /**
- * 3. NEEL-AI CHATBOX LOGIC
- * Manages user input and generates AI responses
+ * 3. AI TERMINAL (CURVED CHATBOX) LOGIC
+ * Processes user queries and returns specialized responses
  */
 function askAI() {
     const input = document.getElementById('ai-input');
@@ -35,44 +35,44 @@ function askAI() {
 
     if (!query) return;
 
-    // Display user query
+    // Display user's question
     const userDiv = document.createElement('div');
-    userDiv.style.cssText = "align-self: flex-end; color: var(--txt); opacity: 0.6; font-size: 0.8rem; margin-bottom: 8px; text-align: right;";
-    userDiv.innerText = `You: ${input.value}`;
+    userDiv.style.cssText = "align-self: flex-end; color: var(--txt); opacity: 0.5; font-size: 0.8rem; margin-bottom: 10px; text-align: right; width: 100%;";
+    userDiv.innerText = `QUERY: ${input.value}`;
     display.appendChild(userDiv);
 
-    // AI logic response mapping
-    let response = "Analyzing data... Neel is currently optimizing high-end web architectures.";
+    // Response logic
+    let response = "NEEL-AI: Analyzing request... Data suggests Neel is focused on high-performance Frontend Architectures.";
     
     if (query.includes('skill') || query.includes('tech')) {
-        response = "Neel's core stack includes React, Next.js, and Python. He specializes in geometric UI/UX.";
+        response = "NEEL-AI: Core stack localized. Primary: React, Next.js, Python. Secondary: Tailwind, MongoDB, AWS.";
     } else if (query.includes('location') || query.includes('bangalore')) {
-        response = "He is based in Bangalore, India. Check the real-time clock and coordinates in the bento grid!";
+        response = "NEEL-AI: Geolocation confirmed. Bangalore, India. 12.9716° N, 77.5946° E. Check the live IST clock.";
     } else if (query.includes('contact') || query.includes('hire')) {
-        response = "You can book a call with Neel using the button in the top right corner.";
+        response = "NEEL-AI: Communication protocol ready. Use the 'Book a Call' trigger in the header.";
     }
 
-    // Delay response to simulate "thinking"
+    // Delayed response effect
     setTimeout(() => {
         const botBubble = document.createElement('div');
         botBubble.className = "bot-bubble";
         botBubble.innerText = response;
         display.appendChild(botBubble);
         
-        // Auto-scroll to the newest message
+        // Keep the latest message in view
         display.scrollTop = display.scrollHeight;
-    }, 500);
+    }, 450);
 
     input.value = '';
 }
 
-// Enable "Enter" key for AI input
+// Support for Enter Key on AI Input
 document.getElementById('ai-input')?.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') askAI();
 });
 
 /**
- * 4. BANGALORE REAL-TIME CLOCK (IST)
+ * 4. REAL-TIME BANGALORE IST CLOCK
  */
 function updateClock() {
     const clockElement = document.getElementById('time-display');
@@ -85,26 +85,27 @@ function updateClock() {
             second: '2-digit',
             hour12: false
         };
-        const timeString = new Intl.DateTimeFormat('en-GB', options).format(now);
-        clockElement.innerText = `${timeString} IST`;
+        const formatter = new Intl.DateTimeFormat('en-GB', options);
+        clockElement.innerText = `${formatter.format(now)} IST`;
     }
 }
 setInterval(updateClock, 1000);
 
 /**
- * 5. BENTO GRID HOBBY INTERACTION
+ * 5. BENTO GRID PORTRAIT SWAPPER
  */
 function showHobby(type) {
     const img = document.getElementById('main-photo');
     if (!img) return;
 
     const images = {
-        'coding': 'coding-portrait.jpg',
-        'chess': 'chess-portrait.jpg',
+        'coding': 'coding-me.jpg',
+        'chess': 'chess-me.jpg',
+        'snooker': 'snooker-me.jpg',
         'default': 'me.jpg'
     };
 
-    img.style.opacity = '0.4';
+    img.style.opacity = '0.3';
     setTimeout(() => {
         img.src = images[type] || images['default'];
         img.style.opacity = '1';
@@ -112,11 +113,11 @@ function showHobby(type) {
 }
 
 /**
- * 6. 3D SPHERE INITIALIZATION (TAGCLOUD)
+ * 6. 3D SKILLS SPHERE INITIALIZATION
  */
 window.onload = () => {
-    // Load saved theme
-    const savedTheme = localStorage.getItem('selected-theme');
+    // Apply saved theme preference
+    const savedTheme = localStorage.getItem('neel-portfolio-theme');
     if (savedTheme) {
         document.body.setAttribute('data-theme', savedTheme);
     }
@@ -124,22 +125,22 @@ window.onload = () => {
     const myTags = [
         'JavaScript', 'Python', 'React', 'Next.js', 
         'MongoDB', 'Tailwind', 'Node.js', 'TypeScript', 
-        'Figma', 'AWS', 'Docker', 'Git', 'SQL', 'Redux'
+        'Figma', 'AWS', 'Docker', 'Git', 'Redux', 'SQL'
     ];
     
     const container = '.tagcloud';
     const options = {
-        radius: 240,            // Matches CSS mesh-sphere size
+        radius: 260, // Sits inside the 550px mesh-sphere
         maxSpeed: 'fast',
         initSpeed: 'fast',
         direction: 135,
         keep: true
     };
 
-    // Initialize TagCloud
+    // Initialize the library
     if (typeof TagCloud !== 'undefined') {
         TagCloud(container, myTags, options);
     }
 
-    updateClock(); // Initial clock call
+    updateClock(); // Start the IST clock immediately
 };
