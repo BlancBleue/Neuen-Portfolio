@@ -1,24 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vault | Neel Nikhil</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
-
     <style>
         :root {
-            --bg: #0b0a0f; 
-            --txt: #ffffff; 
-            --accent: #fb923c; 
+            --bg: #0b0a0f;
+            --txt: #ffffff;
+            --accent: #fb923c;
             --blue: #3b82f6;
-            --glass: rgba(255, 255, 255, 0.03); 
-            --border: rgba(255, 255, 255, 0.08);
-            --dot: rgba(255, 255, 255, 0.07);
+            --dot-white: rgba(255, 255, 255, 0.08);
+            --dot-blue: rgba(59, 130, 246, 0.5);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); scroll-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body { 
             background: var(--bg); 
@@ -28,228 +25,190 @@
             min-height: 100vh;
         }
 
-        /* --- PEAK INTERACTIVE BACKGROUND --- */
-        .bg-fixed {
+        /* --- THE DYNAMIC OS BACKGROUND --- */
+        .bg-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -1;
-            background-color: var(--bg);
-            background-image: radial-gradient(var(--dot) 1px, transparent 1px);
-            background-size: 35px 35px;
-        }
-
-        .mouse-glow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(
-                600px circle at var(--x, 50%) var(--y, 50%), 
-                rgba(59, 130, 246, 0.12), 
-                transparent 40%
-            );
             pointer-events: none;
         }
 
-        /* --- HEADER --- */
+        .dots-base {
+            position: absolute;
+            width: 120%; height: 120%;
+            top: -10%; left: -10%;
+            background-image: radial-gradient(var(--dot-white) 1px, transparent 1px);
+            background-size: 35px 35px;
+            will-change: transform;
+        }
+
+        .dots-active {
+            position: absolute;
+            width: 120%; height: 120%;
+            top: -10%; left: -10%;
+            background-image: radial-gradient(var(--dot-blue) 1.5px, transparent 1.5px);
+            background-size: 35px 35px;
+            -webkit-mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%);
+            mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%);
+        }
+
+        /* --- NAVIGATION --- */
         .site-header { position: fixed; width: 100%; top: 0; z-index: 999; display: flex; justify-content: space-between; align-items: center; padding: 25px 5%; }
-        .nav-pill { background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); border: 1px solid var(--border); padding: 10px 25px; border-radius: 100px; display: flex; align-items: center; gap: 20px; }
-        .nav-item { text-decoration: none; color: var(--txt); font-weight: 600; font-size: 0.8rem; opacity: 0.6; letter-spacing: 1px; }
+        .nav-pill { background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 10px 25px; border-radius: 100px; display: flex; gap: 20px; }
+        .nav-item { text-decoration: none; color: #fff; font-size: 0.8rem; font-weight: 600; opacity: 0.5; transition: 0.3s; }
         .nav-item:hover { opacity: 1; color: var(--blue); }
 
         /* --- HERO --- */
-        .ach-hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 5%; }
-        .label { font-family: 'JetBrains Mono'; color: var(--accent); font-size: 0.75rem; letter-spacing: 6px; font-weight: 800; text-transform: uppercase; margin-bottom: 25px; }
-        .title { font-size: clamp(3rem, 10vw, 6rem); font-weight: 900; letter-spacing: -4px; line-height: 0.9; margin-bottom: 30px; }
+        .hero { height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .label { font-family: 'JetBrains Mono'; color: var(--accent); letter-spacing: 5px; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 20px; }
+        .title { font-size: clamp(3rem, 10vw, 5.5rem); font-weight: 900; letter-spacing: -4px; line-height: 1; }
         .title span { color: var(--accent); }
 
-        /* --- SECTION STYLING --- */
-        .section-container { max-width: 1300px; margin: 0 auto; padding: 100px 5%; position: relative; }
+        /* --- CONTENT SECTIONS --- */
+        .section-container { max-width: 1300px; margin: 0 auto; padding: 100px 5%; position: relative; z-index: 1; }
+        
+        /* General Card Style */
+        .card { 
+            background: rgba(255,255,255,0.02); 
+            border: 1px solid rgba(255,255,255,0.06); 
+            backdrop-filter: blur(10px);
+            transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .card:hover { border-color: var(--blue); transform: translateY(-10px); background: rgba(59, 130, 246, 0.02); }
 
-        /* --- CERTIFICATES --- */
-        .filter-group { display: flex; justify-content: center; gap: 12px; margin-bottom: 50px; }
-        .pill { background: var(--glass); border: 1px solid var(--border); color: var(--txt); padding: 10px 22px; border-radius: 50px; cursor: pointer; font-family: 'JetBrains Mono'; font-size: 0.75rem; font-weight: 700; }
-        .pill.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+        /* Certificates */
+        .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .cert-card { border-radius: 24px; padding: 15px; }
+        .img-wrapper { border-radius: 18px; overflow: hidden; aspect-ratio: 4/3; margin-bottom: 15px; background: #000; }
+        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.5s; }
+        .cert-card:hover img { opacity: 1; transform: scale(1.05); }
 
-        .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 35px; }
-        .cert-card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 15px; backdrop-filter: blur(10px); }
-        .cert-card.hidden { display: none; }
-        .cert-img-wrapper { border-radius: 18px; overflow: hidden; aspect-ratio: 4/3; margin-bottom: 15px; }
-        .cert-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        .cert-card:hover { transform: translateY(-10px); border-color: var(--blue); box-shadow: 0 0 30px rgba(59, 130, 246, 0.1); }
-        .cert-card:hover img { opacity: 1; }
-        .cert-card h3 { font-size: 1.1rem; font-weight: 700; text-align: center; }
-        .cert-card p { font-family: 'JetBrains Mono'; font-size: 0.65rem; opacity: 0.4; text-transform: uppercase; text-align: center; margin-top: 5px; }
+        /* Experience */
+        .exp-list { display: flex; flex-direction: column; gap: 20px; }
+        .exp-card { border-radius: 30px; padding: 40px; display: flex; justify-content: space-between; align-items: center; }
+        .exp-card:hover { transform: translateX(10px); }
+        .exp-info h3 { font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; }
+        .sub-text { font-family: 'JetBrains Mono'; color: var(--accent); font-size: 0.85rem; text-transform: uppercase; margin-top: 5px; font-weight: 700; }
+        .date { font-family: 'JetBrains Mono'; opacity: 0.3; font-size: 0.9rem; }
 
-        /* --- WORK EXPERIENCE --- */
-        .exp-container { display: flex; flex-direction: column; gap: 20px; }
-        .exp-card { background: var(--glass); border: 1px solid var(--border); border-radius: 30px; padding: 40px; display: flex; justify-content: space-between; align-items: center; }
-        .exp-card:hover { border-color: var(--blue); transform: translateX(10px); background: rgba(59, 130, 246, 0.02); }
-        .exp-main h2 { font-size: 1.8rem; font-weight: 800; }
-        .exp-main p { font-family: 'JetBrains Mono'; color: var(--accent); font-size: 0.9rem; margin-top: 5px; }
-        .exp-meta h4 { opacity: 0.4; font-weight: 500; font-size: 0.9rem; text-align: right; }
-
-        /* --- PROJECTS GRID --- */
+        /* Projects */
         .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
-        .proj-card { background: var(--glass); border: 1px solid var(--border); border-radius: 35px; padding: 30px; position: relative; overflow: hidden; min-height: 300px; display: flex; flex-direction: column; justify-content: flex-end; }
-        .proj-card:hover { border-color: #fff; transform: scale(1.02); }
-        .proj-tag { position: absolute; top: 30px; left: 30px; font-family: 'JetBrains Mono'; font-size: 0.7rem; background: var(--accent); color: #000; padding: 5px 15px; border-radius: 50px; font-weight: 900; }
-        .proj-card h2 { font-size: 2.2rem; font-weight: 900; margin-bottom: 10px; }
-        .proj-card p { opacity: 0.5; font-size: 0.9rem; line-height: 1.5; }
+        .proj-card { min-height: 320px; display: flex; flex-direction: column; justify-content: flex-end; position: relative; padding: 40px; border-radius: 40px; }
+        .tag { position: absolute; top: 35px; left: 35px; font-family: 'JetBrains Mono'; font-size: 0.65rem; background: var(--accent); color: #000; padding: 5px 15px; border-radius: 50px; font-weight: 900; }
+        .proj-card h2 { font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
+        .proj-desc { opacity: 0.5; font-size: 0.95rem; margin-top: 10px; line-height: 1.5; }
 
+        @media (max-width: 768px) {
+            .exp-card { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .date { text-align: left; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="bg-fixed"></div>
-    <div class="mouse-glow" id="glow"></div>
+    <div class="bg-container">
+        <div class="dots-base" id="dotsLayer"></div>
+        <div class="dots-active"></div>
+    </div>
 
     <header class="site-header">
-        <div style="font-weight: 900; font-size: 1.6rem;">NN</div>
+        <div style="font-weight: 900; font-size: 1.8rem; letter-spacing: -2px;">NN</div>
         <nav class="nav-pill">
-            <a href="index.html" class="nav-item">HOME</a>
+            <a href="index.html" class="nav-item">INDEX</a>
             <a href="#certs" class="nav-item">VAULT</a>
-            <a href="#work" class="nav-item">EXP</a>
+            <a href="#work" class="nav-item">PATH</a>
             <a href="#projects" class="nav-item">WORKS</a>
         </nav>
     </header>
 
-    <section class="ach-hero">
-        <p class="label">Archive Access</p>
-        <h1 class="title">The <span>Vault</span></h1>
-        <p style="opacity: 0.4; max-width: 500px;">A verified directory of certifications, professional history, and full-stack projects.</p>
-    </section>
+    <main>
+        <section class="hero">
+            <p class="label">Encrypted Data Access</p>
+            <h1 class="title">The <span>Vault</span></h1>
+            <p style="opacity: 0.3; margin-top: 25px; font-family: 'JetBrains Mono'; letter-spacing: 2px;">SECURE_ARCHIVE_v1.0</p>
+        </section>
 
-    <section class="section-container" id="certs">
-        <p class="label">Credentials</p>
-        <h1 class="title">Certifi<span>cates</span></h1>
-        
-        <div class="filter-group">
-            <button class="pill active" onclick="filterCerts('all', this)">All</button>
-            <button class="pill" onclick="filterCerts('university', this)">University</button>
-            <button class="pill" onclick="filterCerts('company', this)">Company</button>
-        </div>
-
-        <div class="cert-grid" id="certGrid">
-            <div class="cert-card" data-cat="university">
-                <div class="cert-img-wrapper"><img src="https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~EXXZQDNVG6PE/CERTIFICATE_LANDING_PAGE~EXXZQDNVG6PE.jpeg"></div>
-                <h3>Introduction To Statistics</h3>
-                <p>Stanford University</p>
-            </div>
-            <div class="cert-card" data-cat="university">
-                <div class="cert-img-wrapper"><img src="https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~IAYF0SDVH1P6/CERTIFICATE_LANDING_PAGE~IAYF0SDVH1P6.jpeg"></div>
-                <h3>Introduction to Psychology</h3>
-                <p>Yale University</p>
-            </div>
-            <div class="cert-card" data-cat="university">
-                <div class="cert-img-wrapper"><img src="https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~IJLFLOESGNSS/CERTIFICATE_LANDING_PAGE~IJLFLOESGNSS.jpeg"></div>
-                <h3>Introduction to Programming</h3>
-                <p>BITS Pilani</p>
-            </div>
-            <div class="cert-card" data-cat="university">
-                <div class="cert-img-wrapper"><img src="https://media.licdn.com/dms/image/v2/D562DAQEb8oSY3SKONQ/profile-treasury-image-shrink_800_800/profile-treasury-image-shrink_800_800/0/1732033246342?e=1770753600&v=beta&t=naKlyDXBkKWzxfm1APfxVB5Oq12xSWgGDRaCauJcIeQ"></div>
-                <h3>Computer Science: Programming</h3>
-                <p>Princeton University</p>
-            </div>
-            <div class="cert-card" data-cat="company">
-                <div class="cert-img-wrapper"><img src="https://media.licdn.com/dms/image/v2/D562DAQGpEJgBpkW5cg/profile-treasury-image-shrink_1920_1920/profile-treasury-image-shrink_1920_1920/0/1732370187450?e=1770753600&v=beta&t=SI4cJhqR7DzlAMldO_2dSC6_7hlQM1D2kKwcvfwkjac"></div>
-                <h3>AI Fundamentals</h3>
-                <p>IBM</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-container" id="work">
-        <p class="label">Professional Path</p>
-        <h1 class="title">Work <span>Experience</span></h1>
-        <div class="exp-container">
-            <div class="exp-card">
-                <div class="exp-main">
-                    <h2>CEO & CTO/ Founder</h2>
-                    <p>Enigma AI</p>
+        <section class="section-container" id="certs">
+            <p class="label">Verified Records</p>
+            <h2 style="font-size: 3rem; margin-bottom: 40px; letter-spacing: -2px;">Certifi<span>cates</span></h2>
+            <div class="cert-grid">
+                <div class="card cert-card">
+                    <div class="img-wrapper"><img src="https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~EXXZQDNVG6PE/CERTIFICATE_LANDING_PAGE~EXXZQDNVG6PE.jpeg"></div>
+                    <h3>Statistics</h3><p class="sub-text">Stanford University</p>
                 </div>
-                <div class="exp-meta"><h4>December, 2025 - PRESENT</h4></div>
-            </div>
-            <div class="exp-card">
-                <div class="exp-main">
-                    <h2>Lead Web Design Intern</h2>
-                    <p>IBM</p>
+                <div class="card cert-card">
+                    <div class="img-wrapper"><img src="https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~IAYF0SDVH1P6/CERTIFICATE_LANDING_PAGE~IAYF0SDVH1P6.jpeg"></div>
+                    <h3>Psychology</h3><p class="sub-text">Yale University</p>
                 </div>
-                <div class="exp-meta"><h4>Jan, 2025 - Feb, 2025</h4></div>
+                <div class="card cert-card">
+                    <div class="img-wrapper"><img src="https://s3.amazonaws.com/coursera_assets/meta_images/generated/CERTIFICATE_LANDING_PAGE/CERTIFICATE_LANDING_PAGE~IJLFLOESGNSS/CERTIFICATE_LANDING_PAGE~IJLFLOESGNSS.jpeg"></div>
+                    <h3>Programming</h3><p class="sub-text">BITS Pilani</p>
+                </div>
+                <div class="card cert-card">
+                    <div class="img-wrapper"><img src="https://media.licdn.com/dms/image/v2/D562DAQEb8oSY3SKONQ/profile-treasury-image-shrink_800_800/profile-treasury-image-shrink_800_800/0/1732033246342?e=1770753600&v=beta&t=naKlyDXBkKWzxfm1APfxVB5Oq12xSWgGDRaCauJcIeQ"></div>
+                    <h3>Computer Science</h3><p class="sub-text">Princeton University</p>
+                </div>
+                <div class="card cert-card">
+                    <div class="img-wrapper"><img src="https://media.licdn.com/dms/image/v2/D562DAQGpEJgBpkW5cg/profile-treasury-image-shrink_1920_1920/profile-treasury-image-shrink_1920_1920/0/1732370187450?e=1770753600&v=beta&t=SI4cJhqR7DzlAMldO_2dSC6_7hlQM1D2kKwcvfwkjac"></div>
+                    <h3>AI Fundamentals</h3><p class="sub-text">IBM</p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section-container" id="projects" style="padding-bottom: 200px;">
-        <p class="label">Featured Works</p>
-        <h1 class="title">Selected <span>Projects</span></h1>
-        <div class="project-grid">
-            <div class="proj-card">
-                <span class="proj-tag">AI / ML</span>
-                <h2>Enigma AI</h2>
-                <p>An AI Startup Meant To Help Programming Beginners with Vibe Coding.</p>
+        <section class="section-container" id="work">
+            <p class="label">Professional Track</p>
+            <h2 style="font-size: 3rem; margin-bottom: 40px; letter-spacing: -2px;">Work <span>History</span></h2>
+            <div class="exp-list">
+                <div class="card exp-card">
+                    <div class="exp-info">
+                        <h3>CEO & CTO / Founder</h3>
+                        <p class="sub-text">Enigma AI</p>
+                    </div>
+                    <div class="date">DEC 2025 - PRESENT</div>
+                </div>
+                <div class="card exp-card">
+                    <div class="exp-info">
+                        <h3>Lead Web Design Intern</h3>
+                        <p class="sub-text">IBM</p>
+                    </div>
+                    <div class="date">JAN 2025 - FEB 2025</div>
+                </div>
             </div>
-            <div class="proj-card">
-                <span class="proj-tag">Full Stack</span>
-                <h2>Atmos</h2>
-                <p>Atmos is a web-based weather app accessible directly via its site.</p>
+        </section>
+
+        <section class="section-container" id="projects" style="padding-bottom: 150px;">
+            <p class="label">Core Logic</p>
+            <h2 style="font-size: 3rem; margin-bottom: 40px; letter-spacing: -2px;">Selected <span>Projects</span></h2>
+            <div class="project-grid">
+                <div class="card proj-card"><span class="tag">AI</span><h2>Enigma AI</h2><p class="proj-desc">Programming for beginners through vibe coding.</p></div>
+                <div class="card proj-card"><span class="tag">WEB</span><h2>Atmos</h2><p class="proj-desc">High-end weather data visualization.</p></div>
+                <div class="card proj-card"><span class="tag">DATA</span><h2>Nexus</h2><p class="proj-desc">Personalized deep-learning show recommendations.</p></div>
+                <div class="card proj-card"><span class="tag">UI/UX</span><h2>Eris</h2><p class="proj-desc">Eco-conscious route planning system.</p></div>
+                <div class="card proj-card"><span class="tag">PY</span><h2>IrisNav</h2><p class="proj-desc">Eye-controlled cursor navigation.</p></div>
+                <div class="card proj-card"><span class="tag">CV</span><h2>Reuben</h2><p class="proj-desc">OpenCV-based Rubik's cube solver.</p></div>
             </div>
-            <div class="proj-card">
-                <span class="proj-tag">Data Science</span>
-                <h2>Nexus</h2>
-                <p>Futuristic web app for personalized TV show recommendations.</p>
-            </div>
-            <div class="proj-card">
-                <span class="proj-tag">Full Stack</span>
-                <h2>Eris</h2>
-                <p>Eris is a smart, eco-conscious route planning platform.</p>
-            </div>
-            <div class="proj-card">
-                <span class="proj-tag">Python</span>
-                <h2>Iris</h2>
-                <p>Iris is a futuristic eye-controlled mouse interface.</p>
-            </div>
-            <div class="proj-card">
-                <span class="proj-tag">Python</span>
-                <h2>Reuben</h2>
-                <p>A Rubicks Cube Solver Via OpenCV.</p>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <script>
-        // PEAK INTERACTION SCRIPT
-        document.addEventListener('mousemove', e => {
-            document.documentElement.style.setProperty('--x', e.clientX + 'px');
-            document.documentElement.style.setProperty('--y', e.clientY + 'px');
-        });
+        const dotsLayer = document.getElementById('dotsLayer');
 
-        function filterCerts(category, btn) {
-            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            const cards = document.querySelectorAll('.cert-card');
-            
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(10px)';
-                setTimeout(() => {
-                    if (category === 'all' || card.getAttribute('data-cat') === category) {
-                        card.classList.remove('hidden');
-                        setTimeout(() => {
-                            card.style.opacity = '1';
-                            card.style.transform = 'translateY(0)';
-                        }, 50);
-                    } else {
-                        card.classList.add('hidden');
-                    }
-                }, 200);
-            });
-        }
+        window.addEventListener('mousemove', e => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            // 1. Reveal Blue Dots (The Mask)
+            document.documentElement.style.setProperty('--x', x + 'px');
+            document.documentElement.style.setProperty('--y', y + 'px');
+
+            // 2. Parallax "Raising" Effect (Moves the background with mouse)
+            const moveVal = 25;
+            const moveX = (x / window.innerWidth) * moveVal - (moveVal / 2);
+            const moveY = (y / window.innerHeight) * moveVal - (moveVal / 2);
+
+            dotsLayer.parentElement.style.transform = `translateX(${moveX}px) translateY(${moveY}px)`;
+        });
     </script>
 </body>
 </html>
