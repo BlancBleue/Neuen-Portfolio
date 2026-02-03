@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neel Nikhil | Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
 </head>
 <body data-theme="dark">
 
@@ -15,79 +13,77 @@
 
     <div class="ui-wrapper">
         <header class="site-header">
-            <div class="theme-switch" id="theme-btn" onclick="toggleTheme()">
+            <div class="theme-switch" onclick="toggleTheme()">
                 <div class="indicator"></div>
             </div>
             <nav class="nav">
                 <a href="#home">Home</a>
-                <a href="#work">Work</a>
+                <a href="#skills">Skills</a>
             </nav>
             <button class="cta">Book a Call</button>
         </header>
 
-        <main id="home">
-            <section class="hero">
-                <p class="pre-title">Fullstack Engineer</p>
-                <h1 class="glimmer-text">NEEL NIKHIL</h1>
+        <section class="hero" id="home">
+            <p class="pre-title">Fullstack Engineer</p>
+            <h1 class="glimmer-text">NEEL NIKHIL</h1>
+        </section>
 
-                <div class="search-container">
-                    <form id="ai-form" class="search-bar" onsubmit="handleSearch(event)">
-                        <span class="ai-icon">✦</span>
-                        <input type="text" id="ai-input" placeholder="Ask my digital twin..." autocomplete="off">
-                        <div class="badge">AI</div>
-                    </form>
-                    <div id="ai-response" class="response-box"></div>
+        <main class="main-grid">
+            <div class="card area-portrait">
+                <div class="portrait-container">
+                    <img src="me.jpg" id="main-photo" alt="Neel Nikhil">
                 </div>
-            </section>
+            </div>
 
-            <section class="main-grid">
-                <div class="card area-portrait">
-                    <div class="portrait-container">
-                        <img src="me.jpg" alt="Neel Nikhil" id="main-photo">
-                        <div class="hobby-layer" id="hobby-photo"></div>
+            <div class="card area-focus">
+                <small>Focus</small>
+                <h3>Product Architecture</h3>
+                <p class="muted">Scaling systems from 0 to 1 with precision.</p>
+            </div>
+
+            <div class="card area-about">
+                <small>About Me</small>
+                <h3>Digital Architect</h3>
+                <p class="muted">Turning complex problems into elegant, high-performance code.</p>
+            </div>
+
+            <div class="card area-mindset">
+                <small>Mindset</small>
+                <h3>Discipline > Motivation</h3>
+                <div class="hobby-triggers">
+                    <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
+                    <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
+                    <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
+                </div>
+            </div>
+
+            <div class="card area-location">
+                <div class="map-container">
+                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b" class="map-bg-img">
+                    <div class="map-marker">
+                        <div class="marker-dot"></div>
+                        <div class="marker-pulse"></div>
                     </div>
-                </div>
-
-                <div class="card area-focus">
-                    <small>Focus</small>
-                    <h3>Product Architecture</h3>
-                    <p class="muted">Scaling systems with precision engineering.</p>
-                </div>
-
-                <div class="card area-craft">
-                    <small>Craft</small>
-                    <div class="tech-stack">
-                        <span>Next.js</span><span>TS</span>
-                        <span>PostgreSQL</span><span>Tailwind</span>
-                    </div>
-                </div>
-
-                <div class="card area-mindset">
-                    <div class="mindset-content">
-                        <small>Mindset</small>
-                        <h3>Discipline > Motivation</h3>
-                        <p class="muted">Consistency wins every single time.</p>
-                        <div class="hobby-triggers">
-                            <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
-                            <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
-                            <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card area-location">
-                    <iframe 
-                        src="https://images.unsplash.com/photo-1524661135-423995f22d0b" 
-                        allowfullscreen="">
-                    </iframe>
                     <div class="loc-overlay">
-                        <small>Current Location</small>
-                        <h3><span class="pulse"></span> Bangalore, IN</h3>
-                        <p class="coords">12.9716° N, 77.5946° E</p>
+                        <div class="loc-text">
+                            <small>12.9716° N, 77.5946° E</small>
+                            <h3>Bangalore, IN</h3>
+                        </div>
+                        <div id="time-display" class="time-box">00:00:00 +5:30 GMT</div>
                     </div>
                 </div>
-            </section>
+            </div>
         </main>
+
+        <section class="skills-section" id="skills">
+            <div class="skills-header">
+                <small>Tech Stack</small>
+                <h2 class="glimmer-text">My <span class="colorful-text">Skills</span></h2>
+            </div>
+            <div class="globe-wrapper">
+                <div class="tagcloud"></div>
+            </div>
+        </section>
     </div>
 
     <script src="script.js"></script>
