@@ -1,109 +1,120 @@
 window.onload = () => {
-    const myTags = ['Python', 'HTML5', 'CSS3', 'JavaScript', 'React', 'SQL', 'C++', 'Java', 'Git', 'Docker', 'Vercel', 'Next.js'];
-
-    const iconMap = {
-        'Python': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
-        'HTML5': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
-        'CSS3': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg',
-        'JavaScript': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
-        'React': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
-        'SQL': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
-        'C++': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg',
-        'Java': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
-        'Git': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
-        'Docker': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
-        'Vercel': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg',
-        'Next.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg'
-    };
-
+    /**
+     * 1. 3D TAG CLOUD INITIALIZATION
+     * Syncs with the .mesh-sphere in your CSS
+     */
+    const myTags = [
+        'JavaScript', 'Python', 'React', 'Next.js', 
+        'MongoDB', 'Tailwind', 'Node.js', 'TypeScript', 
+        'GitHub', 'Figma', 'Docker', 'AWS', 'SQL', 'C++'
+    ];
+    
     const container = '.tagcloud';
     const options = {
-        radius: window.innerWidth < 700 ? 160 : 250,
-        maxSpeed: 'normal',
-        initSpeed: 'normal',
-        keep: true
+        radius: 230,           // Radius in pixels
+        maxSpeed: 'fast',      // Rotation speed
+        initSpeed: 'fast',
+        direction: 135,        // Initial direction 
+        keep: true             // Keep rotating after mouse leaves
     };
 
+    // Initialize the library
     TagCloud(container, myTags, options);
-
-    // Swap text for Icons
-    const items = document.querySelectorAll('.tagcloud--item');
-    items.forEach(el => {
-        const text = el.innerText.trim();
-        if (iconMap[text]) {
-            el.innerHTML = `
-                <div class="icon-box">
-                    <img src="${iconMap[text]}" alt="${text}">
-                    <span class="icon-name">${text}</span>
-                </div>
-            `;
-        }
-    });
-
-    // --- WEB CONNECT LOGIC (Canvas) ---
-    const globeWrapper = document.querySelector('.globe-wrapper');
-    const canvas = document.createElement('canvas');
-    canvas.id = 'web-canvas';
-    globeWrapper.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-        canvas.width = globeWrapper.offsetWidth;
-        canvas.height = globeWrapper.offsetHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    function drawLines() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const rect = canvas.getBoundingClientRect();
-        const nodes = Array.from(document.querySelectorAll('.tagcloud--item img'));
-        
-        ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--accent');
-        ctx.lineWidth = 0.5;
-
-        for (let i = 0; i < nodes.length; i++) {
-            for (let j = i + 1; j < nodes.length; j++) {
-                const b1 = nodes[i].getBoundingClientRect();
-                const b2 = nodes[j].getBoundingClientRect();
-
-                const x1 = b1.left + b1.width / 2 - rect.left;
-                const y1 = b1.top + b1.height / 2 - rect.top;
-                const x2 = b2.left + b2.width / 2 - rect.left;
-                const y2 = b2.top + b2.height / 2 - rect.top;
-
-                const dist = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-
-                // Only draw lines if they are somewhat close (the "Web" effect)
-                if (dist < 200) {
-                    ctx.globalAlpha = 1 - (dist / 200); // Fade lines based on distance
-                    ctx.beginPath();
-                    ctx.moveTo(x1, y1);
-                    ctx.lineTo(x2, y2);
-                    ctx.stroke();
-                }
-            }
-        }
-        requestAnimationFrame(drawLines);
-    }
-    drawLines();
 };
 
-// Utilities
-function toggleTheme() {
-    document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+/**
+ * 2. NEEL-AI CHATBOX LOGIC
+ * Handles user input and provides "hacker-style" responses
+ */
+function askAI() {
+    const input = document.getElementById('ai-input');
+    const display = document.getElementById('chat-display');
+    const userText = input.value.trim();
+
+    if (!userText) return;
+
+    // Append User Message to display
+    const userDiv = document.createElement('div');
+    userDiv.style.cssText = "align-self: flex-end; background: rgba(255,255,255,0.1); padding: 10px 15px; border-radius: 12px 12px 0 12px; font-size: 0.85rem; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.1);";
+    userDiv.innerText = userText;
+    display.appendChild(userDiv);
+
+    // AI logic response mapping
+    let response = "I'm analyzing Neel's data... He is currently focused on high-performance Frontend Architectures.";
+    const query = userText.toLowerCase();
+
+    if (query.includes('skill') || query.includes('tech')) {
+        response = "Neel is an expert in React, Next.js, and Python. He loves building geometric 3D UI like the one below.";
+    } else if (query.includes('experience') || query.includes('work')) {
+        response = "Neel has experience scaling 0-to-1 products and optimizing web performance for global users.";
+    } else if (query.includes('contact') || query.includes('hire')) {
+        response = "You can reach Neel via the 'Book a Call' button or find him on LinkedIn.";
+    } else if (query.includes('bangalore') || query.includes('location')) {
+        response = "Neel is based in Bangalore, India—the Silicon Valley of Asia. Check the coordinates in his bento grid!";
+    }
+
+    // Delayed "Bot Typing" Effect
+    setTimeout(() => {
+        const botDiv = document.createElement('div');
+        botDiv.className = "bot-bubble";
+        botDiv.innerText = response;
+        display.appendChild(botDiv);
+        
+        // Auto-scroll to bottom
+        display.scrollTop = display.scrollHeight;
+    }, 600);
+
+    // Clear input
+    input.value = '';
 }
 
-function updateTime() {
-    const time = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(new Date());
-    const display = document.getElementById('time-display');
-    if (display) display.textContent = `${time} +5:30 GMT`;
-}
-setInterval(updateTime, 1000);
-updateTime();
+// Allow "Enter" key to send message
+document.getElementById('ai-input')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') askAI();
+});
 
+/**
+ * 3. REAL-TIME BANGALORE CLOCK
+ * Updates every second to match IST
+ */
+function updateClock() {
+    const timeDisplay = document.getElementById('time-display');
+    if (timeDisplay) {
+        const now = new Date();
+        const options = {
+            timeZone: 'Asia/Kolkata',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        };
+        const formatter = new Intl.DateTimeFormat('en-GB', options);
+        timeDisplay.innerText = formatter.format(now) + " IST";
+    }
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+/**
+ * 4. BENTO GRID PORTRAIT SWAP
+ * Swaps Neel's portrait when hovering over hobby keywords
+ */
 function showHobby(type) {
     const img = document.getElementById('main-photo');
-    const images = { 'coding': 'coding-me.jpg', 'chess': 'chess-me.jpg', 'snooker': 'snooker-me.jpg', 'default': 'me.jpg' };
-    if (img) img.src = images[type] || images['default'];
+    if (!img) return;
+
+    // Mapping keys to image paths
+    const images = {
+        'coding': 'coding-neel.jpg',
+        'chess': 'chess-neel.jpg',
+        'snooker': 'snooker-neel.jpg',
+        'default': 'me.jpg'
+    };
+
+    // Smooth transition: brief fade out/in (optional)
+    img.style.opacity = '0.7';
+    setTimeout(() => {
+        img.src = images[type] || images['default'];
+        img.style.opacity = '1';
+    }, 100);
 }
