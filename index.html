@@ -8,12 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
 </head>
 <body data-theme="dark">
-
     <div class="ui-wrapper">
         <header class="site-header">
-            <div class="theme-switch" onclick="toggleTheme()">
-                <div class="indicator"></div>
-            </div>
+            <div class="theme-switch" onclick="toggleTheme()"><div class="indicator"></div></div>
             <nav class="nav">
                 <a href="#home">Home</a>
                 <a href="#skills">Skills</a>
@@ -28,23 +25,18 @@
 
         <main class="main-grid">
             <div class="card area-portrait">
-                <div class="portrait-container">
-                    <img src="me.jpg" id="main-photo" alt="Neel">
-                </div>
+                <div class="portrait-container"><img src="me.jpg" id="main-photo" alt="Neel"></div>
             </div>
-
             <div class="card area-focus">
                 <small>Focus</small>
                 <h3>Product Architecture</h3>
                 <p class="muted">Scaling systems from 0 to 1.</p>
             </div>
-
             <div class="card area-about">
                 <small>About Me</small>
                 <h3>Digital Architect</h3>
                 <p class="muted">Solving complex problems with code.</p>
             </div>
-
             <div class="card area-mindset">
                 <small>Mindset</small>
                 <h3>Discipline > Motivation</h3>
@@ -54,7 +46,6 @@
                     <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
                 </div>
             </div>
-
             <div class="card area-location">
                 <div class="map-container">
                     <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b" class="map-bg-img" alt="Map">
@@ -72,14 +63,13 @@
         <section class="skills-section" id="skills">
             <div class="skills-header">
                 <small>Tech Stack</small>
-                <h2 class="glimmer-text">My <span class="colorful-text">Skills</span></h2>
+                <h2 class="text">My <span class="colorful-text">Skills</span></h2>
             </div>
             <div class="globe-wrapper">
                 <div class="tagcloud"></div>
             </div>
         </section>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
