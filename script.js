@@ -1,12 +1,10 @@
 window.onload = () => {
-    // 1. Initial tag list (Text used as keys for icons)
     const myTags = [
         'Python', 'HTML5', 'CSS3', 'JavaScript', 
         'React', 'SQL', 'C++', 'Java', 
         'Git', 'Docker', 'Vercel', 'Next.js'
     ];
 
-    // 2. Icon source mapping
     const iconMap = {
         'Python': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
         'HTML5': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
@@ -31,10 +29,8 @@ window.onload = () => {
         keep: true
     };
 
-    // Initialize the library with text tags
     TagCloud(container, myTags, options);
 
-    // 3. Immediately swap text for HTML Icons + Names
     const items = document.querySelectorAll('.tagcloud--item');
     items.forEach(el => {
         const text = el.innerText.trim();
@@ -48,8 +44,6 @@ window.onload = () => {
         }
     });
 };
-
-// --- GLOBAL FUNCTIONS ---
 
 function toggleTheme() {
     const body = document.body;
