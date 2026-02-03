@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | Portfolio</title>
+    <title>Neel Nikhil | Front End Developer</title>
+    
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
 </head>
 <body data-theme="dark">
@@ -14,10 +19,11 @@
         <div class="logo">NN</div>
         <nav class="nav">
             <a href="#home">Home</a>
+            <a href="#about">About</a>
             <a href="#skills">Skills</a>
         </nav>
         <div class="header-right">
-            <div class="theme-switch" onclick="toggleTheme()">
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
                 <div class="switch-ball"></div>
             </div>
             <button class="cta">Book a Call</button>
@@ -25,44 +31,51 @@
     </header>
 
     <section class="hero" id="home">
-        <p class="pre-title">Frontend Developer</p>
-        <h1 class="glimmer-text">NEEL NIKHIL</h1>
+        <div class="hero-content">
+            <p class="pre-title">Neel Nikhil</p>
+            <h1 class="massive-hero">FRONT END<br>DEVELOPER</h1>
+        </div>
 
         <div class="ai-chat-box">
             <div class="chat-display" id="chat-display">
-                <div class="bot-bubble">I'm Neel-AI. Ask me about my coordinates or tech stack.</div>
+                <div class="bot-bubble">AI Terminal Active. Systems online. Query user data...</div>
             </div>
             <div class="chat-input-row">
-                <input type="text" id="ai-input" placeholder="Ask anything...">
-                <button onclick="askAI()">Ask</button>
+                <input type="text" id="ai-input" placeholder="Query Neel-AI...">
+                <button onclick="askAI()">Send</button>
             </div>
         </div>
     </section>
 
-    <main class="main-grid">
+    <main class="main-grid" id="about">
         <div class="card area-portrait">
-            <img src="me.jpg" id="main-photo" alt="Neel">
+            <img src="me.jpg" id="main-photo" alt="Neel Nikhil Portrait">
         </div>
+
         <div class="card area-focus">
             <small>Focus</small>
             <h3>Product Architecture</h3>
-            <p class="muted">Scaling systems from 0 to 1.</p>
+            <p class="muted">Engineering scalable, high-performance web systems from 0 to 1.</p>
         </div>
+
         <div class="card area-about">
             <small>About Me</small>
             <h3>Digital Architect</h3>
-            <p class="muted">Solving complex problems with code.</p>
+            <p class="muted">Bridging the gap between complex logic and fluid user interfaces.</p>
         </div>
+
         <div class="card area-mindset">
             <small>Mindset</small>
             <h3>Discipline > Motivation</h3>
             <div class="hobby-triggers">
                 <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
                 <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
+                <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
             </div>
         </div>
+
         <div class="card area-location">
-            <div class="map-overlay-img"></div>
+            <div class="map-bg-image"></div>
             <div class="loc-overlay">
                 <div class="loc-text">
                     <small>Location</small>
