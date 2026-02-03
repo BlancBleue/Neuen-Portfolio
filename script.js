@@ -1,46 +1,58 @@
 window.onload = () => {
-    // 1. THE TECH LOGOS 
+    // 1. Define the tags as plain text first
     const myTags = [
-        '<img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" title="Python">',
-        '<img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" title="HTML5">',
-        '<img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" title="CSS3">',
-        '<img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" title="JavaScript">',
-        '<img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" title="React">',
-        '<img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" title="SQL">',
-        '<img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" title="C">',
-        '<img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" title="C++">',
-        '<img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" title="Java">',
-        '<img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" title="Git">',
-        '<img width="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" title="Docker">'
+        'Python', 'HTML5', 'CSS3', 'JavaScript', 
+        'React', 'SQL', 'C', 'C++', 'Java', 
+        'Git', 'Docker', 'Vercel'
     ];
 
-    // 2. INITIALIZE TAGCLOUD
+    // 2. Map those names to their specific SVG icon URLs
+    const iconMap = {
+        'Python': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
+        'HTML5': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
+        'CSS3': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg',
+        'JavaScript': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
+        'React': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+        'SQL': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
+        'C': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg',
+        'C++': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg',
+        'Java': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
+        'Git': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg',
+        'Docker': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
+        'Vercel': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg'
+    };
+
     const container = '.tagcloud';
     const options = {
         radius: window.innerWidth < 700 ? 150 : 250,
         maxSpeed: 'normal',
         initSpeed: 'normal',
         direction: 135,
-        keep: true,
-        useHTML: true // This MUST be true to render images
+        keep: true
     };
 
-    // Initialize the globe
-    try {
-        TagCloud(container, myTags, options);
-    } catch (err) {
-        console.error("Globe failed to load:", err);
-    }
+    // Initialize the library with text
+    TagCloud(container, myTags, options);
+
+    // 3. THE FIX: Loop through the created items and swap text for <img>
+    const elements = document.querySelectorAll('.tagcloud--item');
+    elements.forEach(el => {
+        const name = el.innerText.trim();
+        if (iconMap[name]) {
+            // Clear the text and inject the image
+            el.innerHTML = `<img src="${iconMap[name]}" width="45" alt="${name}" title="${name}" style="pointer-events: none; filter: brightness(0.9);">`;
+        }
+    });
 };
 
 // --- THEME SWITCHER ---
 function toggleTheme() {
     const body = document.body;
-    const currentTheme = body.getAttribute('data-theme');
-    body.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+    const current = body.getAttribute('data-theme');
+    body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
 }
 
-// --- CLOCK LOGIC ---
+// --- REAL-TIME CLOCK (+5:30 GMT) ---
 function updateTime() {
     const options = { 
         timeZone: 'Asia/Kolkata', 
@@ -49,11 +61,15 @@ function updateTime() {
         minute: '2-digit', 
         second: '2-digit' 
     };
-    const formatter = new Intl.DateTimeFormat('en-GB', options);
-    const timeString = formatter.format(new Date());
-    const display = document.getElementById('time-display');
-    if (display) {
-        display.textContent = `${timeString} +5:30 GMT`;
+    
+    try {
+        const timeString = new Intl.DateTimeFormat('en-GB', options).format(new Date());
+        const display = document.getElementById('time-display');
+        if (display) {
+            display.textContent = `${timeString} +5:30 GMT`;
+        }
+    } catch (e) {
+        console.error("Clock error:", e);
     }
 }
 setInterval(updateTime, 1000);
@@ -63,6 +79,7 @@ updateTime();
 function showHobby(type) {
     const img = document.getElementById('main-photo');
     if (!img) return;
+
     const images = {
         'coding': 'coding-me.jpg',
         'chess': 'chess-me.jpg',
