@@ -9,235 +9,93 @@
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
 
     <style>
-        /* --- CORE SYSTEM --- */
         :root {
-            --bg: #050505;
-            --txt: #ffffff;
-            --accent: #8b5cf6; 
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
-            --nav-bg: rgba(10, 10, 10, 0.8);
+            --bg: #050505; --txt: #ffffff; --accent: #8b5cf6; 
+            --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { 
-            background: var(--bg); 
-            color: var(--txt); 
-            font-family: 'Inter', sans-serif; 
-            overflow-x: hidden;
-        }
+        body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        /* --- BACKGROUND ENGINE --- */
-        #dotCanvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
+        #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
-        /* --- HEADER & NAVIGATION --- */
+        /* --- HEADER --- */
         .site-header {
-            position: fixed;
-            top: 0; width: 100%;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%;
-            z-index: 9999;
+            position: fixed; width: 100%; top: 0; z-index: 9999;
+            display: flex; justify-content: space-between; align-items: center; padding: 20px 5%;
         }
-
-        .logo { font-weight: 900; font-size: 1.8rem; letter-spacing: -2px; }
-
-        .nav-block {
-            background: var(--nav-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            padding: 12px 35px;
-            border-radius: 100px;
-            position: relative;
+        .nav-pill {
+            background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px);
+            border: 1px solid var(--border); padding: 12px 30px; border-radius: 100px;
         }
+        .nav-links { display: flex; gap: 25px; position: relative; }
+        .nav-item { text-decoration: none; color: white; font-weight: 700; font-size: 0.85rem; }
 
-        .nav-links { display: flex; gap: 30px; position: relative; }
-        .nav-item {
-            text-decoration: none;
-            color: var(--txt);
-            font-weight: 700;
-            font-size: 0.9rem;
-            position: relative;
-            z-index: 5;
-        }
-
-        .nav-underline {
-            position: absolute;
-            bottom: -5px;
-            height: 2px;
-            background: var(--accent);
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            opacity: 0;
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        /* --- HERO SECTION --- */
+        /* --- HERO & AI BOX --- */
         .hero {
-            height: 100vh;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            text-align: center;
-            padding-top: 100px;
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
         }
-
         .massive-hero {
-            font-size: clamp(4rem, 16vw, 12rem);
-            font-weight: 900;
-            letter-spacing: -10px;
-            line-height: 0.85;
+            font-size: clamp(4rem, 15vw, 11rem); font-weight: 900; letter-spacing: -8px; line-height: 0.8;
             background: linear-gradient(to right, #8b5cf6, #3b82f6, #f472b6, #fbbf24, #8b5cf6);
-            background-size: 300% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: colorCycle 5s linear infinite;
         }
-
         @keyframes colorCycle { to { background-position: 300% center; } }
 
         .hero-subtitle {
-            font-family: 'JetBrains Mono';
-            letter-spacing: 12px;
-            text-transform: uppercase;
-            opacity: 0.4;
-            margin-top: 30px;
-            font-weight: 800;
-            font-size: 1rem;
+            font-family: 'JetBrains Mono'; letter-spacing: 12px; text-transform: uppercase;
+            opacity: 0.4; margin-top: 25px; font-weight: 800;
         }
 
-        /* AI TERMINAL */
-        .ai-box {
-            margin-top: 60px;
-            width: 90%; max-width: 480px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 35px;
-            padding: 25px;
-            backdrop-filter: blur(15px);
+        .ai-terminal {
+            margin-top: 50px; width: 90%; max-width: 450px;
+            background: var(--glass); border: 1px solid var(--border);
+            padding: 25px; border-radius: 30px; backdrop-filter: blur(15px);
         }
-
-        .ai-display {
-            background: rgba(139, 92, 246, 0.1);
-            padding: 15px; border-radius: 20px;
-            color: var(--accent); font-size: 0.9rem;
-            margin-bottom: 20px; text-align: left;
-            border-left: 3px solid var(--accent);
+        .ai-display { 
+            background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 15px;
+            color: var(--accent); margin-bottom: 15px; text-align: left; font-size: 0.85rem;
         }
+        .ai-input-row { display: flex; background: rgba(0,0,0,0.3); border-radius: 50px; padding: 5px; border: 1px solid var(--border); }
+        .ai-input-row input { flex: 1; background: transparent; border: none; color: white; padding-left: 15px; outline: none; }
+        .ai-input-row button { background: var(--accent); border: none; color: white; padding: 10px 20px; border-radius: 50px; font-weight: 800; cursor: pointer; }
 
-        .ai-input-group {
-            display: flex; background: rgba(0,0,0,0.4);
-            border-radius: 50px; padding: 6px;
-            border: 1px solid var(--border);
+        /* --- BENTO GRID (LOCATION FIX) --- */
+        .bento {
+            display: grid; max-width: 1200px; margin: 80px auto; gap: 20px;
+            grid-template-columns: 1fr 1.8fr; grid-template-rows: 300px 300px; padding: 0 20px;
         }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; position: relative; overflow: hidden; }
 
-        .ai-input-group input {
-            flex: 1; background: transparent; border: none;
-            color: white; padding: 0 20px; outline: none;
+        .portrait { grid-row: span 2; }
+        .portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.5s; }
+        .portrait:hover img { filter: grayscale(0) saturate(1.5); }
+
+        .location { grid-column: 2; background: #000; padding: 40px; display: flex; align-items: flex-end; }
+        .map-img { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop') center/cover; opacity: 0.2; filter: grayscale(1); }
+        
+        .loc-info { position: relative; z-index: 5; display: flex; justify-content: space-between; width: 100%; align-items: flex-end; }
+        .loc-info h2 { font-size: 2.2rem; font-weight: 900; }
+        .time-box { font-family: 'JetBrains Mono'; color: var(--accent); font-weight: 800; font-size: 1.2rem; }
+
+        .mindset { grid-column: 2; padding: 40px; display: flex; align-items: center; }
+        .hobby-btns { display: flex; gap: 10px; margin-top: 20px; }
+        .hobby-btns span { padding: 8px 20px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; font-size: 0.8rem; }
+        .hobby-btns span:hover { background: var(--accent); color: white; }
+
+        /* --- SPHERE FIX --- */
+        .sphere-container { height: 700px; display: flex; justify-content: center; align-items: center; position: relative; }
+        .tagcloud { color: var(--accent); font-weight: 800; }
+        
+        /* Force Images in Sphere to behave */
+        .tagcloud--item { display: flex !important; align-items: center; justify-content: center; }
+        .tagcloud--item img { 
+            width: 60px !important; height: 60px !important; 
+            filter: brightness(0) invert(1); transition: 0.3s;
         }
-
-        .ai-input-group button {
-            background: var(--accent); border: none; color: white;
-            padding: 12px 25px; border-radius: 50px;
-            cursor: pointer; font-weight: 800; transition: 0.3s;
-        }
-
-        /* --- BENTO GRID --- */
-        .bento-container {
-            display: grid;
-            max-width: 1200px;
-            margin: 100px auto;
-            gap: 25px;
-            grid-template-columns: 1fr 1.8fr;
-            grid-template-rows: 320px 320px;
-            padding: 0 25px;
-        }
-
-        .card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 45px;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .portrait-card { grid-row: span 2; }
-        .portrait-card img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(1); transition: 0.7s ease;
-        }
-        .portrait-card:hover img { filter: grayscale(0) saturate(1.5); transform: scale(1.05); }
-
-        /* LOCATION CARD STABILITY */
-        .location-card {
-            grid-column: 2;
-            display: flex; align-items: flex-end;
-            padding: 45px;
-            background: #000;
-        }
-
-        .map-bg {
-            position: absolute; inset: 0;
-            background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop') center/cover;
-            opacity: 0.25; filter: grayscale(1);
-        }
-
-        .loc-overlay {
-            position: relative; z-index: 10;
-            display: flex; justify-content: space-between;
-            width: 100%; align-items: flex-end;
-        }
-
-        .time-text { font-family: 'JetBrains Mono'; font-weight: 800; color: var(--accent); font-size: 1.2rem; }
-
-        /* PHILOSOPHY CARD */
-        .mindset-card {
-            grid-column: 2;
-            display: flex; align-items: center;
-            padding: 45px;
-        }
-
-        .hobby-row { display: flex; gap: 15px; margin-top: 25px; }
-        .hobby-row span {
-            padding: 10px 22px; background: rgba(139, 92, 246, 0.08);
-            border: 1px solid var(--border); border-radius: 50px;
-            color: var(--accent); font-weight: 800; cursor: pointer; transition: 0.3s;
-        }
-        .hobby-row span:hover { background: var(--accent); color: white; }
-
-        /* --- SKILLS SPHERE --- */
-        .sphere-section { padding: 120px 0; display: flex; justify-content: center; }
-        .sphere-area {
-            position: relative; width: 600px; height: 600px;
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        /* Forced Logo Styling */
-        .tagcloud--item { cursor: pointer; }
-        .tagcloud--item img {
-            width: 65px !important;
-            height: 65px !important;
-            filter: brightness(0) invert(1);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: auto;
-        }
-        .tagcloud--item:hover img { filter: brightness(1) invert(0); transform: scale(1.5); }
-
-        .mesh-circle {
-            position: absolute; width: 520px; height: 520px;
-            border-radius: 50%; border: 0.5px solid rgba(255,255,255,0.05);
-            background: 
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) 0 0 / 40px 100%,
-                linear-gradient(180deg, rgba(255,255,255,0.03) 1px, transparent 1px) 0 0 / 100% 40px;
-            animation: spin 80s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .tagcloud--item:hover img { filter: brightness(1) invert(0); transform: scale(1.4); }
 
     </style>
 </head>
@@ -246,158 +104,126 @@
     <canvas id="dotCanvas"></canvas>
 
     <header class="site-header">
-        <div class="logo">NN</div>
-        <nav class="nav-block">
+        <div style="font-weight: 900; font-size: 1.5rem;">NN</div>
+        <nav class="nav-pill">
             <div class="nav-links">
-                <a href="#home" class="nav-item">Home</a>
-                <a href="#about" class="nav-item">About</a>
-                <a href="#skills" class="nav-item">Skills</a>
-                <div class="nav-underline"></div>
+                <a href="#" class="nav-item">Nexus</a>
+                <a href="#" class="nav-item">Bio</a>
+                <a href="#" class="nav-item">Tech</a>
             </div>
         </nav>
-        <div class="header-right">
-            <button onclick="askAI()" style="background: var(--accent); color:white; border:none; padding:10px 25px; border-radius:50px; font-weight:800; cursor:pointer;">Contact</button>
-        </div>
+        <div><button style="background:var(--accent); color:white; border:none; padding:10px 25px; border-radius:50px; font-weight:800; cursor:pointer;">Contact</button></div>
     </header>
 
-    <section class="hero" id="home">
+    <section class="hero">
         <h1 class="massive-hero">NEEL NIKHIL</h1>
         <p class="hero-subtitle">Front End Developer</p>
-
-        <div class="ai-box">
-            <div id="ai-status" class="ai-display">NEEL-AI: Core systems initialized. Awaiting user parameters.</div>
-            <div class="ai-input-group">
-                <input type="text" id="ai-input" placeholder="Inquire system status...">
-                <button onclick="processAI()">Send</button>
+        <div class="ai-terminal">
+            <div id="ai-out" class="ai-display">NEEL-AI: System status nominal. Ready for deployment.</div>
+            <div class="ai-input-row">
+                <input type="text" id="ai-in" placeholder="Query the architect...">
+                <button onclick="runAI()">Send</button>
             </div>
         </div>
     </section>
 
-    <main class="bento-container" id="about">
-        <div class="card portrait-card">
-            <img src="me.jpg" id="portrait-img" alt="Neel Nikhil">
-        </div>
-
-        <div class="card location-card">
-            <div class="map-bg"></div>
-            <div class="loc-overlay">
+    <main class="bento">
+        <div class="card portrait"><img src="me.jpg" id="p-img"></div>
+        <div class="card location">
+            <div class="map-img"></div>
+            <div class="loc-info">
                 <div>
-                    <small style="text-transform: uppercase; letter-spacing: 3px; opacity: 0.5;">Current Nexus</small>
-                    <h2 style="font-size: 2.2rem; font-weight: 900;">Bangalore, India</h2>
-                    <p style="font-family: 'JetBrains Mono'; opacity: 0.6; margin-top: 5px;">12.9716° N, 77.5946° E</p>
+                    <small style="opacity:0.5; letter-spacing:3px;">LOCATION</small>
+                    <h2>Bangalore, IN</h2>
                 </div>
-                <div id="time-clock" class="time-text">00:00:00</div>
+                <div id="clock" class="time-box">00:00:00</div>
             </div>
         </div>
-
-        <div class="card mindset-card">
+        <div class="card mindset">
             <div>
-                <small style="text-transform: uppercase; letter-spacing: 3px; opacity: 0.5;">The Protocol</small>
-                <h2 style="font-size: 2.5rem; font-weight: 900; margin-top: 10px;">Discipline > Motivation</h2>
-                <div class="hobby-row">
-                    <span onmouseover="swapMe('coding')" onmouseout="swapMe('default')">Coding</span>
-                    <span onmouseover="swapMe('chess')" onmouseout="swapMe('default')">Chess</span>
-                    <span onmouseover="swapMe('snooker')" onmouseout="swapMe('default')">Snooker</span>
+                <small style="opacity:0.5; letter-spacing:3px;">PHILOSOPHY</small>
+                <h2 style="font-size:2.5rem; font-weight:900;">Discipline > Motivation</h2>
+                <div class="hobby-btns">
+                    <span onmouseover="swp('coding')" onmouseout="swp('default')">Coding</span>
+                    <span onmouseover="swp('chess')" onmouseout="swp('default')">Chess</span>
+                    <span onmouseover="swp('snooker')" onmouseout="swp('default')">Snooker</span>
                 </div>
             </div>
         </div>
     </main>
 
-    <section class="sphere-section" id="skills">
-        <div class="sphere-area">
-            <div class="mesh-circle"></div>
-            <div class="tagcloud"></div>
-        </div>
+    <section class="sphere-container">
+        <div class="tagcloud"></div>
     </section>
 
     <script>
-        // --- DOT ENGINE ---
-        const canvas = document.getElementById('dotCanvas');
-        const ctx = canvas.getContext('2d');
-        let dots = [];
-        let mouse = { x: -1000, y: -1000 };
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        // 1. DOT BACKGROUND
+        const cvs = document.getElementById('dotCanvas');
+        const ctx = cvs.getContext('2d');
+        let dots = [], mouse = {x:-100, y:-100};
+        function setup() {
+            cvs.width = window.innerWidth; cvs.height = window.innerHeight;
             dots = [];
-            for (let x = 0; x < canvas.width + 50; x += 50) {
-                for (let y = 0; y < canvas.height + 50; y += 50) {
-                    dots.push({ x, y });
-                }
-            }
+            for(let x=0; x<cvs.width+50; x+=50) for(let y=0; y<cvs.height+50; y+=50) dots.push({x,y});
         }
-
-        window.onmousemove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
-        window.onresize = resize;
-        resize();
-
-        function render() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        window.onmousemove = e => { mouse.x=e.clientX; mouse.y=e.clientY; };
+        window.onresize = setup;
+        setup();
+        function draw() {
+            ctx.clearRect(0,0,cvs.width,cvs.height);
             dots.forEach(d => {
-                const dist = Math.hypot(mouse.x - d.x, mouse.y - d.y);
-                const active = dist < 130;
-                ctx.fillStyle = active ? '#8b5cf6' : 'rgba(255,255,255,0.1)';
-                ctx.beginPath();
-                ctx.arc(d.x, d.y, active ? 4.5 : 1.5, 0, Math.PI*2);
-                ctx.fill();
+                const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y);
+                ctx.fillStyle = dist < 120 ? '#8b5cf6' : 'rgba(255,255,255,0.1)';
+                ctx.beginPath(); ctx.arc(d.x, d.y, dist<120?4:1.5, 0, Math.PI*2); ctx.fill();
             });
-            requestAnimationFrame(render);
+            requestAnimationFrame(draw);
         }
-        render();
+        draw();
 
-        // --- SKILL SPHERE (FORCED LOGOS) ---
-        function startSphere() {
-            const myIcons = [
-                '<img src="https://cdn.simpleicons.org/react/61DAFB" />',
-                '<img src="https://cdn.simpleicons.org/nextdotjs/ffffff" />',
-                '<img src="https://cdn.simpleicons.org/python/3776AB" />',
-                '<img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" />',
-                '<img src="https://cdn.simpleicons.org/javascript/F7DF1E" />',
-                '<img src="https://cdn.simpleicons.org/typescript/3178C6" />',
-                '<img src="https://cdn.simpleicons.org/nodedotjs/339933" />',
-                '<img src="https://cdn.simpleicons.org/mongodb/47A248" />'
+        // 2. THE SPHERE (CRITICAL FIX)
+        function initSphere() {
+            const container = '.tagcloud';
+            // We pass the actual ICON URLS as strings, then let the CSS handle the img rendering
+            const icons = [
+                'https://cdn.simpleicons.org/react/61DAFB',
+                'https://cdn.simpleicons.org/nextdotjs/ffffff',
+                'https://cdn.simpleicons.org/python/3776AB',
+                'https://cdn.simpleicons.org/tailwindcss/06B6D4',
+                'https://cdn.simpleicons.org/javascript/F7DF1E',
+                'https://cdn.simpleicons.org/typescript/3178C6',
+                'https://cdn.simpleicons.org/nodedotjs/339933',
+                'https://cdn.simpleicons.org/mongodb/47A248'
             ];
-            TagCloud('.tagcloud', myIcons, {
-                radius: 260,
+
+            // Map URLs into actual HTML img tags
+            const imgTags = icons.map(url => `<img src="${url}" />`);
+
+            TagCloud(container, imgTags, {
+                radius: 280,
                 maxSpeed: 'fast',
                 initSpeed: 'normal',
-                useHTML: true
+                direction: 135,
+                keep: true,
+                useHTML: true // THIS IS THE MAGIC KEY
             });
         }
 
-        // --- NAVIGATION ---
-        const navItems = document.querySelectorAll('.nav-item');
-        const underline = document.querySelector('.nav-underline');
-        navItems.forEach(item => {
-            item.addEventListener('mouseenter', (e) => {
-                underline.style.opacity = '1';
-                underline.style.width = `${e.target.offsetWidth}px`;
-                underline.style.left = `${e.target.offsetLeft}px`;
-            });
-        });
-
-        // --- UTILS ---
-        function swapMe(type) {
-            const img = document.getElementById('portrait-img');
-            const map = { coding: 'coding-me.jpg', chess: 'chess-me.jpg', snooker: 'snooker-me.jpg', default: 'me.jpg' };
-            img.style.opacity = '0';
-            setTimeout(() => { img.src = map[type] || map.default; img.style.opacity = '1'; }, 250);
+        // 3. UTILS
+        function swp(t) {
+            const i = document.getElementById('p-img');
+            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'};
+            i.style.opacity = 0;
+            setTimeout(() => { i.src = m[t]||m.default; i.style.opacity = 1; }, 200);
         }
-
-        function processAI() {
-            const status = document.getElementById('ai-status');
-            status.innerHTML = "NEEL-AI: Verifying request... Optimization complete. Systems at 100%.";
-            document.getElementById('ai-input').value = "";
+        function runAI() {
+            document.getElementById('ai-out').innerText = "NEEL-AI: Verifying parameters... Optimization complete.";
+            document.getElementById('ai-in').value = "";
         }
-
-        // --- CLOCK ---
         setInterval(() => {
-            const time = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata', hour12: false });
-            document.getElementById('time-clock').innerText = time + " IST";
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false}) + " IST";
         }, 1000);
 
-        window.onload = startSphere;
+        window.onload = initSphere;
     </script>
 </body>
 </html>
