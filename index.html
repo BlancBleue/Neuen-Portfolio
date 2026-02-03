@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | Front End Developer</title>
+    <title>Neel Nikhil | Digital Architect</title>
+    
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
 </head>
 <body data-theme="dark">
+
+    <canvas id="dotCanvas"></canvas>
 
     <header class="site-header" id="main-header">
         <div class="logo">NN</div>
@@ -18,25 +25,25 @@
             <a href="#skills">Skills</a>
         </nav>
         <div class="header-right">
-            <div class="theme-switch" onclick="toggleTheme()">
+            <div class="theme-switch" onclick="toggleTheme()" title="Toggle Visual Mode">
                 <div class="switch-ball"></div>
             </div>
-            <button class="cta">Book a Call</button>
+            <button class="cta">Connect</button>
         </div>
     </header>
 
     <section class="hero" id="home">
         <div class="hero-content">
-            <p class="pre-title">Neel Nikhil</p>
-            <h1 class="massive-hero">FRONT END<br>DEVELOPER</h1>
+            <h1 class="massive-hero">NEEL NIKHIL</h1>
+            <p class="hero-subtitle">FRONT END DEVELOPER</p>
         </div>
 
         <div class="ai-chat-box">
             <div class="chat-display" id="chat-display">
-                <div class="bot-bubble">Terminal Active. Sphere online.</div>
+                <div class="bot-bubble">Terminal initialized. All systems nominal.</div>
             </div>
             <div class="chat-input-row">
-                <input type="text" id="ai-input" placeholder="Ask Neel-AI...">
+                <input type="text" id="ai-input" placeholder="Query the system...">
                 <button onclick="askAI()">Send</button>
             </div>
         </div>
@@ -44,36 +51,33 @@
 
     <main class="main-grid" id="about">
         <div class="card area-portrait">
-            <img src="me.jpg" id="main-photo" alt="Neel Portrait">
-        </div>
-
-        <div class="card area-focus">
-            <small>Focus</small>
-            <h3>Product Architecture</h3>
-            <p class="muted">Scaling high-performance web systems.</p>
-        </div>
-
-        <div class="card area-mindset">
-            <small>Mindset</small>
-            <h3>Discipline > Motivation</h3>
-            <div class="hobby-triggers">
-                <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
-                <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
-                <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
-            </div>
+            <img src="me.jpg" id="main-photo" alt="Neel Nikhil">
         </div>
 
         <div class="card area-location">
             <div class="map-bg-image"></div>
             <div class="loc-overlay">
                 <div class="loc-text">
-                    <small>Location</small>
-                    <h3>Bangalore, IN</h3>
+                    <small>Operating From</small>
+                    <h3>Bangalore, Karnataka, IN</h3>
                     <p class="coords">12.9716° N, 77.5946° E</p>
                 </div>
                 <div id="time-display" class="time-box">00:00:00 IST</div>
             </div>
-            <div class="radar-ping"></div>
+        </div>
+
+        <div class="card area-mindset">
+            <div class="mindset-content">
+                <small>The Philosophy</small>
+                <h3>Discipline > Motivation</h3>
+                <p class="muted">Mastering the craft through consistency.</p>
+                
+                <div class="hobby-triggers">
+                    <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
+                    <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
+                    <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -83,6 +87,13 @@
             <div class="tagcloud"></div>
         </div>
     </section>
+
+    <footer class="status-bar">
+        <div class="status-item">
+            <span class="pulse-dot"></span> Available for projects
+        </div>
+        <div class="status-item">© 2026 NEEL NIKHIL</div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
