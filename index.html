@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | Digital Architect</title>
+    <title>Neel Nikhil | Full Stack Developer</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
@@ -21,93 +21,80 @@
             --sphere-web: rgba(99, 102, 241, 0.2);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background 0.3s, border 0.3s; }
+        html { scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.6; }
+        #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.5; }
 
-        /* --- HEADER & THEME TOGGLE --- */
+        /* --- HEADER --- */
         .site-header {
             position: fixed; width: 100%; top: 0; z-index: 9999;
-            display: flex; justify-content: space-between; align-items: center; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center; padding: 25px 5%;
         }
         .nav-pill {
             background: var(--glass); backdrop-filter: blur(20px);
             border: 1px solid var(--border); padding: 10px 25px; border-radius: 100px;
             display: flex; align-items: center; gap: 20px;
         }
-        .nav-item { text-decoration: none; color: inherit; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; }
-        
-        .theme-btn {
-            background: var(--accent); color: white; border: none; width: 40px; height: 40px; 
-            border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
-        }
+        .nav-item { text-decoration: none; color: var(--txt); font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; }
+        .theme-btn { background: var(--accent); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; }
 
-        /* --- HERO --- */
+        /* --- HERO & FLOWING TEXT --- */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .massive-hero {
-            font-size: clamp(4rem, 15vw, 11rem); font-weight: 900; letter-spacing: -8px; line-height: 0.8;
+        
+        .massive-hero, .flowing-header {
+            font-weight: 900; letter-spacing: -6px; line-height: 0.8;
             background: linear-gradient(to right, #8b5cf6, #3b82f6, #f472b6, #fbbf24, #8b5cf6);
             background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: colorCycle 5s linear infinite;
         }
+        .massive-hero { font-size: clamp(4rem, 15vw, 11rem); }
+        .flowing-header { font-size: clamp(3rem, 10vw, 6.5rem); letter-spacing: -3px; margin-top: 10px; }
+
         @keyframes colorCycle { to { background-position: 300% center; } }
+
+        /* --- AI TERMINAL --- */
+        .ai-terminal {
+            margin-top: 50px; width: 90%; max-width: 450px;
+            background: var(--glass); border: 1px solid var(--border);
+            padding: 20px; border-radius: 30px; backdrop-filter: blur(15px);
+        }
+        .ai-display { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.8rem; margin-bottom: 15px; text-align: left; border-left: 3px solid var(--accent); }
 
         /* --- BENTO & RGB --- */
         .bento { display: grid; max-width: 1200px; margin: 100px auto; gap: 25px; grid-template-columns: 1fr 1.8fr; grid-template-rows: 350px 350px; padding: 0 20px; }
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; overflow: hidden; position: relative; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 45px; position: relative; overflow: hidden; }
         
-        .portrait { grid-row: span 2; }
         .portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.4s; }
         .portrait:hover img { 
-            filter: grayscale(0);
-            box-shadow: 10px 0 0 rgba(255,0,0,0.3), -10px 0 0 rgba(0,255,255,0.3);
+            filter: grayscale(0); 
+            box-shadow: 10px 0px 0px rgba(255,0,0,0.4), -10px 0px 0px rgba(0,255,255,0.4); 
+            transform: scale(1.02); 
         }
 
-        .ai-terminal {
-            margin-top: 30px; width: 90%; max-width: 450px;
-            background: var(--glass); border: 1px solid var(--border);
-            padding: 20px; border-radius: 25px;
-        }
-        .ai-display { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.8rem; margin-bottom: 10px; }
-
-        /* --- SPHERE WEB SYSTEM --- */
-        .skills-section { height: 800px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .map-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000'); background-size: cover; opacity: 0.2; filter: grayscale(1); }
         
-        .sphere-web-overlay {
-            position: absolute; width: 650px; height: 650px;
-            border: 1px solid var(--sphere-web); border-radius: 50%;
-            pointer-events: none; opacity: 0.5;
-            background: radial-gradient(circle, transparent 60%, var(--sphere-web));
-            animation: pulse 4s infinite ease-in-out;
-        }
-        .sphere-web-overlay::before {
-            content: ''; position: absolute; inset: 0;
-            border: 1px solid var(--sphere-web); border-radius: 50%;
-            transform: rotateX(75deg);
-        }
-        .sphere-web-overlay::after {
-            content: ''; position: absolute; inset: 0;
-            border: 1px solid var(--sphere-web); border-radius: 50%;
-            transform: rotateY(75deg);
-        }
+        .hobby-btns { display: flex; gap: 10px; margin-top: 25px; }
+        .hobby-btns span { padding: 10px 22px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; font-size: 0.8rem; transition: 0.3s; }
+        .hobby-btns span:hover { background: var(--accent); color: white; }
 
-        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.05); opacity: 0.6; } }
-
-        .tagcloud { color: transparent !important; }
-        .tagcloud--item { display: flex !important; align-items: center; justify-content: center; }
-        .tagcloud--item img { 
-            width: 70px; height: 70px; 
-            filter: brightness(0.8) grayscale(0.5); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* --- SKILLS & SPHERE --- */
+        .skills-section { padding: 120px 0; text-align: center; position: relative; }
+        .tech-stack-sub { font-family: 'JetBrains Mono'; letter-spacing: 8px; opacity: 0.5; font-weight: 800; }
+        
+        .sphere-container { height: 750px; width: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
+        
+        /* THE SPHERICAL WEB LINES */
+        .web-overlay {
+            position: absolute; width: 600px; height: 600px; border: 1px solid var(--sphere-web);
+            border-radius: 50%; pointer-events: none; opacity: 0.4;
         }
-        .tagcloud--item:hover img { filter: brightness(1.2) grayscale(0); transform: scale(2) rotate(10deg); z-index: 50; }
+        .web-rotate { position: absolute; width: 600px; height: 600px; border: 1px solid var(--sphere-web); border-radius: 50%; transform: rotateX(80deg); }
 
-        .tagcloud--item::after {
-            content: attr(data-name); position: absolute; top: 110%;
-            background: var(--accent); color: white; padding: 4px 12px; border-radius: 20px;
-            font-size: 10px; font-weight: 800; opacity: 0; transition: 0.3s;
-        }
-        .tagcloud--item:hover::after { opacity: 1; top: 120%; }
+        .tagcloud--item img { width: 70px !important; height: 70px !important; filter: brightness(0) invert(1); transition: 0.4s; }
+        [data-theme="light"] .tagcloud--item img { filter: brightness(0); }
+        .tagcloud--item:hover img { filter: brightness(1) invert(0) !important; transform: scale(1.8); }
 
     </style>
 </head>
@@ -116,7 +103,7 @@
     <canvas id="dotCanvas"></canvas>
 
     <header class="site-header">
-        <div style="font-weight: 900; font-size: 1.5rem;">NN</div>
+        <div style="font-weight: 900; font-size: 1.6rem;">NN</div>
         <nav class="nav-pill">
             <a href="#home" class="nav-item">INDEX</a>
             <a href="#about" class="nav-item">BIO</a>
@@ -127,83 +114,59 @@
 
     <section class="hero" id="home">
         <h1 class="massive-hero">NEEL NIKHIL</h1>
+        <p style="font-family:'JetBrains Mono'; letter-spacing: 12px; opacity: 0.5; font-weight: 800; margin-top: 10px;">FULL STACK DEVELOPER</p>
+        
         <div class="ai-terminal">
-            <div id="ai-out" class="ai-display">AI: Mode - Dark. Web - Initialized.</div>
+            <div id="ai-out" class="ai-display">NEEL-AI: Ready for deployment. All modules active.</div>
             <div style="display:flex; background:rgba(0,0,0,0.1); border-radius:50px; padding:5px;">
-                <input type="text" id="ai-in" placeholder="Command..." style="flex:1; background:transparent; border:none; padding-left:15px; outline:none; color:inherit;">
-                <button onclick="runAI()" style="background:var(--accent); border:none; color:white; padding:8px 15px; border-radius:50px; cursor:pointer;">RUN</button>
+                <input type="text" id="ai-in" placeholder="Query system..." style="flex:1; background:transparent; border:none; padding-left:15px; outline:none; color:inherit;">
+                <button onclick="runAI()" style="background:var(--accent); border:none; color:white; padding:10px 20px; border-radius:50px; font-weight:800; cursor:pointer;">RUN</button>
             </div>
         </div>
     </section>
 
     <main class="bento" id="about">
-        <div class="card portrait"><img src="me.jpg" id="p-img"></div>
-        <div class="card" style="padding:40px; display:flex; flex-direction:column; justify-content:center;">
-            <h2 style="font-size:3rem; font-weight:900;">Bangalore, IN</h2>
-            <div id="clock" style="font-family:'JetBrains Mono'; color:var(--accent); font-weight:800; margin-top:10px;">00:00:00</div>
+        <div class="card portrait" grid-row="span 2">
+            <img src="me.jpg" id="p-img">
         </div>
-        <div class="card" style="padding:40px;">
-            <h3 style="opacity:0.5; font-size:0.7rem; letter-spacing:5px;">MINDSET</h3>
-            <h2 style="font-size:2.2rem; font-weight:900; margin:10px 0;">Discipline > Motivation</h2>
-            <div style="display:flex; gap:10px; margin-top:20px;">
-                <span style="border:1px solid var(--border); padding:8px 20px; border-radius:50px; cursor:pointer;" onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
-                <span style="border:1px solid var(--border); padding:8px 20px; border-radius:50px; cursor:pointer;" onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
+        <div class="card" style="padding:50px; background:#000; display:flex; align-items:flex-end;">
+            <div class="map-bg"></div>
+            <div style="position:relative; z-index:2; display:flex; justify-content:space-between; width:100%; align-items:flex-end;">
+                <div><small style="opacity:0.5; letter-spacing:4px;">LOCUS</small><h2 style="font-size:2.8rem; font-weight:900;">Bangalore, IN</h2></div>
+                <div id="clock" style="font-family:'JetBrains Mono'; color:var(--accent); font-weight:800; font-size:1.3rem;">00:00:00</div>
+            </div>
+        </div>
+        <div class="card" style="padding:50px; display:flex; flex-direction:column; justify-content:center;">
+            <small style="opacity:0.5; letter-spacing:4px;">PHILOSOPHY</small>
+            <h2 style="font-size:2.8rem; font-weight:900; margin-top:10px;">Discipline > Motivation</h2>
+            <div class="hobby-btns">
+                <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
+                <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
+                <span onmouseover="swp('snooker')" onmouseout="swp('default')">SNOOKER</span>
             </div>
         </div>
     </main>
 
     <section class="skills-section" id="skills">
-        <div class="sphere-web-overlay"></div>
-        <div class="tagcloud"></div>
+        <span class="tech-stack-sub">TECH STACK</span>
+        <h2 class="flowing-header">MY SKILLS</h2>
+        <div class="sphere-container">
+            <div class="web-overlay"></div>
+            <div class="web-rotate"></div>
+            <div class="tagcloud"></div>
+        </div>
     </section>
 
     <script>
-        // 1. THEME TOGGLE
+        // 1. THEME
         function toggleTheme() {
-            const body = document.documentElement;
-            const btn = document.getElementById('tBtn');
-            const isDark = body.getAttribute('data-theme') === 'dark';
-            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            btn.innerText = isDark ? '☀️' : '🌙';
-            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            const b = document.documentElement;
+            const isDark = b.getAttribute('data-theme') === 'dark';
+            b.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('tBtn').innerText = isDark ? '☀️' : '🌙';
         }
 
-        // 2. SPHERE WITH WEB EFFECT
-        function initSphere() {
-            const iconMap = {
-                'React': 'https://cdn.simpleicons.org/react/61DAFB',
-                'Next.js': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
-                'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1',
-                'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
-                'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E',
-                'Python': 'https://cdn.simpleicons.org/python/3776AB',
-                'CSS': 'https://cdn.simpleicons.org/css3/1572B6',
-                'HTML': 'https://cdn.simpleicons.org/html5/E34F26',
-                'Node': 'https://cdn.simpleicons.org/nodedotjs/339933',
-                'C++': 'https://cdn.simpleicons.org/cplusplus/00599C',
-                'Git': 'https://cdn.simpleicons.org/git/F05032',
-                'Vercel': 'https://cdn.simpleicons.org/vercel/ffffff'
-            };
-
-            TagCloud('.tagcloud', Object.keys(iconMap), {
-                radius: 300,
-                maxSpeed: 'normal',
-                initSpeed: 'normal',
-                keep: true
-            });
-
-            setTimeout(() => {
-                document.querySelectorAll('.tagcloud--item').forEach(item => {
-                    const name = item.innerText.trim();
-                    if (iconMap[name]) {
-                        item.setAttribute('data-name', name);
-                        item.innerHTML = `<img src="${iconMap[name]}" alt="${name}">`;
-                    }
-                });
-            }, 200);
-        }
-
-        // 3. CANVAS DOTS
+        // 2. DOTS
         const cvs = document.getElementById('dotCanvas');
         const ctx = cvs.getContext('2d');
         let dots = [], mouse = {x:-1000, y:-1000};
@@ -213,8 +176,40 @@
         function draw() { ctx.clearRect(0,0,cvs.width,cvs.height); dots.forEach(d => { const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y); ctx.fillStyle = dist < 130 ? '#8b5cf6' : 'rgba(128,128,128,0.2)'; ctx.beginPath(); ctx.arc(d.x, d.y, dist<130?3:1, 0, Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
         draw();
 
-        function runAI() { document.getElementById('ai-out').innerText = "AI: Success. Sphere & Theme modules online."; }
+        // 3. SPHERE
+        function initSphere() {
+            const icons = {
+                'React': 'https://cdn.simpleicons.org/react/61DAFB',
+                'Next': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
+                'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1',
+                'CSS': 'https://cdn.simpleicons.org/css3/1572B6',
+                'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E',
+                'Python': 'https://cdn.simpleicons.org/python/3776AB',
+                'Node': 'https://cdn.simpleicons.org/nodedotjs/339933',
+                'Git': 'https://cdn.simpleicons.org/git/F05032',
+                'HTML': 'https://cdn.simpleicons.org/html5/E34F26',
+                'CPP': 'https://cdn.simpleicons.org/cplusplus/00599C',
+                'Docker': 'https://cdn.simpleicons.org/docker/2496ED',
+                'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4'
+            };
+            TagCloud('.tagcloud', Object.keys(icons), { radius: 280, maxSpeed: 'normal', keep: true });
+            setTimeout(() => {
+                document.querySelectorAll('.tagcloud--item').forEach(item => {
+                    const n = item.innerText.trim();
+                    if(icons[n]) item.innerHTML = `<img src="${icons[n]}" alt="${n}">`;
+                });
+            }, 200);
+        }
+
+        // 4. UTILS
+        function swp(t) { 
+            const i = document.getElementById('p-img'); 
+            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'}; 
+            i.src = m[t] || m.default; 
+        }
+        function runAI() { document.getElementById('ai-out').innerText = "NEEL-AI: Parameters received. Deployment schedule optimized."; }
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata'}) + " IST"; }, 1000);
+        
         window.onload = initSphere;
     </script>
 </body>
