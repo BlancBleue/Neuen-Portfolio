@@ -7,69 +7,81 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
 </head>
-<body data-theme="dark">
-    <div class="ui-wrapper">
-        <header class="site-header">
-            <div class="theme-switch" onclick="toggleTheme()"><div class="indicator"></div></div>
-            <nav class="nav">
-                <a href="#home">Home</a>
-                <a href="#skills">Skills</a>
-            </nav>
-            <button class="cta">Book a Call</button>
-        </header>
+<body>
 
-        <section class="hero" id="home">
-            <p class="pre-title">Fullstack Engineer</p>
-            <h1 class="glimmer-text">NEEL NIKHIL</h1>
-        </section>
+    <header class="site-header">
+        <div class="logo">NN</div>
+        <nav class="nav">
+            <a href="#home">Home</a>
+            <a href="#skills">Skills</a>
+        </nav>
+        <button class="cta">Book a Call</button>
+    </header>
 
-        <main class="main-grid">
-            <div class="card area-portrait">
-                <div class="portrait-container"><img src="me.jpg" id="main-photo" alt="Neel"></div>
+    <section class="hero" id="home">
+        <p class="pre-title">Frontend Developer</p>
+        <h1 class="glimmer-text">NEEL NIKHIL</h1>
+
+        <div class="ai-chat-box">
+            <div class="chat-display" id="chat-display">
+                <div class="bot-bubble">Hi, I'm Neel's AI. Ask me about his projects or skills!</div>
             </div>
-            <div class="card area-focus">
-                <small>Focus</small>
-                <h3>Product Architecture</h3>
-                <p class="muted">Scaling systems from 0 to 1.</p>
+            <div class="chat-input-row">
+                <input type="text" id="ai-input" placeholder="Ask anything about Neel...">
+                <button onclick="askAI()">Ask</button>
             </div>
-            <div class="card area-about">
-                <small>About Me</small>
-                <h3>Digital Architect</h3>
-                <p class="muted">Solving complex problems with code.</p>
+        </div>
+    </section>
+
+    <main class="main-grid">
+        <div class="card area-portrait">
+            <img src="me.jpg" id="main-photo" alt="Neel">
+        </div>
+        <div class="card area-focus">
+            <small>Focus</small>
+            <h3>Product Architecture</h3>
+            <p class="muted">Scaling systems from 0 to 1.</p>
+        </div>
+        <div class="card area-about">
+            <small>About Me</small>
+            <h3>Digital Architect</h3>
+            <p class="muted">Solving complex problems with code.</p>
+        </div>
+        <div class="card area-mindset">
+            <small>Mindset</small>
+            <h3>Discipline > Motivation</h3>
+            <div class="hobby-triggers">
+                <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
+                <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
+                <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
             </div>
-            <div class="card area-mindset">
-                <small>Mindset</small>
-                <h3>Discipline > Motivation</h3>
-                <div class="hobby-triggers">
-                    <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
-                    <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
-                    <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
-                </div>
-            </div>
-            <div class="card area-location">
-                <div class="map-container">
-                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b" class="map-bg-img" alt="Map">
-                    <div class="loc-overlay">
-                        <div class="loc-text">
-                            <small>12.9716° N, 77.5946° E</small>
-                            <h3>Bangalore, IN</h3>
-                        </div>
-                        <div id="time-display" class="time-box">00:00:00 +5:30 GMT</div>
+        </div>
+        <div class="card area-location">
+            <div class="map-container">
+                <div class="loc-overlay">
+                    <div class="loc-text">
+                        <small>Location Strategy</small>
+                        <h3>Bangalore, IN</h3>
+                        <p class="coords">12.9716° N, 77.5946° E</p>
                     </div>
+                    <div id="time-display" class="time-box">00:00:00 IST</div>
                 </div>
+                <div class="radar-ping"></div>
             </div>
-        </main>
+        </div>
+    </main>
 
-        <section class="skills-section" id="skills">
-            <div class="skills-header">
-                <small>Tech Stack</small>
-                <h2 class="glimmer-text">My <span class="colorful-text">Skills</span></h2>
-            </div>
-            <div class="globe-wrapper">
-                <div class="tagcloud"></div>
-            </div>
-        </section>
-    </div>
+    <section class="skills-section" id="skills">
+        <div class="skills-header">
+            <small>TECH STACK</small>
+            <h2>My <span class="purple-txt">Skills</span></h2>
+        </div>
+        <div class="sphere-wrapper">
+            <div class="mesh-sphere"></div>
+            <div class="tagcloud"></div>
+        </div>
+    </section>
+
     <script src="script.js"></script>
 </body>
 </html>
