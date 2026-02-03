@@ -1,16 +1,11 @@
-// 1. Theme Toggle Logic
+// 1. Theme Toggle
 function toggleTheme() {
     const body = document.body;
     const current = body.getAttribute('data-theme');
-    const newTheme = current === 'dark' ? 'light' : 'dark';
-    body.setAttribute('data-theme', newTheme);
-    
-    // Optional: Save preference to localStorage
-    localStorage.setItem('portfolio-theme', newTheme);
+    body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
 }
 
-// 2. Hobby Photo Switcher 
-// Matches your filenames: coding-me.jpg, chess-me.jpg, snooker-me.jpg
+// 2. Hobby Photo Switcher (Matches your exact filenames)
 const hobbyPhotos = {
     'coding': 'url("coding-me.jpg")',
     'chess': 'url("chess-me.jpg")',
@@ -25,94 +20,64 @@ function showHobby(type) {
         hobbyLayer.style.opacity = "0";
         mainPhoto.style.opacity = "1";
     } else {
-        // Apply image from the object
         hobbyLayer.style.backgroundImage = hobbyPhotos[type];
-        
-        // Ensure aesthetic alignment matches the CSS "Top-Aligned" look
         hobbyLayer.style.backgroundSize = "cover";
-        hobbyLayer.style.backgroundPosition = "top center"; 
-        
-        // Cross-fade effect
+        hobbyLayer.style.backgroundPosition = "center";
         hobbyLayer.style.opacity = "1";
         mainPhoto.style.opacity = "0"; 
     }
 }
 
-// 3. AI Digital Twin Search (Typing Effect)
+// 3. AI Search Bar (Typing Effect)
 function handleSearch(event) {
     event.preventDefault();
     const input = document.getElementById('ai-input');
     const res = document.getElementById('ai-response');
-    
-    // Custom response from your "Digital Twin"
-    const responseText = `✦ Neel is currently architecting systems in Bangalore. Try hovering over his "Mindset" card to see his hobbies!`;
+    const text = `✦ Neel is architecting systems in Bangalore. Ask about his Next.js projects!`;
     
     if(input.value.trim() !== "") {
         res.style.display = 'block';
-        res.innerHTML = ""; // Reset box
-        
+        res.innerHTML = "";
         let i = 0;
         function typeWriter() {
-            if (i < responseText.length) {
-                res.innerHTML += responseText.charAt(i);
+            if (i < text.length) {
+                res.innerHTML += text.charAt(i);
                 i++;
-                setTimeout(typeWriter, 30); // Typing speed in ms
+                setTimeout(typeWriter, 30);
             }
         }
         typeWriter();
-        input.value = ""; // Clear search bar
+        input.value = "";
     }
 }
 
-// 4. Background Canvas (Floating Dots Animation)
+// 4. Background Canvas (Dot Animation)
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
 let dots = [];
 
-function initCanvas() {
+function init() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    
-    // Create 60 particles
     dots = Array.from({length: 60}, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 1.5 + 0.5,
-        velocity: Math.random() * 0.4 + 0.1
+        s: Math.random() * 1.5 + 0.5,
+        v: Math.random() * 0.4 + 0.1
     }));
 }
 
-function animateDots() {
+function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
     const isDark = document.body.getAttribute('data-theme') === 'dark';
-    ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
-    
-    dots.forEach(dot => {
-        ctx.beginPath();
-        ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Move dots upward
-        dot.y -= dot.velocity;
-        
-        // Reset dots to bottom when they leave the screen
-        if (dot.y < 0) {
-            dot.y = canvas.height;
-            dot.x = Math.random() * canvas.width;
-        }
+    ctx.fillStyle = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)';
+    dots.forEach(d => {
+        ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2); ctx.fill();
+        d.y -= d.v; if(d.y < 0) d.y = canvas.height;
     });
-    
-    requestAnimationFrame(animateDots);
+    requestAnimationFrame(draw);
 }
 
-// Handle resizing and initial load
-window.addEventListener('resize', initCanvas);
-document.addEventListener('DOMContentLoaded', () => {
-    // Check for saved theme
-    const savedTheme = localStorage.getItem('portfolio-theme');
-    if (savedTheme) document.body.setAttribute('data-theme', savedTheme);
-    
-    initCanvas();
-    animateDots();
-});
+window.onresize = init;
+init();
+draw();
