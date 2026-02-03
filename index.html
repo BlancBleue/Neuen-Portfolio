@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neel Nikhil | Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body data-theme="dark">
@@ -15,7 +12,7 @@
 
     <div class="ui-wrapper">
         <header class="site-header">
-            <div class="theme-switch" id="theme-btn" onclick="toggleTheme()">
+            <div class="theme-switch" onclick="toggleTheme()">
                 <div class="indicator"></div>
             </div>
             <nav class="nav">
@@ -25,68 +22,43 @@
             <button class="cta">Book a Call</button>
         </header>
 
-        <main id="home">
-            <section class="hero">
-                <p class="pre-title">Fullstack Engineer</p>
-                <h1 class="glimmer-text">NEEL NIKHIL</h1>
-
-                <div class="search-container">
-                    <form id="ai-form" class="search-bar" onsubmit="handleSearch(event)">
-                        <span class="ai-icon">✦</span>
-                        <input type="text" id="ai-input" placeholder="Ask my digital twin..." autocomplete="off">
-                        <div class="badge">AI</div>
-                    </form>
-                    <div id="ai-response" class="response-box"></div>
+        <main class="main-grid">
+            <div class="card area-portrait">
+                <div class="portrait-container">
+                    <img src="me.jpg" id="main-photo" alt="Neel">
                 </div>
-            </section>
+            </div>
 
-            <section class="main-grid">
-                <div class="card area-portrait">
-                    <div class="portrait-container">
-                        <img src="me.jpg" alt="Neel Nikhil" id="main-photo">
-                        <div class="hobby-layer" id="hobby-photo"></div>
-                        <div class="rgb-glitch"></div>
-                    </div>
-                </div>
+            <div class="card area-focus">
+                <small>Focus</small>
+                <h3>Product Architecture</h3>
+                <p class="muted">Scaling systems with precision.</p>
+            </div>
 
-                <div class="card area-focus">
-                    <small>Focus</small>
-                    <h3>Product Architecture</h3>
-                    <p class="muted">Scaling systems with precision engineering.</p>
+            <div class="card area-craft">
+                <small>Craft</small>
+                <div class="tech-stack">
+                    <span>Next.js</span><span>TS</span>
+                    <span>PostgreSQL</span>
                 </div>
+            </div>
 
-                <div class="card area-craft">
-                    <small>Craft</small>
-                    <div class="tech-stack">
-                        <span>Next.js</span><span>TS</span>
-                        <span>PostgreSQL</span><span>Tailwind</span>
-                    </div>
+            <div class="card area-mindset">
+                <small>Mindset</small>
+                <h3>Discipline > Motivation</h3>
+                <div class="hobby-triggers">
+                    <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
+                    <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
                 </div>
+            </div>
 
-                <div class="card area-mindset">
-                    <div class="mindset-content">
-                        <small>Mindset</small>
-                        <h3>Discipline > Motivation</h3>
-                        <p class="muted">Consistency wins every single time.</p>
-                        <div class="hobby-triggers">
-                            <span onmouseover="showHobby('coding')" onmouseout="showHobby('default')">Coding</span>
-                            <span onmouseover="showHobby('chess')" onmouseout="showHobby('default')">Chess</span>
-                        </div>
-                    </div>
+            <div class="card area-location">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.886539092!2d77.4908545!3d12.9538477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfad3638d9963!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+                <div class="loc-overlay">
+                    <h3><span class="pulse"></span> Bangalore, IN</h3>
+                    <p class="coords">12.9716° N, 77.5946° E</p>
                 </div>
-
-                <div class="card area-location">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m12!1m3!1d248849.886539092!2d77.4908523!3d12.9538477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfad3685100e2!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000" 
-                        allowfullscreen="" loading="lazy">
-                    </iframe>
-                    <div class="loc-overlay">
-                        <small>HQ</small>
-                        <h3><span class="pulse"></span> Bangalore, IN</h3>
-                        <p class="coords">12.9716° N, 77.5946° E</p>
-                    </div>
-                </div>
-            </section>
+            </div>
         </main>
     </div>
 
