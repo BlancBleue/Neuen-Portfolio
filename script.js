@@ -1,11 +1,12 @@
-// 1. Theme Toggle
+// 1. Theme Toggle Logic
 function toggleTheme() {
     const body = document.body;
     const current = body.getAttribute('data-theme');
     body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
 }
 
-// 2. Hobby Photo Switcher (Matches your exact filenames)
+// 2. Hobby Photo Switcher
+// Make sure these filenames match your images exactly (case-sensitive!)
 const hobbyPhotos = {
     'coding': 'url("coding-me.jpg")',
     'chess': 'url("chess-me.jpg")',
@@ -20,38 +21,27 @@ function showHobby(type) {
         hobbyLayer.style.opacity = "0";
         mainPhoto.style.opacity = "1";
     } else {
-        hobbyLayer.style.backgroundImage = hobbyPhotos[type];
-        hobbyLayer.style.backgroundSize = "cover";
-        hobbyLayer.style.backgroundPosition = "center";
-        hobbyLayer.style.opacity = "1";
-        mainPhoto.style.opacity = "0"; 
+        if (hobbyPhotos[type]) {
+            hobbyLayer.style.backgroundImage = hobbyPhotos[type];
+            hobbyLayer.style.opacity = "1";
+            mainPhoto.style.opacity = "0";
+        }
     }
 }
 
-// 3. AI Search Bar (Typing Effect)
+// 3. AI Search Bar Mock-up
 function handleSearch(event) {
     event.preventDefault();
     const input = document.getElementById('ai-input');
     const res = document.getElementById('ai-response');
-    const text = `✦ Neel is architecting systems in Bangalore. Ask about his Next.js projects!`;
-    
     if(input.value.trim() !== "") {
         res.style.display = 'block';
-        res.innerHTML = "";
-        let i = 0;
-        function typeWriter() {
-            if (i < text.length) {
-                res.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 30);
-            }
-        }
-        typeWriter();
+        res.innerHTML = `✦ Neel is currently architecting systems in Bangalore. Try asking about his Next.js projects!`;
         input.value = "";
     }
 }
 
-// 4. Background Canvas (Dot Animation)
+// 4. Background Canvas Animation (The Floating Dots)
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
 let dots = [];
@@ -71,13 +61,17 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const isDark = document.body.getAttribute('data-theme') === 'dark';
     ctx.fillStyle = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)';
+    
     dots.forEach(d => {
-        ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2); ctx.fill();
-        d.y -= d.v; if(d.y < 0) d.y = canvas.height;
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
+        ctx.fill();
+        d.y -= d.v;
+        if(d.y < 0) d.y = canvas.height;
     });
     requestAnimationFrame(draw);
 }
 
-window.onresize = init;
+window.addEventListener('resize', init);
 init();
 draw();
