@@ -1,4 +1,4 @@
-/* --- 1. CORE TOKENS & THEMES --- */
+/* --- 1. DESIGN TOKENS & DYNAMIC THEMES --- */
 :root {
     --bg: #050505;
     --txt: #ffffff;
@@ -6,7 +6,7 @@
     --card-bg: rgba(255, 255, 255, 0.03);
     --border: rgba(255, 255, 255, 0.12);
     --sphere-line: rgba(255, 255, 255, 0.1);
-    --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body[data-theme="light"] {
@@ -35,7 +35,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Behind everything */
+    z-index: -1;
     pointer-events: none;
 }
 
@@ -53,16 +53,7 @@ body {
 
 .logo { font-weight: 900; font-size: 1.6rem; letter-spacing: -2px; }
 
-.nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: var(--txt);
-    font-weight: 600;
-    font-size: 0.85rem;
-    opacity: 0.6;
-}
-
-/* --- 4. THE SPOTLIGHT HERO --- */
+/* --- 4. THE SPOTLIGHT HERO (COLOR SWITCHING) --- */
 .hero {
     height: 100vh;
     display: flex;
@@ -78,10 +69,20 @@ body {
     letter-spacing: -8px;
     line-height: 0.8;
     margin: 0;
-    /* Subtle color shift from top to bottom */
-    background: linear-gradient(to bottom, #fff 40%, var(--accent));
+    /* THE COLOR SWITCHING LOGIC */
+    background: linear-gradient(
+        to right, 
+        #8b5cf6, #3b82f6, #f472b6, #fbbf24, #8b5cf6
+    );
+    background-size: 300% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    animation: colorCycle 4s linear infinite;
+}
+
+@keyframes colorCycle {
+    0% { background-position: 0% center; }
+    100% { background-position: 300% center; }
 }
 
 .hero-subtitle {
@@ -111,7 +112,6 @@ body {
     padding: 14px 22px;
     border-radius: 25px;
     color: var(--accent);
-    font-size: 0.95rem;
 }
 
 .chat-input-row {
@@ -120,36 +120,23 @@ body {
     border-radius: 35px;
     padding: 6px;
     border: 1px solid var(--border);
-    margin-top: 20px;
 }
 
 .chat-input-row input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: #fff;
-    padding-left: 20px;
-    outline: none;
+    flex: 1; background: transparent; border: none; color: #fff; padding-left: 20px; outline: none;
 }
 
 .chat-input-row button {
-    background: var(--accent);
-    border: none;
-    color: #fff;
-    padding: 10px 25px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: 800;
+    background: var(--accent); border: none; color: #fff; padding: 10px 25px; border-radius: 30px; cursor: pointer; font-weight: 800;
 }
 
-/* --- 6. BENTO GRID (WITH EXTENDED MAP) --- */
+/* --- 6. BENTO GRID & RGB PORTRAIT --- */
 .main-grid {
     display: grid;
     max-width: 1250px;
     margin: 100px auto;
     padding: 0 25px;
     gap: 25px;
-    /* Grid layout: Portrait on left, Map & Mindset on right */
     grid-template-columns: 1fr 2fr;
     grid-auto-rows: 300px;
 }
@@ -158,70 +145,65 @@ body {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 45px;
-    padding: 40px;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(10px);
 }
 
-.area-portrait { grid-row: span 2; padding: 0; }
-.area-portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.8s; }
+/* RGB HOVER EFFECT ON PORTRAIT */
+.area-portrait { grid-row: span 2; padding: 0; transition: var(--transition); }
 
-/* EXTENDED MAP STYLE */
+.area-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.1); /* Default B&W */
+    transition: var(--transition);
+}
+
+.area-portrait:hover img {
+    filter: grayscale(0) saturate(1.8) contrast(1.2); /* RGB SHIFT */
+    transform: scale(1.03);
+}
+
+.area-portrait:hover {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+    border-color: var(--accent);
+}
+
+/* EXTENDED MAP CARD */
 .area-location { grid-column: 2; padding: 0; background: #000; }
 .map-bg-image {
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop') center;
-    background-size: cover;
-    opacity: 0.4;
-    filter: grayscale(1);
-    transition: 0.5s;
+    background-size: cover; opacity: 0.4; filter: grayscale(1); transition: 0.5s;
 }
+.area-location:hover .map-bg-image { opacity: 0.6; transform: scale(1.02); filter: grayscale(0.5); }
 
 .loc-overlay {
-    position: absolute;
-    bottom: 35px;
-    left: 40px;
-    right: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    z-index: 10;
+    position: absolute; bottom: 35px; left: 40px; right: 40px;
+    display: flex; justify-content: space-between; align-items: flex-end; z-index: 10;
 }
 
-.coords { font-family: 'JetBrains Mono'; color: var(--accent); font-weight: 800; margin-top: 8px; }
+.coords { font-family: 'JetBrains Mono'; color: var(--accent); font-weight: 800; }
 
-/* HOBBY TRIGGER STYLING */
+/* HOBBY TRIGGERS */
+.area-mindset { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .hobby-triggers { margin-top: 25px; display: flex; gap: 20px; }
 .hobby-triggers span {
-    font-weight: 900;
-    color: var(--accent);
-    cursor: pointer;
-    text-transform: uppercase;
-    font-size: 1.1rem;
-    transition: 0.3s;
+    font-weight: 900; color: var(--accent); cursor: pointer; text-transform: uppercase; font-size: 1.1rem; transition: 0.3s;
 }
-.hobby-triggers span:hover { transform: translateY(-3px); text-shadow: 0 0 10px var(--accent); }
+.hobby-triggers span:hover { text-shadow: 0 0 15px var(--accent); transform: scale(1.1); }
 
 /* --- 7. RETINA-GRID SPHERE & LOGOS --- */
 .sphere-wrapper {
-    position: relative;
-    width: 600px;
-    height: 600px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 50px auto;
+    position: relative; width: 600px; height: 600px;
+    display: flex; justify-content: center; align-items: center; margin: 50px auto;
 }
 
 .mesh-sphere {
-    position: absolute;
-    width: 550px;
-    height: 550px;
-    border-radius: 50%;
+    position: absolute; width: 550px; height: 550px; border-radius: 50%;
     border: 0.5px solid var(--sphere-line);
-    /* 0.5px Straight Grid lines */
     background: 
         linear-gradient(to right, var(--sphere-line) 0.5px, transparent 0.5px) 0 0 / 50px 100%,
         linear-gradient(to bottom, var(--sphere-line) 0.5px, transparent 0.5px) 0 0 / 100% 50px;
@@ -230,12 +212,11 @@ body {
 
 @keyframes rotateSphere { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-/* LOGO FIX */
+/* LOGO RENDERING FIX */
 .tagcloud { display: flex; justify-content: center; align-items: center; }
 .tagcloud--item { display: block !important; }
 .tagcloud--item img {
-    width: 50px;
-    height: 50px;
+    width: 50px; height: 50px;
     filter: grayscale(1) brightness(1.5);
     transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -248,10 +229,6 @@ body[data-theme="light"] .switch-ball { transform: translateX(28px); }
 
 /* --- 9. STATUS BAR FOOTER --- */
 .status-bar {
-    padding: 30px 5%;
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    font-family: 'JetBrains Mono';
-    opacity: 0.5;
+    padding: 30px 5%; display: flex; justify-content: space-between;
+    font-size: 0.75rem; font-family: 'JetBrains Mono'; opacity: 0.5;
 }
