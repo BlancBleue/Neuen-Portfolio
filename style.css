@@ -1,24 +1,25 @@
-/* --- 1. DESIGN TOKENS & THEMES --- */
+/* --- 1. DESIGN TOKENS & DYNAMIC THEMES --- */
 :root {
     --bg: #050505;
     --txt: #ffffff;
-    --accent: #8b5cf6; /* Vibrant Purple */
+    --accent: #8b5cf6; 
     --card-bg: rgba(255, 255, 255, 0.03);
     --border: rgba(255, 255, 255, 0.15);
-    /* HYPER-VISIBLE DOTS */
-    --dot-color: rgba(255, 255, 255, 0.4); 
-    --sphere-grid: rgba(255, 255, 255, 0.25);
+    /* HYPER-VISIBLE BACKGROUND DOTS */
+    --dot-color: rgba(255, 255, 255, 0.45);
+    /* RETINA-THIN SPHERE GRID */
+    --sphere-line: rgba(255, 255, 255, 0.12);
     --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body[data-theme="light"] {
     --bg: #ffffff;
-    --txt: #0e0e0e;
+    --txt: #000000;
     --accent: #6366f1;
     --card-bg: rgba(0, 0, 0, 0.04);
     --border: rgba(0, 0, 0, 0.15);
-    --dot-color: rgba(0, 0, 0, 0.25);
-    --sphere-grid: rgba(0, 0, 0, 0.15);
+    --dot-color: rgba(0, 0, 0, 0.2);
+    --sphere-line: rgba(0, 0, 0, 0.1);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,13 +29,13 @@ body {
     color: var(--txt);
     font-family: 'Inter', sans-serif;
     transition: background var(--transition);
-    overflow-x: hidden;
-    /* DITTO DOTS: Bold and Sharp */
+    /* GLOBAL BOLD DOT GRID */
     background-image: radial-gradient(var(--dot-color) 2px, transparent 2px);
     background-size: 50px 50px;
+    overflow-x: hidden;
 }
 
-/* --- 2. DYNAMIC HEADER --- */
+/* --- 2. DYNAMIC SCROLL HEADER --- */
 .site-header {
     display: flex;
     justify-content: space-between;
@@ -49,26 +50,14 @@ body {
 
 .site-header.scrolled {
     background: rgba(var(--bg), 0.8);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px);
     border-bottom: 1px solid var(--accent);
     padding: 1.2rem 5%;
 }
 
 .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -1.5px; }
 
-.nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: var(--txt);
-    font-weight: 600;
-    font-size: 0.9rem;
-    opacity: 0.7;
-    transition: 0.3s;
-}
-
-.nav a:hover { opacity: 1; color: var(--accent); }
-
-/* --- 3. MASSIVE COLOR-CHANGING HERO --- */
+/* --- 3. MASSIVE COLOR-FLOW HERO --- */
 .hero {
     height: 100vh;
     display: flex;
@@ -80,11 +69,11 @@ body {
 }
 
 .massive-hero {
-    font-size: clamp(4rem, 16vw, 11rem);
+    font-size: clamp(4rem, 15vw, 10rem);
     font-weight: 900;
     line-height: 0.85;
     letter-spacing: -6px;
-    /* MULTI-COLOR FLOW ANIMATION */
+    /* DYNAMIC COLOR GRADIENT */
     background: linear-gradient(
         to right, 
         #ffffff, 
@@ -96,7 +85,7 @@ body {
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: textFlow 6s linear infinite;
+    animation: textFlow 5s linear infinite;
 }
 
 @keyframes textFlow {
@@ -123,14 +112,6 @@ body {
     border: 1px solid var(--border);
     border-radius: 50px; /* EXTRA CURVED */
     backdrop-filter: blur(20px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-}
-
-.chat-display {
-    height: 100px;
-    overflow-y: auto;
-    margin-bottom: 20px;
-    text-align: left;
 }
 
 .bot-bubble {
@@ -140,7 +121,6 @@ body {
     font-size: 1rem;
     color: var(--accent);
     border: 1px solid rgba(139, 92, 246, 0.3);
-    display: inline-block;
 }
 
 .chat-input-row {
@@ -149,6 +129,7 @@ body {
     border-radius: 40px;
     padding: 8px;
     border: 1px solid var(--border);
+    margin-top: 20px;
 }
 
 .chat-input-row input {
@@ -158,7 +139,6 @@ body {
     color: #fff;
     padding-left: 20px;
     outline: none;
-    font-size: 1rem;
 }
 
 .chat-input-row button {
@@ -185,7 +165,7 @@ body {
 .card {
     background: var(--card-bg);
     border: 2px solid var(--border);
-    border-radius: 45px; /* ULTRA CURVED */
+    border-radius: 45px; /* DEEP CURVES */
     padding: 35px;
     position: relative;
     overflow: hidden;
@@ -193,8 +173,21 @@ body {
 }
 
 .area-portrait { grid-area: 1 / 1 / 3 / 2; padding: 0; }
-.area-portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.6s; }
+.area-portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.6s ease; }
 .area-portrait:hover img { filter: grayscale(0); transform: scale(1.05); }
+
+.area-mindset { grid-area: 2 / 2 / 3 / 4; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+.hobby-triggers span {
+    margin: 0 15px;
+    cursor: pointer;
+    font-weight: 900;
+    color: var(--accent);
+    font-size: 1.3rem;
+    transition: 0.3s;
+}
+
+.hobby-triggers span:hover { text-shadow: 0 0 15px var(--accent); }
 
 /* --- 6. LOCATION & MAP --- */
 .area-location { padding: 0 !important; background: #000; }
@@ -204,7 +197,7 @@ body {
     background: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80') center;
     background-size: cover;
     opacity: 0.3;
-    filter: grayscale(1) contrast(1.2);
+    filter: grayscale(1);
 }
 
 .loc-overlay {
@@ -223,16 +216,9 @@ body {
     color: var(--accent);
     font-weight: 800;
     font-size: 1rem;
-    margin-top: 10px;
 }
 
-/* --- 7. GEOMETRIC GRID SPHERE --- */
-.skills-section {
-    padding: 150px 0;
-    display: flex;
-    justify-content: center;
-}
-
+/* --- 7. THE RETINA-GRID SPHERE --- */
 .sphere-wrapper {
     position: relative;
     width: 600px;
@@ -240,21 +226,21 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
 }
 
-/* STRAIGHT-LINE CRISS CROSS GRID */
 .mesh-sphere {
     position: absolute;
     width: 550px;
     height: 550px;
     border-radius: 50%;
-    border: 2px solid var(--sphere-grid);
+    /* 0.5px THIN STRAIGHT LINES */
+    border: 0.5px solid var(--sphere-line);
     background: 
-        linear-gradient(to right, var(--sphere-grid) 2px, transparent 2px) 0 0 / 50px 100%,
-        linear-gradient(to bottom, var(--sphere-grid) 2px, transparent 2px) 0 0 / 100% 50px;
-    box-shadow: inset 0 0 100px rgba(139, 92, 246, 0.1);
+        linear-gradient(to right, var(--sphere-line) 0.5px, transparent 0.5px) 0 0 / 50px 100%,
+        linear-gradient(to bottom, var(--sphere-line) 0.5px, transparent 0.5px) 0 0 / 100% 50px;
+    box-shadow: inset 0 0 100px rgba(139, 92, 246, 0.05);
     animation: rotateSphere 45s linear infinite;
-    z-index: 1;
 }
 
 @keyframes rotateSphere {
@@ -262,22 +248,48 @@ body {
     to { transform: rotate(360deg); }
 }
 
-.tagcloud { 
-    font-weight: 900; 
-    color: var(--txt); 
-    font-size: 1.2rem;
+/* --- 8. LOGO STYLING IN SPHERE --- */
+.tagcloud--item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
     z-index: 5;
 }
 
-/* --- 8. THEME SWITCH --- */
+.tagcloud--item img {
+    width: 45px;
+    height: 45px;
+    filter: grayscale(1) brightness(1.2);
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.tagcloud--item:hover img {
+    filter: grayscale(0) brightness(1);
+    transform: scale(1.4);
+}
+
+.tagcloud--item::after {
+    content: attr(data-name);
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono';
+    color: var(--accent);
+    opacity: 0;
+    transition: 0.3s;
+    margin-top: 8px;
+    font-weight: 800;
+}
+
+.tagcloud--item:hover::after { opacity: 1; }
+
+/* --- 9. THEME SWITCH UI --- */
 .theme-switch {
-    width: 64px;
-    height: 32px;
+    width: 60px;
+    height: 30px;
     background: var(--border);
     border-radius: 50px;
-    cursor: pointer;
     position: relative;
-    border: 2px solid var(--border);
+    cursor: pointer;
 }
 
 .switch-ball {
@@ -286,11 +298,9 @@ body {
     background: var(--accent);
     border-radius: 50%;
     position: absolute;
-    top: 2px;
+    top: 3px;
     left: 4px;
-    transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: 0.4s;
 }
 
-body[data-theme="light"] .switch-ball {
-    transform: translateX(30px);
-}
+body[data-theme="light"] .switch-ball { transform: translateX(28px); }
