@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | Portfolio</title>
+    <title>Neel Nikhil | Digital Architect</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
@@ -49,7 +49,7 @@
             opacity: 0.4; margin-top: 25px; font-weight: 800;
         }
 
-        /* --- BENTO GRID (LOCATION & PHILOSOPHY FIX) --- */
+        /* --- BENTO GRID --- */
         .bento {
             display: grid; max-width: 1200px; margin: 80px auto; gap: 20px;
             grid-template-columns: 1fr 1.8fr; grid-template-rows: 300px 300px; padding: 0 20px;
@@ -65,30 +65,29 @@
         .loc-info { position: relative; z-index: 5; display: flex; justify-content: space-between; width: 100%; align-items: flex-end; }
         .time-box { font-family: 'JetBrains Mono'; color: var(--accent); font-weight: 800; font-size: 1.2rem; }
 
-        .mindset { grid-column: 2; padding: 40px; display: flex; align-items: center; }
-        .hobby-btns span { padding: 8px 20px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; margin-right: 10px; }
-
-        /* --- LOGO SPHERE FIX --- */
+        /* --- SPHERE CSS FIX --- */
         .sphere-container { height: 700px; display: flex; justify-content: center; align-items: center; }
-        .tagcloud { pointer-events: auto; }
         
-        /* This ensures the images inside the sphere don't show as text */
-        .tagcloud--item { 
-            display: flex !important; 
-            align-items: center; 
-            justify-content: center;
+        /* Force image display and kill the purple text */
+        .tagcloud { 
+            color: transparent !important; /* Hide any fallback text */
         }
         
+        .tagcloud--item { 
+            padding: 10px;
+        }
+
         .tagcloud--item img { 
-            width: 60px !important; 
-            height: 60px !important; 
-            filter: brightness(0) invert(1); /* Makes icons white */
-            transition: 0.3s ease;
+            width: 55px !important; 
+            height: 55px !important; 
+            filter: brightness(0) invert(1); /* Start as white icons */
+            transition: all 0.4s ease;
+            display: block !important;
         }
 
         .tagcloud--item:hover img {
-            filter: brightness(1) invert(0); /* Original color on hover */
-            transform: scale(1.3);
+            filter: brightness(1) invert(0); /* Return to original tech color on hover */
+            transform: scale(1.4) rotate(5deg);
         }
 
     </style>
@@ -127,13 +126,9 @@
             </div>
         </div>
         <div class="card mindset">
-            <div>
+            <div style="padding:40px;">
                 <small style="opacity:0.5; letter-spacing:3px;">PHILOSOPHY</small>
                 <h2 style="font-size:2.5rem; font-weight:900;">Discipline > Motivation</h2>
-                <div class="hobby-btns" style="margin-top: 20px;">
-                    <span onmouseover="swp('coding')">Coding</span>
-                    <span onmouseover="swp('chess')">Chess</span>
-                </div>
             </div>
         </div>
     </main>
@@ -166,9 +161,11 @@
         }
         draw();
 
-        // 2. THE SPHERE FIX (NO MORE TEXT STRINGS)
+        // 2. THE SPHERE - THE FIX IS HERE
         function initSphere() {
             const container = '.tagcloud';
+            
+            // We give it clean HTML strings
             const icons = [
                 '<img src="https://cdn.simpleicons.org/react/61DAFB" />',
                 '<img src="https://cdn.simpleicons.org/nextdotjs/ffffff" />',
@@ -182,28 +179,34 @@
 
             const options = {
                 radius: 280,
-                maxSpeed: 'fast',
-                initSpeed: 'normal',
+                maxSpeed: 'normal',
+                initSpeed: 'slow',
                 direction: 135,
                 keep: true,
-                useHTML: true // This allows the library to render the <img> tags properly
+                useHTML: true // This MUST be true
             };
 
+            // Initialize the cloud
             TagCloud(container, icons, options);
-        }
 
-        function swp(t) {
-            const i = document.getElementById('p-img');
-            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', default:'me.jpg'};
-            i.src = m[t]||m.default;
+            // FORCE FIX: If it still shows as text, we wait 100ms and force render images
+            setTimeout(() => {
+                const items = document.querySelectorAll('.tagcloud--item');
+                items.forEach(item => {
+                    // If the item has text content that looks like an img tag, we replace it
+                    if (item.textContent.includes('<img')) {
+                        item.innerHTML = item.textContent;
+                    }
+                });
+            }, 100);
         }
 
         setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false}) + " IST";
+            const clockEl = document.getElementById('clock');
+            if(clockEl) clockEl.innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false}) + " IST";
         }, 1000);
 
-        // INITIALIZE
-        window.addEventListener('DOMContentLoaded', initSphere);
+        window.onload = initSphere;
     </script>
 </body>
 </html>
