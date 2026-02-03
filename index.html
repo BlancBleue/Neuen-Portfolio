@@ -19,7 +19,7 @@
 
         #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
-        /* --- HEADER --- */
+        /* --- NAVIGATION --- */
         .site-header {
             position: fixed; width: 100%; top: 0; z-index: 9999;
             display: flex; justify-content: space-between; align-items: center; padding: 25px 5%;
@@ -28,14 +28,10 @@
             background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px);
             border: 1px solid var(--border); padding: 12px 35px; border-radius: 100px;
         }
-        .nav-links { display: flex; gap: 25px; }
-        .nav-item { text-decoration: none; color: white; font-weight: 700; font-size: 0.85rem; }
+        .nav-item { text-decoration: none; color: white; font-weight: 700; font-size: 0.85rem; margin: 0 12px; }
 
-        /* --- HERO & AI BOX --- */
-        .hero {
-            height: 100vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-        }
+        /* --- HERO & AI --- */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .massive-hero {
             font-size: clamp(4rem, 15vw, 11rem); font-weight: 900; letter-spacing: -8px; line-height: 0.8;
             background: linear-gradient(to right, #8b5cf6, #3b82f6, #f472b6, #fbbf24, #8b5cf6);
@@ -44,72 +40,58 @@
         }
         @keyframes colorCycle { to { background-position: 300% center; } }
 
-        .hero-subtitle {
-            font-family: 'JetBrains Mono'; letter-spacing: 12px; text-transform: uppercase;
-            opacity: 0.4; margin-top: 25px; font-weight: 800;
-        }
-
         .ai-terminal {
             margin-top: 40px; width: 90%; max-width: 450px;
             background: var(--glass); border: 1px solid var(--border);
             padding: 25px; border-radius: 30px; backdrop-filter: blur(15px);
         }
-        .ai-display { 
-            background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 15px;
-            color: var(--accent); margin-bottom: 15px; text-align: left; font-size: 0.85rem;
-            min-height: 50px; border-left: 3px solid var(--accent);
-        }
-        .ai-input-row { display: flex; background: rgba(0,0,0,0.4); border-radius: 50px; padding: 5px; border: 1px solid var(--border); }
-        .ai-input-row input { flex: 1; background: transparent; border: none; color: white; padding-left: 15px; outline: none; }
-        .ai-input-row button { background: var(--accent); border: none; color: white; padding: 10px 20px; border-radius: 50px; font-weight: 800; cursor: pointer; }
+        .ai-display { background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 15px; color: var(--accent); margin-bottom: 15px; text-align: left; font-size: 0.85rem; border-left: 3px solid var(--accent); }
 
-        /* --- BENTO GRID --- */
-        .bento {
-            display: grid; max-width: 1200px; margin: 100px auto; gap: 25px;
-            grid-template-columns: 1fr 1.8fr; grid-template-rows: 320px 320px; padding: 0 20px;
-        }
+        /* --- BENTO --- */
+        .bento { display: grid; max-width: 1200px; margin: 100px auto; gap: 25px; grid-template-columns: 1fr 1.8fr; grid-template-rows: 320px 320px; padding: 0 20px; }
         .card { background: var(--glass); border: 1px solid var(--border); border-radius: 45px; position: relative; overflow: hidden; }
-
-        /* PORTRAIT RGB EFFECT */
-        .portrait { grid-row: span 2; }
         .portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.4s ease; }
-        .portrait:hover img { 
-            filter: grayscale(0) drop-shadow(8px 0px 0px rgba(255,0,0,0.6)) drop-shadow(-8px 0px 0px rgba(0,255,255,0.6));
-            transform: scale(1.03);
-        }
-
-        .location { grid-column: 2; background: #000; padding: 40px; display: flex; align-items: flex-end; }
-        .map-img { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop') center/cover; opacity: 0.2; filter: grayscale(1); }
-        
-        .loc-info { position: relative; z-index: 5; display: flex; justify-content: space-between; width: 100%; align-items: flex-end; }
+        .portrait:hover img { filter: grayscale(0) drop-shadow(8px 0px 0px rgba(255,0,0,0.6)) drop-shadow(-8px 0px 0px rgba(0,255,255,0.6)); transform: scale(1.03); }
+        .location { background: #000; padding: 40px; display: flex; align-items: flex-end; }
         .time-box { font-family: 'JetBrains Mono'; color: var(--accent); font-weight: 800; font-size: 1.2rem; }
+        .hobby-btns span { padding: 10px 25px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; margin-right: 10px; transition: 0.3s; }
+        .hobby-btns span:hover { background: var(--accent); color: white; }
 
-        .mindset { grid-column: 2; padding: 45px; display: flex; flex-direction: column; justify-content: center; }
-        .hobby-btns { display: flex; gap: 15px; margin-top: 25px; }
-        .hobby-btns span { 
-            padding: 10px 25px; border: 1px solid var(--border); border-radius: 50px; 
-            color: var(--accent); font-weight: 800; cursor: pointer; transition: 0.3s;
-        }
-        .hobby-btns span:hover { background: var(--accent); color: white; box-shadow: 0 0 20px var(--accent); }
-
-        /* --- SPHERE FIX --- */
-        .sphere-section { height: 750px; width: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
-        .tagcloud { font-weight: 800; }
+        /* --- SPHERE (THE UPGRADE) --- */
+        .sphere-section { height: 800px; width: 100%; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
         
-        /* Force hidden text and visible images */
+        .tagcloud { color: transparent !important; }
+
         .tagcloud--item { 
             display: flex !important; align-items: center; justify-content: center;
-            color: transparent !important; /* This kills the text ghosting */
-            user-select: none;
+            position: relative; transition: all 0.3s ease;
         }
+
         .tagcloud--item img { 
-            width: 60px !important; 
-            height: 60px !important; 
-            filter: brightness(0) invert(1); 
-            transition: 0.4s ease;
-            position: absolute; /* Positions image over the hidden text */
+            width: 65px !important; height: 65px !important; 
+            filter: brightness(0) invert(1); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1;
         }
-        .tagcloud--item:hover img { filter: brightness(1) invert(0); transform: scale(1.5); }
+
+        /* Hover: Enlarge + Name Label */
+        .tagcloud--item:hover img { 
+            filter: brightness(1) invert(0); 
+            transform: scale(1.8) translateY(-10px); 
+            z-index: 10;
+        }
+
+        .tagcloud--item::after {
+            content: attr(data-name);
+            position: absolute; bottom: -30px;
+            background: var(--accent); color: white;
+            padding: 4px 12px; border-radius: 50px;
+            font-size: 12px; font-weight: 800; text-transform: uppercase;
+            opacity: 0; transform: translateY(10px);
+            transition: 0.3s ease; pointer-events: none;
+            white-space: nowrap; box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .tagcloud--item:hover::after { opacity: 1; transform: translateY(0); }
 
     </style>
 </head>
@@ -120,11 +102,9 @@
     <header class="site-header">
         <div style="font-weight: 900; font-size: 1.6rem;">NN</div>
         <nav class="nav-pill">
-            <div class="nav-links">
-                <a href="#home" class="nav-item">INDEX</a>
-                <a href="#about" class="nav-item">BIO</a>
-                <a href="#skills" class="nav-item">TECH</a>
-            </div>
+            <a href="#home" class="nav-item">INDEX</a>
+            <a href="#about" class="nav-item">BIO</a>
+            <a href="#skills" class="nav-item">TECH</a>
         </nav>
         <button style="background:var(--accent); color:white; border:none; padding:12px 28px; border-radius:50px; font-weight:800; cursor:pointer;">CONNECT</button>
     </header>
@@ -132,11 +112,10 @@
     <section class="hero" id="home">
         <h1 class="massive-hero">NEEL NIKHIL</h1>
         <p class="hero-subtitle">Front End Developer</p>
-        
         <div class="ai-terminal">
-            <div id="ai-out" class="ai-display">NEEL-AI: Core protocols online. How can I assist?</div>
+            <div id="ai-out" class="ai-display">NEEL-AI: Sphere protocols initialized. 3D depth active.</div>
             <div class="ai-input-row">
-                <input type="text" id="ai-in" placeholder="Ask the system...">
+                <input type="text" id="ai-in" placeholder="Query the system...">
                 <button onclick="runAI()">SEND</button>
             </div>
         </div>
@@ -145,22 +124,20 @@
     <main class="bento" id="about">
         <div class="card portrait"><img src="me.jpg" id="p-img"></div>
         <div class="card location">
-            <div class="map-img"></div>
-            <div class="loc-info">
-                <div>
-                    <small style="opacity:0.5; letter-spacing:4px;">LOCUS</small>
-                    <h2>Bangalore, IN</h2>
-                </div>
+            <div class="loc-info" style="display:flex; justify-content:space-between; width:100%; align-items:flex-end;">
+                <div><small style="opacity:0.5; letter-spacing:4px;">LOCUS</small><h2>Bangalore, IN</h2></div>
                 <div id="clock" class="time-box">00:00:00</div>
             </div>
         </div>
         <div class="card mindset">
-            <small style="opacity:0.5; letter-spacing:4px;">PHILOSOPHY</small>
-            <h2 style="font-size:2.8rem; font-weight:900; margin-top:10px;">Discipline > Motivation</h2>
-            <div class="hobby-btns">
-                <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
-                <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
-                <span onmouseover="swp('snooker')" onmouseout="swp('default')">SNOOKER</span>
+            <div style="padding:40px;">
+                <small style="opacity:0.5; letter-spacing:4px;">PHILOSOPHY</small>
+                <h2 style="font-size:2.8rem; font-weight:900; margin:10px 0 25px 0;">Discipline > Motivation</h2>
+                <div class="hobby-btns">
+                    <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
+                    <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
+                    <span onmouseover="swp('snooker')" onmouseout="swp('default')">SNOOKER</span>
+                </div>
             </div>
         </div>
     </main>
@@ -174,92 +151,58 @@
         const cvs = document.getElementById('dotCanvas');
         const ctx = cvs.getContext('2d');
         let dots = [], mouse = {x:-1000, y:-1000};
-        function setup() {
-            cvs.width = window.innerWidth; cvs.height = window.innerHeight;
-            dots = [];
-            for(let x=0; x<cvs.width+50; x+=50) for(let y=0; y<cvs.height+50; y+=50) dots.push({x,y});
-        }
+        function setup() { cvs.width = window.innerWidth; cvs.height = window.innerHeight; dots = []; for(let x=0; x<cvs.width+50; x+=50) for(let y=0; y<cvs.height+50; y+=50) dots.push({x,y}); }
         window.onmousemove = e => { mouse.x=e.clientX; mouse.y=e.clientY; };
-        window.onresize = setup;
-        setup();
-        function draw() {
-            ctx.clearRect(0,0,cvs.width,cvs.height);
-            dots.forEach(d => {
-                const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y);
-                ctx.fillStyle = dist < 130 ? '#8b5cf6' : 'rgba(255,255,255,0.1)';
-                ctx.beginPath(); ctx.arc(d.x, d.y, dist<130?4:1.5, 0, Math.PI*2); ctx.fill();
-            });
-            requestAnimationFrame(draw);
-        }
+        window.onresize = setup; setup();
+        function draw() { ctx.clearRect(0,0,cvs.width,cvs.height); dots.forEach(d => { const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y); ctx.fillStyle = dist < 130 ? '#8b5cf6' : 'rgba(255,255,255,0.1)'; ctx.beginPath(); ctx.arc(d.x, d.y, dist<130?4:1.5, 0, Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
         draw();
 
-        // 2. TECH SPHERE (THE FORCED IMAGE RENDERER)
+        // 2. SPHERE WITH HOVER NAMES
         function initSphere() {
-            const container = '.tagcloud';
-            
-            // Step 1: Give the library simple text strings (placeholders)
-            const placeholders = ['react','next','python','tailwind','js','ts','node','mongo','git','three','html','css','rust','cpp'];
-
-            // Step 2: Map those strings to actual image URLs
             const iconMap = {
-                react: 'https://cdn.simpleicons.org/react/61DAFB',
-                next: 'https://cdn.simpleicons.org/nextdotjs/ffffff',
-                python: 'https://cdn.simpleicons.org/python/3776AB',
-                tailwind: 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
-                js: 'https://cdn.simpleicons.org/javascript/F7DF1E',
-                ts: 'https://cdn.simpleicons.org/typescript/3178C6',
-                node: 'https://cdn.simpleicons.org/nodedotjs/339933',
-                mongo: 'https://cdn.simpleicons.org/mongodb/47A248',
-                git: 'https://cdn.simpleicons.org/git/F05032',
-                three: 'https://cdn.simpleicons.org/three-dot-js/ffffff',
-                html: 'https://cdn.simpleicons.org/html5/E34F26',
-                css: 'https://cdn.simpleicons.org/css3/1572B6',
-                rust: 'https://cdn.simpleicons.org/rust/ffffff',
-                cpp: 'https://cdn.simpleicons.org/cplusplus/00599C'
+                'React': 'https://cdn.simpleicons.org/react/61DAFB',
+                'Next.js': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
+                'Python': 'https://cdn.simpleicons.org/python/3776AB',
+                'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
+                'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E',
+                'TS': 'https://cdn.simpleicons.org/typescript/3178C6',
+                'Node.js': 'https://cdn.simpleicons.org/nodedotjs/339933',
+                'MongoDB': 'https://cdn.simpleicons.org/mongodb/47A248',
+                'Git': 'https://cdn.simpleicons.org/git/F05032',
+                'Rust': 'https://cdn.simpleicons.org/rust/ffffff',
+                'HTML5': 'https://cdn.simpleicons.org/html5/E34F26',
+                'CSS3': 'https://cdn.simpleicons.org/css3/1572B6',
+                'C++': 'https://cdn.simpleicons.org/cplusplus/00599C',
+                'Vercel': 'https://cdn.simpleicons.org/vercel/ffffff'
             };
 
-            TagCloud(container, placeholders, {
-                radius: 300,
-                maxSpeed: 'fast',
+            const placeholders = Object.keys(iconMap);
+
+            TagCloud('.tagcloud', placeholders, {
+                radius: 320,
+                maxSpeed: 'normal',
                 initSpeed: 'normal',
+                direction: 135,
                 keep: true
             });
 
-            // Step 3: MANUAL INJECTION 
-            // We wait 100ms for the library to build the DOM, then swap text for <img>
+            // The Logic: Swap text for Image + Add Data Attribute for Tooltip
             setTimeout(() => {
                 const items = document.querySelectorAll('.tagcloud--item');
                 items.forEach(item => {
-                    const text = item.innerText.trim();
-                    if (iconMap[text]) {
-                        item.innerHTML = `<img src="${iconMap[text]}" alt="${text}">`;
+                    const name = item.innerText.trim();
+                    if (iconMap[name]) {
+                        item.setAttribute('data-name', name); // Sets the name for the tooltip
+                        item.innerHTML = `<img src="${iconMap[name]}" alt="${name}">`;
                     }
                 });
-            }, 100);
+            }, 150);
         }
 
-        // 3. UTILS
-        function swp(t) {
-            const i = document.getElementById('p-img');
-            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'};
-            i.style.opacity = '0.5';
-            setTimeout(() => { i.src = m[t] || m.default; i.style.opacity = '1'; }, 100);
-        }
-
-        function runAI() {
-            const out = document.getElementById('ai-out');
-            out.innerText = "NEEL-AI: Processing...";
-            setTimeout(() => {
-                out.innerText = "NEEL-AI: Analysis complete. Strategy optimized for peak performance.";
-                document.getElementById('ai-in').value = "";
-            }, 800);
-        }
-
-        setInterval(() => {
-            const clock = document.getElementById('clock');
-            if(clock) clock.innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false}) + " IST";
-        }, 1000);
-
+        function swp(t) { const i = document.getElementById('p-img'); const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'}; i.style.opacity = '0.5'; setTimeout(() => { i.src = m[t] || m.default; i.style.opacity = '1'; }, 100); }
+        function runAI() { const out = document.getElementById('ai-out'); out.innerText = "NEEL-AI: Thinking..."; setTimeout(() => { out.innerText = "NEEL-AI: Sphere stabilized. Hover to inspect tech stack."; document.getElementById('ai-in').value = ""; }, 800); }
+        setInterval(() => { const clock = document.getElementById('clock'); if(clock) clock.innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false}) + " IST"; }, 1000);
+        
         window.onload = initSphere;
     </script>
 </body>
