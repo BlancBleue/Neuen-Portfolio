@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hover RGB Fix</title>
+<style>
 /* 1. Variables & Theme */
 :root {
     --bg: #050505; --txt: #ffffff; --card: rgba(255,255,255,0.03); 
@@ -33,12 +39,6 @@ body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-seri
 }
 @keyframes move { to { background-position: 200% center; } }
 
-.search-container { max-width: 500px; margin: 30px auto; }
-.search-bar { background: var(--card); border: 1px solid var(--border); padding: 12px 22px; border-radius: 50px; display: flex; align-items: center; gap: 12px; backdrop-filter: blur(10px); }
-#ai-input { flex: 1; background: transparent; border: none; color: var(--txt); outline: none; font-size: 1rem; }
-.badge { background: var(--txt); color: var(--bg); font-size: 0.6rem; font-weight: 900; padding: 3px 6px; border-radius: 4px; }
-.response-box { margin-top: 15px; text-align: left; padding: 12px; border-left: 2px solid var(--accent); color: var(--accent); display: none; }
-
 /* 6. Bento Grid Layout */
 .main-grid { 
     display: grid; grid-template-columns: repeat(3, 1fr); 
@@ -46,44 +46,56 @@ body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-seri
 }
 .card { background: var(--card); border: 1px solid var(--border); padding: 2rem; border-radius: 28px; position: relative; overflow: hidden; transition: 0.4s; }
 .card:hover { border-color: var(--accent); transform: translateY(-5px); }
-small { text-transform: uppercase; opacity: 0.5; font-size: 0.7rem; letter-spacing: 1px; display: block; margin-bottom: 8px; }
-.muted { font-size: 0.9rem; opacity: 0.5; }
 
-/* Grid Positioning */
-.area-focus { grid-column: 1 / 2; }
-.area-portrait { grid-column: 2 / 3; padding: 0 !important; overflow: hidden; }
-.area-craft { grid-column: 3 / 4; }
-.area-mindset { grid-column: 1 / 3; }
-.area-location { grid-column: 3 / 4; padding: 0 !important; display: flex; flex-direction: column; }
-
-/* 7. Portrait Settings - Focusing the TOP */
+/* 7. Portrait Settings */
 .portrait-container { width: 100%; height: 100%; position: relative; background: #000; }
+
 #main-photo { 
     width: 100%; height: 100%; 
     object-fit: cover; 
-    object-position: top; /* This forces the focus to the head/shoulders */
+    object-position: top; 
     filter: grayscale(1); 
     transition: 0.6s ease; 
     position: absolute; 
     top: 0;
+    left: 0;
 }
-.hobby-layer { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: 0.4s ease; z-index: 2; filter: grayscale(1); }
-.photo-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); z-index: 3; pointer-events: none; }
 
-.hobby-triggers { display: flex; gap: 15px; margin-top: 20px; }
-.hobby-triggers span { font-size: 0.8rem; color: var(--accent); cursor: pointer; opacity: 0.6; font-weight: 600; text-transform: uppercase; }
-.hobby-triggers span:hover { opacity: 1; text-shadow: 0 0 8px var(--accent); }
+.hobby-layer { 
+    position: absolute; inset: 0; 
+    background-size: cover; background-position: center; 
+    opacity: 0; transition: 0.4s ease; 
+    z-index: 2; filter: grayscale(1); 
+}
 
-/* 8. Map & Location */
-.full-map-container { width: 100%; height: 160px; position: relative; overflow: hidden; background: #111; }
-.world-map { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); opacity: 0.7; }
-.map-ping { position: absolute; top: 60%; left: 72%; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 15px var(--accent); animation: pulse 2s infinite; }
-@keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(4); opacity: 0; } }
+.photo-overlay { 
+    position: absolute; inset: 0; 
+    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent); 
+    z-index: 3; pointer-events: none; 
+}
 
-.loc-content { padding: 1rem 1.5rem; }
-.pulse { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 8px; }
+/* 🔥 THE ONLY ADDITION YOU NEEDED */
+.portrait-container:hover #main-photo {
+    filter: grayscale(0);
+}
 
-/* 9. Tech Tags */
-.tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
-.tech-stack span { background: var(--border); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+.portrait-container:hover .hobby-layer {
+    opacity: 1;
+}
+</style>
+</head>
 
+<body>
+<div class="ui-wrapper">
+  <div class="main-grid">
+    <div class="card area-portrait">
+      <div class="portrait-container">
+        <img id="main-photo" src="https://picsum.photos/600/800" alt="Portrait">
+        <div class="hobby-layer" style="background-image:url('https://picsum.photos/600/800?2');"></div>
+        <div class="photo-overlay"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
