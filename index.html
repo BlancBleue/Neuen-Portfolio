@@ -5,17 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neel Nikhil | Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
 </head>
-<body>
+<body data-theme="dark">
 
-    <header class="site-header">
+    <header class="site-header" id="main-header">
         <div class="logo">NN</div>
         <nav class="nav">
             <a href="#home">Home</a>
             <a href="#skills">Skills</a>
         </nav>
-        <button class="cta">Book a Call</button>
+        <div class="header-right">
+            <div class="theme-switch" onclick="toggleTheme()">
+                <div class="switch-ball"></div>
+            </div>
+            <button class="cta">Book a Call</button>
+        </div>
     </header>
 
     <section class="hero" id="home">
@@ -24,10 +30,10 @@
 
         <div class="ai-chat-box">
             <div class="chat-display" id="chat-display">
-                <div class="bot-bubble">Hi, I'm Neel's AI. Ask me about his projects or skills!</div>
+                <div class="bot-bubble">I'm Neel's AI. How can I assist you today?</div>
             </div>
             <div class="chat-input-row">
-                <input type="text" id="ai-input" placeholder="Ask anything about Neel...">
+                <input type="text" id="ai-input" placeholder="Ask anything...">
                 <button onclick="askAI()">Ask</button>
             </div>
         </div>
@@ -56,26 +62,21 @@
                 <span onmouseover="showHobby('snooker')" onmouseout="showHobby('default')">Snooker</span>
             </div>
         </div>
+
         <div class="card area-location">
-            <div class="map-container">
-                <div class="loc-overlay">
-                    <div class="loc-text">
-                        <small>Location Strategy</small>
-                        <h3>Bangalore, IN</h3>
-                        <p class="coords">12.9716° N, 77.5946° E</p>
-                    </div>
-                    <div id="time-display" class="time-box">00:00:00 IST</div>
+            <div class="map-bg"></div> <div class="loc-overlay">
+                <div class="loc-text">
+                    <small>Location</small>
+                    <h3>Bangalore, IN</h3>
+                    <p class="coords">12.9716° N, 77.5946° E</p>
                 </div>
-                <div class="radar-ping"></div>
+                <div id="time-display" class="time-box">00:00:00 IST</div>
             </div>
+            <div class="radar-ping"></div>
         </div>
     </main>
 
     <section class="skills-section" id="skills">
-        <div class="skills-header">
-            <small>TECH STACK</small>
-            <h2>My <span class="purple-txt">Skills</span></h2>
-        </div>
         <div class="sphere-wrapper">
             <div class="mesh-sphere"></div>
             <div class="tagcloud"></div>
