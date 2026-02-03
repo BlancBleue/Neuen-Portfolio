@@ -1,4 +1,6 @@
-/** * 1. DOT BACKGROUND ENGINE 
+/**
+ * 1. REACTIVE DOT ENGINE
+ * Creates the interactive background that grows when the mouse is near.
  */
 const canvas = document.getElementById('dotCanvas');
 const ctx = canvas.getContext('2d');
@@ -11,11 +13,14 @@ window.onresize = () => {
     initDots();
 };
 
-window.onmousemove = (e) => { mouse.x = e.x; mouse.y = e.y; };
+window.onmousemove = (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+};
 
 function initDots() {
     dots = [];
-    const spacing = 50;
+    const spacing = 50; 
     for (let x = 0; x < canvas.width + spacing; x += spacing) {
         for (let y = 0; y < canvas.height + spacing; y += spacing) {
             dots.push({ x, y, baseSize: 1.5 });
@@ -36,7 +41,7 @@ function animateDots() {
         let size = dot.baseSize;
 
         if (dist < 120) {
-            size = 4;
+            size = 4.5; // The "Raise" effect
             ctx.fillStyle = activeColor;
         } else {
             ctx.fillStyle = dotColor;
@@ -49,7 +54,9 @@ function animateDots() {
     requestAnimationFrame(animateDots);
 }
 
-/** * 2. 3D LOGO SPHERE 
+/**
+ * 2. 3D LOGO SPHERE (FIXED INJECTION)
+ * Ensures <img> tags are correctly rendered in the sphere.
  */
 function initLogoSphere() {
     const skills = [
@@ -57,15 +64,15 @@ function initLogoSphere() {
         { name: 'Next.js', icon: 'https://cdn.simpleicons.org/nextdotjs/ffffff' },
         { name: 'Python', icon: 'https://cdn.simpleicons.org/python/3776AB' },
         { name: 'Tailwind', icon: 'https://cdn.simpleicons.org/tailwindcss/06B6D4' },
-        { name: 'JavaScript', icon: 'https://cdn.simpleicons.org/javascript/F7DF1E' },
-        { name: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript/3178C6' },
-        { name: 'MongoDB', icon: 'https://cdn.simpleicons.org/mongodb/47A248' },
-        { name: 'Node.js', icon: 'https://cdn.simpleicons.org/nodedotjs/339933' }
+        { name: 'JS', icon: 'https://cdn.simpleicons.org/javascript/F7DF1E' },
+        { name: 'TS', icon: 'https://cdn.simpleicons.org/typescript/3178C6' },
+        { name: 'Mongo', icon: 'https://cdn.simpleicons.org/mongodb/47A248' },
+        { name: 'Node', icon: 'https://cdn.simpleicons.org/nodedotjs/339933' }
     ];
 
-    // Ensuring images are loaded correctly by wrapping them in a standard format
+    // Wrap in standard format for TagCloud
     const skillElements = skills.map(s => 
-        `<img src="${s.icon}" width="50" height="50" alt="${s.name}" class="sphere-logo">`
+        `<img src="${s.icon}" width="60" height="60" alt="${s.name}" class="sphere-logo">`
     );
 
     const options = {
@@ -74,7 +81,7 @@ function initLogoSphere() {
         initSpeed: 'normal',
         direction: 135,
         keep: true,
-        useHTML: true
+        useHTML: true // CRITICAL: This allows the <img> tags to show
     };
 
     if (window.TagCloud) {
@@ -82,52 +89,75 @@ function initLogoSphere() {
     }
 }
 
-/** * 3. NAV INTERACTION 
+/**
+ * 3. NAV BLOCK INTERACTION
+ * Moves the underline smoothly across the glassmorphic block.
  */
-const navItems = document.querySelectorAll('.nav-item');
-const underline = document.querySelector('.nav-underline');
+function setupNav() {
+    const navItems = document.querySelectorAll('.nav-item');
+    const underline = document.querySelector('.nav-underline');
 
-navItems.forEach(item => {
-    item.addEventListener('mouseenter', (e) => {
-        underline.style.width = `${e.target.offsetWidth}px`;
-        underline.style.left = `${e.target.offsetLeft}px`;
-        underline.style.opacity = '1';
+    navItems.forEach(item => {
+        item.addEventListener('mouseenter', (e) => {
+            const { offsetLeft, offsetWidth } = e.target;
+            underline.style.left = `${offsetLeft}px`;
+            underline.style.width = `${offsetWidth}px`;
+            underline.style.opacity = '1';
+        });
     });
-});
 
-document.querySelector('.nav-links').addEventListener('mouseleave', () => {
-    underline.style.opacity = '0';
-});
+    document.querySelector('.nav-links').addEventListener('mouseleave', () => {
+        underline.style.opacity = '0';
+    });
+}
 
-/** * 4. GENERAL UTILS 
+/**
+ * 4. UTILITIES (Theme, Time, AI, Hobbies)
  */
 function toggleTheme() {
     const body = document.body;
-    body.setAttribute('data-theme', body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    const isDark = body.getAttribute('data-theme') === 'dark';
+    body.setAttribute('data-theme', isDark ? 'light' : 'dark');
 }
 
 function showHobby(type) {
     const img = document.getElementById('main-photo');
-    const images = { 'coding': 'coding-me.jpg', 'chess': 'chess-me.jpg', 'snooker': 'snooker-me.jpg', 'default': 'me.jpg' };
+    const images = {
+        'coding': 'coding-me.jpg',
+        'chess': 'chess-me.jpg',
+        'snooker': 'snooker-me.jpg',
+        'default': 'me.jpg'
+    };
     img.style.opacity = '0';
-    setTimeout(() => { 
-        img.src = images[type] || images['default']; 
-        img.style.opacity = '1'; 
+    setTimeout(() => {
+        img.src = images[type] || images['default'];
+        img.style.opacity = '1';
     }, 200);
 }
 
 function askAI() {
     const display = document.getElementById('chat-display');
-    display.innerHTML = `<div class="bot-bubble">NEEL-AI: Data processed. All systems functional.</div>`;
-    document.getElementById('ai-input').value = '';
+    const input = document.getElementById('ai-input');
+    if (!input.value) return;
+
+    display.innerHTML = `<div class="bot-bubble">NEEL-AI: Scanning request... User verified. Systems optimal.</div>`;
+    input.value = '';
 }
 
+// INITIALIZE ALL SYSTEMS
 window.onload = () => {
     window.onresize();
     animateDots();
     initLogoSphere();
+    setupNav();
+    
+    // Bangalore Time Update
     setInterval(() => {
-        const time = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata', hour12: false });
-        document.getElementById('time-display').innerText = time + " IST";
+        const time = new Date().toLocaleTimeString('en-GB', { 
+            timeZone: 'Asia/Kolkata', 
+            hour12: false 
+        });
+        const display = document.getElementById('time-display');
+        if (display) display.innerText = time + " IST";
     }, 1000);
 };
