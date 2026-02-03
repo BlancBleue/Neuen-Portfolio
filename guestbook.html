@@ -11,30 +11,40 @@
             --bg: #0b0a0f; --txt: #ffffff; --accent: #fb923c; --blue: #3b82f6;
             --dot-white: rgba(255, 255, 255, 0.08); --dot-blue: rgba(59, 130, 246, 0.5);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* --- OS BACKGROUND --- */
+        /* --- MASKING BG --- */
         .bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .dots-base { position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; background-image: radial-gradient(var(--dot-white) 1px, transparent 1px); background-size: 35px 35px; }
         .dots-active { position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; background-image: radial-gradient(var(--dot-blue) 1.5px, transparent 1.5px); background-size: 35px 35px; -webkit-mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%); mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%); }
 
         .container { max-width: 800px; margin: 0 auto; padding: 100px 5%; position: relative; z-index: 1; }
         
-        /* --- RATING HEADER --- */
+        /* --- PUBLIC STATS --- */
         .rating-header { text-align: center; margin-bottom: 60px; }
-        .big-avg { font-size: 6rem; font-weight: 900; color: var(--blue); line-height: 1; margin: 10px 0; letter-spacing: -5px; }
-        .stars-outer { color: var(--accent); font-size: 1.5rem; letter-spacing: 5px; }
+        .big-avg { font-size: 7rem; font-weight: 900; color: var(--blue); line-height: 1; letter-spacing: -6px; margin: 10px 0; }
+        .stars-outer { color: var(--accent); font-size: 1.4rem; letter-spacing: 4px; }
 
-        .form-area { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 30px; border-radius: 30px; margin-bottom: 50px; }
-        input, select, textarea { width: 100%; background: #000; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; font-family: 'Inter'; }
+        .form-area { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 35px; border-radius: 35px; margin-bottom: 60px; backdrop-filter: blur(10px); }
+        input, select, textarea { width: 100%; background: #000; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 16px; border-radius: 14px; margin-bottom: 12px; font-family: 'Inter'; outline: none; }
+        input:focus { border-color: var(--blue); }
         
-        .submit-btn { width: 100%; background: var(--blue); color: #fff; border: none; padding: 18px; border-radius: 50px; font-weight: 900; cursor: pointer; transition: 0.3s; font-family: 'JetBrains Mono'; }
-        .submit-btn:hover { background: #fff; color: #000; }
+        .submit-btn { width: 100%; background: var(--blue); color: #fff; border: none; padding: 20px; border-radius: 100px; font-weight: 900; cursor: pointer; font-family: 'JetBrains Mono'; letter-spacing: 1px; }
+        .submit-btn:hover { background: #fff; color: #000; transform: translateY(-3px); }
 
-        .entry { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 25px; margin-bottom: 15px; position: relative; }
-        .entry-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .del-btn { color: #ff4444; background: none; border: none; font-size: 0.6rem; cursor: pointer; opacity: 0.1; font-family: 'JetBrains Mono'; position: absolute; bottom: 20px; right: 25px; }
+        /* --- FEED --- */
+        .entry { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 30px; margin-bottom: 20px; position: relative; }
+        .entry:hover { border-color: var(--blue); background: rgba(59, 130, 246, 0.02); }
+        .entry-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        
+        .user-tag { display: flex; align-items: center; gap: 8px; font-weight: 900; color: var(--blue); font-size: 1.1rem; }
+        .verified-badge { background: var(--blue); color: #fff; font-size: 0.6rem; padding: 2px 8px; border-radius: 50px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .rating-stars { color: var(--accent); font-size: 0.8rem; font-family: 'JetBrains Mono'; }
+        .entry-msg { opacity: 0.7; line-height: 1.7; font-size: 1.05rem; }
+
+        .del-btn { color: #ff4444; background: none; border: none; font-size: 0.6rem; cursor: pointer; opacity: 0.2; font-family: 'JetBrains Mono'; margin-top: 15px; }
         .del-btn:hover { opacity: 1; }
     </style>
 </head>
@@ -47,23 +57,23 @@
 
     <div class="container">
         <div class="rating-header">
-            <p style="letter-spacing: 5px; color: var(--accent); font-size: 0.7rem; font-family: 'JetBrains Mono';">COMMUNITY_FEEDBACK</p>
+            <p style="letter-spacing: 5px; color: var(--accent); font-size: 0.7rem; font-family: 'JetBrains Mono';">GLOBAL_VAULT_RATINGS</p>
             <div class="big-avg" id="avgDisplay">0.0</div>
             <div class="stars-outer" id="starDisplay">☆☆☆☆☆</div>
-            <p style="opacity: 0.4; font-size: 0.8rem; margin-top: 10px;" id="countDisplay">0 REVIEWS</p>
+            <p style="opacity: 0.4; font-size: 0.7rem; margin-top: 10px; font-family: 'JetBrains Mono';" id="countDisplay">FETCHING_DATA...</p>
         </div>
 
         <div class="form-area">
-            <input type="text" id="name" placeholder="Name">
+            <input type="text" id="name" placeholder="Display Identity (Name)">
             <select id="rating">
-                <option value="5">5 Stars - Peak</option>
-                <option value="4">4 Stars - Elite</option>
-                <option value="3">3 Stars - Good</option>
-                <option value="2">2 Stars - Mid</option>
-                <option value="1">1 Star - Bad</option>
+                <option value="5">5 STARS - PEAK</option>
+                <option value="4">4 STARS - ELITE</option>
+                <option value="3">3 STARS - MID</option>
+                <option value="2">2 STARS - REBOOT</option>
+                <option value="1">1 STAR - DELETE</option>
             </select>
-            <textarea id="message" rows="3" placeholder="Write a review..."></textarea>
-            <button class="submit-btn" id="submitBtn" onclick="postToDB()">POST REVIEW</button>
+            <textarea id="message" rows="3" placeholder="Write your review..."></textarea>
+            <button class="submit-btn" id="submitBtn" onclick="postToDB()">TRANSMIT_REVIEW</button>
         </div>
 
         <div id="logFeed"></div>
@@ -81,7 +91,12 @@
 
         async function fetchLogs() {
             const { data, error } = await _supabase.from('signatures').select('*').order('created_at', { ascending: false });
-            if (!error) renderLogs(data);
+            if (error) {
+                console.error(error);
+                document.getElementById('countDisplay').innerText = "CONNECTION_ERROR";
+            } else {
+                renderLogs(data);
+            }
         }
 
         function renderLogs(logs) {
@@ -89,23 +104,31 @@
             feed.innerHTML = '';
             let total = 0;
             
+            // THE VERIFIED NAMES
+            const adminNames = ["Neel Nikhil", "Neel", "Admin"];
+
             logs.forEach(log => {
                 total += log.rating;
+                const isVerified = adminNames.includes(log.name);
+
                 feed.innerHTML += `
                     <div class="entry">
                         <div class="entry-top">
-                            <span style="font-weight:900; color:var(--blue)">${log.name}</span>
-                            <span style="color:var(--accent)">${'★'.repeat(log.rating)}${'☆'.repeat(5-log.rating)}</span>
+                            <div class="user-tag">
+                                ${log.name} 
+                                ${isVerified ? '<span class="verified-badge">Verified</span>' : ''}
+                            </div>
+                            <div class="rating-stars">${'★'.repeat(log.rating)}${'☆'.repeat(5-log.rating)}</div>
                         </div>
-                        <p style="opacity:0.7">${log.message}</p>
-                        <button class="del-btn" onclick="deleteLog(${log.id})">ADMIN_DELETE</button>
+                        <p class="entry-msg">${log.message}</p>
+                        <button class="del-btn" onclick="deleteLog(${log.id})">[ PURGE_LOG ]</button>
                     </div>
                 `;
             });
 
             const avg = logs.length ? (total / logs.length).toFixed(1) : '0.0';
             document.getElementById('avgDisplay').innerText = avg;
-            document.getElementById('countDisplay').innerText = `${logs.length} PUBLIC REVIEWS`;
+            document.getElementById('countDisplay').innerText = `${logs.length} TOTAL_REVIEWS_SYNCED`;
             document.getElementById('starDisplay').innerText = '★'.repeat(Math.round(avg)) + '☆'.repeat(5-Math.round(avg));
         }
 
@@ -113,22 +136,29 @@
             const name = document.getElementById('name').value;
             const rating = parseInt(document.getElementById('rating').value);
             const message = document.getElementById('message').value;
+            const btn = document.getElementById('submitBtn');
 
-            if (!name || !message) return alert("Fill everything!");
+            if (!name || !message) return alert("All fields required.");
+
+            btn.disabled = true;
+            btn.innerText = "UPLOADING...";
 
             await _supabase.from('signatures').insert([{ name, rating, message }]);
+            
             document.getElementById('name').value = '';
             document.getElementById('message').value = '';
+            btn.disabled = false;
+            btn.innerText = "TRANSMIT_REVIEW";
             fetchLogs();
         }
 
         async function deleteLog(id) {
-            const pw = prompt("Admin Password Required:");
-            if(pw === "neel123") { // CHANGE THIS PASSWORD
+            const pw = prompt("Enter Master Password to delete:");
+            if(pw === "neel123") {
                 await _supabase.from('signatures').delete().eq('id', id);
                 fetchLogs();
             } else {
-                alert("Access Denied.");
+                alert("Unauthorized.");
             }
         }
 
