@@ -11,34 +11,31 @@
             --bg: #0b0a0f; --txt: #ffffff; --accent: #fb923c; --blue: #3b82f6;
             --dot-white: rgba(255, 255, 255, 0.08); --dot-blue: rgba(59, 130, 246, 0.5);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; min-height: 100vh; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
         /* --- OS BACKGROUND --- */
         .bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .dots-base { position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; background-image: radial-gradient(var(--dot-white) 1px, transparent 1px); background-size: 35px 35px; }
         .dots-active { position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; background-image: radial-gradient(var(--dot-blue) 1.5px, transparent 1.5px); background-size: 35px 35px; -webkit-mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%); mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%); }
 
-        /* --- UI --- */
         .container { max-width: 800px; margin: 0 auto; padding: 100px 5%; position: relative; z-index: 1; }
-        h1 { font-size: clamp(3rem, 10vw, 4rem); font-weight: 900; letter-spacing: -3px; margin-bottom: 30px; }
         
-        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 25px; border-radius: 20px; display: inline-block; margin-right: 15px; margin-bottom: 30px; backdrop-filter: blur(10px); }
-        .stat-val { font-size: 1.8rem; font-weight: 900; color: var(--blue); display: block; }
-        
+        /* --- RATING HEADER --- */
+        .rating-header { text-align: center; margin-bottom: 60px; }
+        .big-avg { font-size: 6rem; font-weight: 900; color: var(--blue); line-height: 1; margin: 10px 0; letter-spacing: -5px; }
+        .stars-outer { color: var(--accent); font-size: 1.5rem; letter-spacing: 5px; }
+
         .form-area { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 30px; border-radius: 30px; margin-bottom: 50px; }
-        input, select, textarea { width: 100%; background: #000; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; font-family: 'Inter'; outline: none; }
-        input:focus { border-color: var(--blue); }
+        input, select, textarea { width: 100%; background: #000; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 12px; font-family: 'Inter'; }
+        
+        .submit-btn { width: 100%; background: var(--blue); color: #fff; border: none; padding: 18px; border-radius: 50px; font-weight: 900; cursor: pointer; transition: 0.3s; font-family: 'JetBrains Mono'; }
+        .submit-btn:hover { background: #fff; color: #000; }
 
-        .submit-btn { width: 100%; background: var(--blue); color: #fff; border: none; padding: 18px; border-radius: 50px; font-weight: 900; cursor: pointer; transition: 0.3s; font-family: 'JetBrains Mono'; letter-spacing: 1px; }
-        .submit-btn:hover { transform: translateY(-2px); background: #fff; color: #000; }
-        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        .entry { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 25px; margin-bottom: 15px; position: relative; transition: 0.3s; }
-        .entry:hover { border-color: var(--blue); transform: translateX(5px); }
+        .entry { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 25px; margin-bottom: 15px; position: relative; }
         .entry-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .del-btn { color: #ff4444; background: none; border: none; font-size: 0.6rem; cursor: pointer; opacity: 0.2; font-family: 'JetBrains Mono'; }
-        .del-btn:hover { opacity: 1; text-decoration: underline; }
+        .del-btn { color: #ff4444; background: none; border: none; font-size: 0.6rem; cursor: pointer; opacity: 0.1; font-family: 'JetBrains Mono'; position: absolute; bottom: 20px; right: 25px; }
+        .del-btn:hover { opacity: 1; }
     </style>
 </head>
 <body>
@@ -49,112 +46,92 @@
     </div>
 
     <div class="container">
-        <p style="letter-spacing: 5px; color: var(--accent); font-size: 0.7rem; font-family: 'JetBrains Mono';">GUEST_LOG_TERMINAL</p>
-        <h1>Guest<span>book</span></h1>
-
-        <div class="stat-card">
-            <span class="stat-val" id="avgStars">0.0</span>
-            <span style="font-size: 0.6rem; opacity: 0.4; font-family: 'JetBrains Mono';">AVG_RATING</span>
+        <div class="rating-header">
+            <p style="letter-spacing: 5px; color: var(--accent); font-size: 0.7rem; font-family: 'JetBrains Mono';">COMMUNITY_FEEDBACK</p>
+            <div class="big-avg" id="avgDisplay">0.0</div>
+            <div class="stars-outer" id="starDisplay">☆☆☆☆☆</div>
+            <p style="opacity: 0.4; font-size: 0.8rem; margin-top: 10px;" id="countDisplay">0 REVIEWS</p>
         </div>
 
         <div class="form-area">
-            <input type="text" id="name" placeholder="Full Identity (Name)">
+            <input type="text" id="name" placeholder="Name">
             <select id="rating">
-                <option value="5">RANK: 5 (PEAK)</option>
-                <option value="4">RANK: 4 (ELITE)</option>
-                <option value="3">RANK: 3 (STABLE)</option>
-                <option value="2">RANK: 2 (LEGACY)</option>
-                <option value="1">RANK: 1 (REBOOT)</option>
+                <option value="5">5 Stars - Peak</option>
+                <option value="4">4 Stars - Elite</option>
+                <option value="3">3 Stars - Good</option>
+                <option value="2">2 Stars - Mid</option>
+                <option value="1">1 Star - Bad</option>
             </select>
-            <textarea id="message" rows="3" placeholder="Transmit your thoughts..."></textarea>
-            <button class="submit-btn" id="submitBtn" onclick="postToDB()">TRANSMIT_DATA</button>
+            <textarea id="message" rows="3" placeholder="Write a review..."></textarea>
+            <button class="submit-btn" id="submitBtn" onclick="postToDB()">POST REVIEW</button>
         </div>
 
-        <div id="logFeed" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; opacity: 0.5;">INITIALIZING FEED...</div>
+        <div id="logFeed"></div>
     </div>
 
     <script>
-        // --- DATABASE CONFIG ---
-        const SUPABASE_URL = 'https://whksaezi vfacqkokyosi.supabase.co'; 
+        const SUPABASE_URL = 'https://whksaeziivfacqkokyosi.supabase.co'; 
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa3NhZXppdmZhcWNvcWt5b3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDEzODAsImV4cCI6MjA4NTcxNzM4MH0.k2EU1lt-UcPuvzMPqTWTE7wApjJloAGT4CPdpvxoEH4';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // --- BACKGROUND PHYSICS ---
         window.addEventListener('mousemove', e => {
-            const x = e.clientX; const y = e.clientY;
-            document.documentElement.style.setProperty('--x', x + 'px');
-            document.documentElement.style.setProperty('--y', y + 'px');
-            const xMove = (x / window.innerWidth) * 20 - 10;
-            const yMove = (y / window.innerHeight) * 20 - 10;
-            document.getElementById('dotsLayer').parentElement.style.transform = `translateX(${xMove}px) translateY(${yMove}px)`;
+            document.documentElement.style.setProperty('--x', e.clientX + 'px');
+            document.documentElement.style.setProperty('--y', e.clientY + 'px');
         });
 
-        // --- OPERATIONS ---
         async function fetchLogs() {
-            const { data, error } = await _supabase
-                .from('signatures')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                document.getElementById('logFeed').innerText = "SYSTEM_ERROR: Check Table Name";
-            } else {
-                renderLogs(data);
-            }
+            const { data, error } = await _supabase.from('signatures').select('*').order('created_at', { ascending: false });
+            if (!error) renderLogs(data);
         }
 
         function renderLogs(logs) {
             const feed = document.getElementById('logFeed');
-            feed.innerHTML = logs.length === 0 ? 'NO ENTRIES FOUND.' : '';
+            feed.innerHTML = '';
             let total = 0;
+            
             logs.forEach(log => {
                 total += log.rating;
                 feed.innerHTML += `
                     <div class="entry">
                         <div class="entry-top">
                             <span style="font-weight:900; color:var(--blue)">${log.name}</span>
-                            <span style="color:var(--accent)">${'★'.repeat(log.rating)}</span>
+                            <span style="color:var(--accent)">${'★'.repeat(log.rating)}${'☆'.repeat(5-log.rating)}</span>
                         </div>
-                        <p style="opacity:0.8; font-family:'Inter'; font-size: 0.95rem;">${log.message}</p>
-                        <button class="del-btn" onclick="deleteLog(${log.id})">[ ERASE_LOG ]</button>
+                        <p style="opacity:0.7">${log.message}</p>
+                        <button class="del-btn" onclick="deleteLog(${log.id})">ADMIN_DELETE</button>
                     </div>
                 `;
             });
-            document.getElementById('avgStars').innerText = logs.length ? (total / logs.length).toFixed(1) : '0.0';
+
+            const avg = logs.length ? (total / logs.length).toFixed(1) : '0.0';
+            document.getElementById('avgDisplay').innerText = avg;
+            document.getElementById('countDisplay').innerText = `${logs.length} PUBLIC REVIEWS`;
+            document.getElementById('starDisplay').innerText = '★'.repeat(Math.round(avg)) + '☆'.repeat(5-Math.round(avg));
         }
 
         async function postToDB() {
             const name = document.getElementById('name').value;
             const rating = parseInt(document.getElementById('rating').value);
             const message = document.getElementById('message').value;
-            const btn = document.getElementById('submitBtn');
 
-            if (!name || !message) return alert("Fields Required.");
+            if (!name || !message) return alert("Fill everything!");
 
-            btn.disabled = true;
-            btn.innerText = "TRANSMITTING...";
-
-            const { error } = await _supabase
-                .from('signatures')
-                .insert([{ name, rating, message }]);
-
-            if (error) alert("Error: Make sure your table is named 'signatures'");
-            
+            await _supabase.from('signatures').insert([{ name, rating, message }]);
             document.getElementById('name').value = '';
             document.getElementById('message').value = '';
-            btn.disabled = false;
-            btn.innerText = "TRANSMIT_DATA";
             fetchLogs();
         }
 
         async function deleteLog(id) {
-            if(!confirm("Erase this log entry?")) return;
-            const { error } = await _supabase.from('signatures').delete().eq('id', id);
-            if (error) alert("Error deleting log.");
-            fetchLogs();
+            const pw = prompt("Admin Password Required:");
+            if(pw === "neel123") { // CHANGE THIS PASSWORD
+                await _supabase.from('signatures').delete().eq('id', id);
+                fetchLogs();
+            } else {
+                alert("Access Denied.");
+            }
         }
 
-        // Initial Load
         fetchLogs();
     </script>
 </body>
