@@ -1,67 +1,57 @@
-const canvas = document.getElementById('dotCanvas');
-const ctx = canvas.getContext('2d');
-let dots = [];
-let mouse = { x: -1000, y: -1000 };
-
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
-
-function init() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    dots = [];
-    const spacing = 32;
-    for (let x = 0; x < canvas.width; x += spacing) {
-        for (let y = 0; y < canvas.height; y += spacing) {
-            dots.push({ x, y });
-        }
-    }
-}
-
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const isDark = document.body.getAttribute('data-theme') === 'dark';
-    
-    dots.forEach(d => {
-        const dx = mouse.x - d.x;
-        const dy = mouse.y - d.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        if (dist < 100) {
-            // RAISE EFFECT
-            ctx.fillStyle = isDark ? '#22d3ee' : '#6366f1';
-            ctx.beginPath(); ctx.arc(d.x, d.y, 2.8, 0, Math.PI * 2); ctx.fill();
-        } else {
-            // STATIC GRID
-            ctx.fillStyle = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)';
-            ctx.beginPath(); ctx.arc(d.x, d.y, 1, 0, Math.PI * 2); ctx.fill();
-        }
-    });
-    requestAnimationFrame(draw);
-}
-
-function updateTime() {
-    const time = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    const el = document.getElementById('time-display');
-    if(el) el.textContent = time;
-}
-
 function toggleTheme() {
     const body = document.body;
     const current = body.getAttribute('data-theme');
     body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
 }
 
-function showHobby(type) {
-    const img = document.getElementById('main-photo');
-    if(type === 'coding') img.style.filter = 'grayscale(0) brightness(1.1)';
-    else if(type === 'chess') img.style.filter = 'sepia(0.5) hue-rotate(-30deg)';
-    else img.style.filter = 'grayscale(1)';
+function handleSearch(event) {
+    event.preventDefault();
+    const input = document.getElementById('ai-input');
+    const res = document.getElementById('ai-response');
+    if(input.value.trim() !== "") {
+        res.style.display = 'block';
+        res.innerHTML = `✦ Neel is currently architecting systems in Bangalore. Try asking about his Next.js projects!`;
+        input.value = "";
+    }
 }
 
-setInterval(updateTime, 1000);
+function showHobby(type) {
+    const layer = document.getElementById('hobby-photo');
+    const img = document.getElementById('main-photo');
+    if(type === 'coding') { layer.style.background = 'rgba(34, 211, 238, 0.2)'; img.style.filter = 'grayscale(0)'; }
+    else if(type === 'chess') { layer.style.background = 'rgba(244, 114, 182, 0.2)'; img.style.filter = 'sepia(0.5)'; }
+    else { layer.style.background = 'transparent'; img.style.filter = 'grayscale(1)'; }
+}
+
+const canvas = document.getElementById('dotCanvas');
+const ctx = canvas.getContext('2d');
+let dots = [];
+
+function init() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    dots = Array.from({length: 60}, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        s: Math.random() * 1.5 + 0.5,
+        v: Math.random() * 0.4 + 0.1
+    }));
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    ctx.fillStyle = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)';
+    dots.forEach(d => {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
+        ctx.fill();
+        d.y -= d.v;
+        if(d.y < 0) d.y = canvas.height;
+    });
+    requestAnimationFrame(draw);
+}
+
 window.onresize = init;
 init();
 draw();
