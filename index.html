@@ -11,7 +11,7 @@
     <style>
         :root {
             --bg: #050505; --txt: #ffffff; --accent: #8b5cf6; 
-            --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(255, 255, 255, 0.04); --border: rgba(255, 255, 255, 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,14 +22,14 @@
         /* --- HEADER --- */
         .site-header {
             position: fixed; width: 100%; top: 0; z-index: 9999;
-            display: flex; justify-content: space-between; align-items: center; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center; padding: 25px 5%;
         }
         .nav-pill {
             background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px);
-            border: 1px solid var(--border); padding: 12px 30px; border-radius: 100px;
+            border: 1px solid var(--border); padding: 12px 35px; border-radius: 100px;
         }
         .nav-links { display: flex; gap: 25px; }
-        .nav-item { text-decoration: none; color: white; font-weight: 700; font-size: 0.85rem; }
+        .nav-item { text-decoration: none; color: white; font-weight: 700; font-size: 0.85rem; letter-spacing: 1px; }
 
         /* --- HERO --- */
         .hero {
@@ -49,46 +49,59 @@
             opacity: 0.4; margin-top: 25px; font-weight: 800;
         }
 
+        /* --- AI BOX --- */
+        .ai-terminal {
+            margin-top: 40px; width: 90%; max-width: 450px;
+            background: var(--glass); border: 1px solid var(--border);
+            padding: 25px; border-radius: 30px; backdrop-filter: blur(15px);
+        }
+        .ai-display { 
+            background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 15px;
+            color: var(--accent); margin-bottom: 15px; text-align: left; font-size: 0.85rem;
+            min-height: 50px; border-left: 3px solid var(--accent);
+        }
+        .ai-input-row { display: flex; background: rgba(0,0,0,0.4); border-radius: 50px; padding: 5px; border: 1px solid var(--border); }
+        .ai-input-row input { flex: 1; background: transparent; border: none; color: white; padding-left: 15px; outline: none; }
+        .ai-input-row button { background: var(--accent); border: none; color: white; padding: 10px 20px; border-radius: 50px; font-weight: 800; cursor: pointer; }
+
         /* --- BENTO GRID --- */
         .bento {
-            display: grid; max-width: 1200px; margin: 80px auto; gap: 20px;
-            grid-template-columns: 1fr 1.8fr; grid-template-rows: 300px 300px; padding: 0 20px;
+            display: grid; max-width: 1200px; margin: 100px auto; gap: 25px;
+            grid-template-columns: 1fr 1.8fr; grid-template-rows: 320px 320px; padding: 0 20px;
         }
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; position: relative; overflow: hidden; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 45px; position: relative; overflow: hidden; }
 
-        .portrait { grid-row: span 2; }
-        .portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.5s; }
+        /* RGB HOVER EFFECT */
+        .portrait { grid-row: span 2; cursor: crosshair; }
+        .portrait img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.4s ease; }
+        .portrait:hover img { 
+            filter: grayscale(0) drop-shadow(5px 0px 0px rgba(255,0,0,0.5)) drop-shadow(-5px 0px 0px rgba(0,255,255,0.5));
+            transform: scale(1.03);
+        }
 
         .location { grid-column: 2; background: #000; padding: 40px; display: flex; align-items: flex-end; }
         .map-img { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop') center/cover; opacity: 0.2; filter: grayscale(1); }
         
         .loc-info { position: relative; z-index: 5; display: flex; justify-content: space-between; width: 100%; align-items: flex-end; }
+        .loc-info h2 { font-size: 2.2rem; font-weight: 900; }
         .time-box { font-family: 'JetBrains Mono'; color: var(--accent); font-weight: 800; font-size: 1.2rem; }
 
-        /* --- SPHERE CSS FIX --- */
-        .sphere-container { height: 700px; display: flex; justify-content: center; align-items: center; }
-        
-        /* Force image display and kill the purple text */
-        .tagcloud { 
-            color: transparent !important; /* Hide any fallback text */
+        .mindset { grid-column: 2; padding: 45px; display: flex; flex-direction: column; justify-content: center; }
+        .hobby-btns { display: flex; gap: 15px; margin-top: 25px; }
+        .hobby-btns span { 
+            padding: 10px 25px; border: 1px solid var(--border); border-radius: 50px; 
+            color: var(--accent); font-weight: 800; cursor: pointer; transition: 0.3s;
         }
-        
-        .tagcloud--item { 
-            padding: 10px;
-        }
+        .hobby-btns span:hover { background: var(--accent); color: white; box-shadow: 0 0 20px var(--accent); }
 
+        /* --- SPHERE --- */
+        .sphere-section { height: 800px; width: 100%; display: flex; justify-content: center; align-items: center; position: relative; margin-top: -50px; }
+        .tagcloud { color: transparent !important; }
         .tagcloud--item img { 
-            width: 55px !important; 
-            height: 55px !important; 
-            filter: brightness(0) invert(1); /* Start as white icons */
-            transition: all 0.4s ease;
-            display: block !important;
+            width: 65px !important; height: 65px !important; 
+            filter: brightness(0) invert(1); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
-        .tagcloud--item:hover img {
-            filter: brightness(1) invert(0); /* Return to original tech color on hover */
-            transform: scale(1.4) rotate(5deg);
-        }
+        .tagcloud--item:hover img { filter: brightness(1) invert(0); transform: scale(1.5); }
 
     </style>
 </head>
@@ -97,51 +110,66 @@
     <canvas id="dotCanvas"></canvas>
 
     <header class="site-header">
-        <div style="font-weight: 900; font-size: 1.5rem;">NN</div>
+        <div style="font-weight: 900; font-size: 1.6rem;">NN</div>
         <nav class="nav-pill">
             <div class="nav-links">
-                <a href="#" class="nav-item">Nexus</a>
-                <a href="#" class="nav-item">Bio</a>
-                <a href="#" class="nav-item">Tech</a>
+                <a href="#home" class="nav-item">INDEX</a>
+                <a href="#about" class="nav-item">BIO</a>
+                <a href="#skills" class="nav-item">TECH</a>
             </div>
         </nav>
-        <button style="background:var(--accent); color:white; border:none; padding:10px 25px; border-radius:50px; font-weight:800; cursor:pointer;">Contact</button>
+        <button style="background:var(--accent); color:white; border:none; padding:12px 28px; border-radius:50px; font-weight:800; cursor:pointer;">CONNECT</button>
     </header>
 
-    <section class="hero">
+    <section class="hero" id="home">
         <h1 class="massive-hero">NEEL NIKHIL</h1>
         <p class="hero-subtitle">Front End Developer</p>
+        
+        <div class="ai-terminal">
+            <div id="ai-out" class="ai-display">NEEL-AI: Status Nominal. All systems calibrated for innovation.</div>
+            <div class="ai-input-row">
+                <input type="text" id="ai-in" placeholder="Query the system...">
+                <button onclick="runAI()">SEND</button>
+            </div>
+        </div>
     </section>
 
-    <main class="bento">
-        <div class="card portrait"><img src="me.jpg" id="p-img"></div>
+    <main class="bento" id="about">
+        <div class="card portrait">
+            <img src="me.jpg" id="p-img" alt="Neel Nikhil">
+        </div>
+        
         <div class="card location">
             <div class="map-img"></div>
             <div class="loc-info">
                 <div>
-                    <small style="opacity:0.5; letter-spacing:3px;">LOCATION</small>
+                    <small style="opacity:0.5; letter-spacing:4px;">LOCUS</small>
                     <h2>Bangalore, IN</h2>
                 </div>
                 <div id="clock" class="time-box">00:00:00</div>
             </div>
         </div>
+
         <div class="card mindset">
-            <div style="padding:40px;">
-                <small style="opacity:0.5; letter-spacing:3px;">PHILOSOPHY</small>
-                <h2 style="font-size:2.5rem; font-weight:900;">Discipline > Motivation</h2>
+            <small style="opacity:0.5; letter-spacing:4px;">PHILOSOPHY</small>
+            <h2 style="font-size:2.8rem; font-weight:900; margin-top:10px;">Discipline > Motivation</h2>
+            <div class="hobby-btns">
+                <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
+                <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
+                <span onmouseover="swp('snooker')" onmouseout="swp('default')">SNOOKER</span>
             </div>
         </div>
     </main>
 
-    <section class="sphere-container">
+    <section class="sphere-section" id="skills">
         <div class="tagcloud"></div>
     </section>
 
     <script>
-        // 1. DOT BACKGROUND
+        // 1. DOT ENGINE
         const cvs = document.getElementById('dotCanvas');
         const ctx = cvs.getContext('2d');
-        let dots = [], mouse = {x:-100, y:-100};
+        let dots = [], mouse = {x:-1000, y:-1000};
         function setup() {
             cvs.width = window.innerWidth; cvs.height = window.innerHeight;
             dots = [];
@@ -154,18 +182,15 @@
             ctx.clearRect(0,0,cvs.width,cvs.height);
             dots.forEach(d => {
                 const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y);
-                ctx.fillStyle = dist < 120 ? '#8b5cf6' : 'rgba(255,255,255,0.1)';
-                ctx.beginPath(); ctx.arc(d.x, d.y, dist<120?4:1.5, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = dist < 130 ? '#8b5cf6' : 'rgba(255,255,255,0.1)';
+                ctx.beginPath(); ctx.arc(d.x, d.y, dist<130?4:1.5, 0, Math.PI*2); ctx.fill();
             });
             requestAnimationFrame(draw);
         }
         draw();
 
-        // 2. THE SPHERE - THE FIX IS HERE
+        // 2. TECH SPHERE (MANY LANGUAGES)
         function initSphere() {
-            const container = '.tagcloud';
-            
-            // We give it clean HTML strings
             const icons = [
                 '<img src="https://cdn.simpleicons.org/react/61DAFB" />',
                 '<img src="https://cdn.simpleicons.org/nextdotjs/ffffff" />',
@@ -174,36 +199,44 @@
                 '<img src="https://cdn.simpleicons.org/javascript/F7DF1E" />',
                 '<img src="https://cdn.simpleicons.org/typescript/3178C6" />',
                 '<img src="https://cdn.simpleicons.org/nodedotjs/339933" />',
-                '<img src="https://cdn.simpleicons.org/mongodb/47A248" />'
+                '<img src="https://cdn.simpleicons.org/mongodb/47A248" />',
+                '<img src="https://cdn.simpleicons.org/git/F05032" />',
+                '<img src="https://cdn.simpleicons.org/three-dot-js/ffffff" />',
+                '<img src="https://cdn.simpleicons.org/html5/E34F26" />',
+                '<img src="https://cdn.simpleicons.org/css3/1572B6" />',
+                '<img src="https://cdn.simpleicons.org/cplusplus/00599C" />',
+                '<img src="https://cdn.simpleicons.org/rust/ffffff" />'
             ];
+            TagCloud('.tagcloud', icons, {
+                radius: 300,
+                maxSpeed: 'fast',
+                initSpeed: 'normal',
+                useHTML: true,
+                keep: true
+            });
+        }
 
-            const options = {
-                radius: 280,
-                maxSpeed: 'normal',
-                initSpeed: 'slow',
-                direction: 135,
-                keep: true,
-                useHTML: true // This MUST be true
-            };
+        // 3. UTILS & HOBBY SWAP
+        function swp(t) {
+            const i = document.getElementById('p-img');
+            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'};
+            i.style.opacity = '0.5';
+            setTimeout(() => { i.src = m[t] || m.default; i.style.opacity = '1'; }, 100);
+        }
 
-            // Initialize the cloud
-            TagCloud(container, icons, options);
-
-            // FORCE FIX: If it still shows as text, we wait 100ms and force render images
+        function runAI() {
+            const out = document.getElementById('ai-out');
+            const input = document.getElementById('ai-in');
+            out.innerText = "NEEL-AI: Thinking...";
             setTimeout(() => {
-                const items = document.querySelectorAll('.tagcloud--item');
-                items.forEach(item => {
-                    // If the item has text content that looks like an img tag, we replace it
-                    if (item.textContent.includes('<img')) {
-                        item.innerHTML = item.textContent;
-                    }
-                });
-            }, 100);
+                out.innerText = "NEEL-AI: Parameters received. Deployment schedule optimized for 2026.";
+                input.value = "";
+            }, 600);
         }
 
         setInterval(() => {
-            const clockEl = document.getElementById('clock');
-            if(clockEl) clockEl.innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false}) + " IST";
+            const clock = document.getElementById('clock');
+            if(clock) clock.innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata', hour12:false}) + " IST";
         }, 1000);
 
         window.onload = initSphere;
