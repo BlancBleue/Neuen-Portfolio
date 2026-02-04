@@ -56,38 +56,64 @@
         .flowing-header { font-size: clamp(3rem, 10vw, 6.5rem); margin-top: 10px; }
         @keyframes colorCycle { to { background-position: 300% center; } }
 
-        /* --- SCROLL INDICATOR --- */
-        .scroll-indicator {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-            opacity: 0; transition: opacity 1s ease 1.5s;
-            animation: bounce 2s infinite;
+        /* --- BENTO GRID SYSTEM --- */
+        .bento { 
+            display: grid; 
+            max-width: 1200px; 
+            margin: 100px auto; 
+            gap: 20px; 
+            grid-template-columns: 1fr 1.2fr 1fr; 
+            padding: 0 20px; 
         }
-        body.loaded .scroll-indicator { opacity: 1; }
-        .mouse { width: 26px; height: 42px; border: 2px solid var(--txt); border-radius: 20px; display: flex; justify-content: center; padding-top: 8px; opacity: 0.6; }
-        .wheel { width: 4px; height: 8px; background: var(--accent); border-radius: 2px; animation: scrollWheel 1.6s ease-in-out infinite; }
-        .scroll-text { font-family: 'JetBrains Mono'; font-size: 0.6rem; letter-spacing: 4px; opacity: 0.4; font-weight: 800; }
-        @keyframes scrollWheel { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(15px); opacity: 0; } }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);} 40% {transform: translateX(-50%) translateY(-10px);} 60% {transform: translateX(-50%) translateY(-5px);} }
+        .card { 
+            background: var(--glass); 
+            border: 1px solid var(--border); 
+            border-radius: 40px; 
+            position: relative; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .card:hover { border-color: var(--accent); }
 
-        /* --- AI TERMINAL --- */
-        .ai-terminal { margin-top: 50px; width: 90%; max-width: 450px; background: var(--glass); border: 1px solid var(--border); padding: 20px; border-radius: 30px; }
-        .ai-display { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.8rem; margin-bottom: 15px; text-align: left; }
+        .card-content { padding: 40px; height: 100%; display: flex; flex-direction: column; }
+        .label { font-family: 'JetBrains Mono'; font-size: 0.7rem; letter-spacing: 4px; opacity: 0.5; display: block; margin-bottom: 15px; }
+        .card h2 { font-size: 1.8rem; font-weight: 800; line-height: 1.2; margin-bottom: 15px; }
+        .card p { opacity: 0.7; line-height: 1.6; font-size: 0.95rem; }
 
-        /* --- BENTO GRID --- */
-        .bento { display: grid; max-width: 1200px; margin: 100px auto; gap: 20px; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 350px 350px; padding: 0 20px; }
-        .card-a { grid-column: 1; grid-row: 1 / span 2; } 
-        .card-b { grid-column: 2 / span 2; grid-row: 1; } 
-        .card-c { grid-column: 2 / span 2; grid-row: 2; } 
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; position: relative; overflow: hidden; }
-        .card-a img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.4s; }
-        .card-a:hover img { filter: grayscale(0); box-shadow: 15px 0px 0px rgba(255,0,0,0.3), -15px 0px 0px rgba(0,255,255,0.3); transform: scale(1.02); }
-        .map-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000'); background-size: cover; opacity: 0.2; filter: grayscale(1); }
-        .hobby-btns { display: flex; gap: 15px; margin-top: 25px; }
-        .hobby-btns span { padding: 12px 25px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; transition: 0.3s; }
+        /* Middle Nexus Column */
+        .card-nexus { background: transparent; border: none; overflow: visible; }
+        .portrait-container { height: 400px; border-radius: 40px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 20px; }
+        .main-portrait { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.5s; }
+        .card-nexus:hover .main-portrait { filter: grayscale(0); transform: scale(1.05); }
+        
+        .location-bar { 
+            background: var(--glass); border: 1px solid var(--border); 
+            border-radius: 30px; padding: 25px; position: relative; overflow: hidden; backdrop-filter: blur(10px);
+        }
+        .map-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000'); background-size: cover; opacity: 0.1; filter: grayscale(1); z-index: 1; }
+        .location-info { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; }
+        .location-info h3 { font-size: 1.5rem; font-weight: 900; }
+        #clock { font-family: 'JetBrains Mono'; color: var(--accent); font-weight: 800; font-size: 1.1rem; }
+
+        /* Interest Buttons */
+        .hobby-btns { display: flex; gap: 10px; margin-top: 25px; flex-wrap: wrap; }
+        .hobby-btns span { padding: 10px 20px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-size: 0.8rem; font-weight: 800; cursor: pointer; transition: 0.3s; }
         .hobby-btns span:hover { background: var(--accent); color: white; box-shadow: 0 0 15px var(--accent); }
 
-        /* --- SPHERE --- */
+        .status-indicator { margin-top: auto; padding-top: 20px; font-size: 0.8rem; display: flex; align-items: center; gap: 8px; opacity: 0.8; }
+        .status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 10px #22c55e; }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 1024px) {
+            .bento { grid-template-columns: 1fr; }
+            .card-nexus { grid-row: 1; }
+            .portrait-container { height: 450px; }
+            .massive-hero { font-size: 5rem; letter-spacing: -2px; }
+        }
+
+        /* --- SKILLS & EXPLORE (Keep existing) --- */
         .skills-section { padding: 100px 0; text-align: center; }
         .sphere-container { height: 750px; width: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
         .sphere-outline { position: absolute; width: 620px; height: 620px; border: 3px solid var(--sphere-web); border-radius: 50%; pointer-events: none; box-shadow: inset 0 0 50px var(--sphere-web), 0 0 30px var(--sphere-web); filter: drop-shadow(0 0 10px var(--accent)); opacity: 0.8; }
@@ -96,18 +122,10 @@
         [data-theme="light"] .tagcloud--item img { filter: brightness(0); }
         .tagcloud--item:hover img { filter: brightness(1) invert(0) !important; transform: scale(1.8) translateZ(50px); }
 
-        /* --- EXPLORE SECTION --- */
         .explore-section { padding: 100px 5%; text-align: center; max-width: 1200px; margin: 0 auto; }
         .explore-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 50px; }
-        .explore-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 40px; text-align: left; transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1); position: relative; overflow: hidden; }
-        .explore-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.06); border-color: var(--accent); }
-        .ex-icon { font-size: 2rem; margin-bottom: 20px; width: 60px; height: 60px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border-radius: 15px; border: 1px solid var(--border); }
-        .explore-card h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
-        .explore-card p { opacity: 0.6; font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; }
-        .ex-link { text-decoration: none; font-weight: 700; font-size: 0.9rem; color: var(--accent); transition: 0.3s; }
-        .explore-card.purple h3 { color: #a78bfa; }
-        .explore-card.orange h3 { color: #fb923c; }
-        .explore-card.blue h3 { color: #38bdf8; }
+        .explore-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 40px; text-align: left; transition: 0.4s; position: relative; }
+        .explore-card:hover { transform: translateY(-10px); border-color: var(--accent); }
     </style>
 </head>
 <body>
@@ -139,34 +157,51 @@
                 <button onclick="runAI()" style="background:var(--accent); border:none; color:white; padding:8px 20px; border-radius:50px; font-weight:800; cursor:pointer;">RUN</button>
             </div>
         </div>
-        <div class="scroll-indicator">
-            <div class="mouse"><div class="wheel"></div></div>
-            <div class="scroll-text">SCROLL TO EXPLORE</div>
-        </div>
     </section>
 
     <main class="bento" id="about">
-        <div class="card card-a"><img src="me.jpg" id="p-img"></div>
-        <div class="card card-b" style="padding:50px; display:flex; align-items:flex-end;">
-            <div class="map-bg"></div>
-            <div style="position:relative; z-index:2; display:flex; justify-content:space-between; width:100%; align-items:flex-end;">
-                <div><small style="opacity:0.5; letter-spacing:4px;">NEXUS</small><h2 style="font-size:3rem; font-weight:900;">Bangalore, IN</h2></div>
-                <div id="clock" style="font-family:'JetBrains Mono'; color:var(--accent); font-weight:800; font-size:1.5rem;">00:00:00</div>
+        <div class="card card-mindset">
+            <div class="card-content">
+                <small class="label">MINDSET</small>
+                <h2>Building more than software.</h2>
+                <p>My passions provide the <strong>discipline and focus</strong> I need to grow. Mastering body and mind is my path to excellence.</p>
+                <div class="status-indicator">
+                    <span class="status-dot"></span> Available for freelance
+                </div>
             </div>
         </div>
-        <div class="card card-c" style="padding:50px; display:flex; flex-direction:column; justify-content:center;">
-            <small style="opacity:0.5; letter-spacing:4px;">I N T E R E S T S</small>
-            <h2 style="font-size:2.8rem; font-weight:900; margin-top:10px;">Some Interests of Neel</h2>
-            <div class="hobby-btns">
-                <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
-                <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
-                <span onmouseover="swp('snooker')" onmouseout="swp('default')">SNOOKER</span>
+
+        <div class="card card-nexus">
+            <div class="portrait-container">
+                <img src="me.jpg" id="p-img" class="main-portrait">
+            </div>
+            <div class="location-bar">
+                <div class="map-bg"></div>
+                <div class="location-info">
+                    <div>
+                        <small class="label">LOCATION</small>
+                        <h3>Bangalore, IN</h3>
+                    </div>
+                    <div id="clock">00:00:00 IST</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-craft">
+            <div class="card-content">
+                <small class="label">CRAFT</small>
+                <h2>Building scalable apps and automations.</h2>
+                <p>I understand what advantages modern tech can provide, helping me advise on the solutions a business actually needs.</p>
+                <div class="hobby-btns">
+                    <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
+                    <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
+                    <span onmouseover="swp('snooker')" onmouseout="swp('default')">SNOOKER</span>
+                </div>
             </div>
         </div>
     </main>
 
     <section class="skills-section" id="skills">
-        <span style="font-family:'JetBrains Mono'; letter-spacing:8px; opacity:0.5;">TECH STACK</span>
         <h2 class="flowing-header">MY SKILLS</h2>
         <div class="sphere-container">
             <div class="sphere-outline"></div>
@@ -176,12 +211,9 @@
     </section>
 
     <section class="explore-section">
-        <h2 class="flowing-header" style="font-size: 3.5rem; letter-spacing: -2px;">More to <span style="-webkit-text-fill-color: var(--txt);">Explore</span></h2>
-        <p style="opacity: 0.5; margin-top: 10px; font-family: 'JetBrains Mono';">Check out these additional resources and connect with me</p>
         <div class="explore-grid">
-            <div class="explore-card purple"><div class="ex-icon">📖</div><h3>Guestbook</h3><p>Leave your mark and see what others have to say</p><a href="guestbook.html" class="ex-link">Explore →</a></div>
-            <div class="explore-card orange"><div class="ex-icon">🏆</div><h3>Achievements</h3><p>Milestones, certifications, and accomplishments</p><a href="achievements.html" class="ex-link">Explore →</a></div>
-            <div class="explore-card blue"><div class="ex-icon">🔗</div><h3>My Links</h3><p>Find me across the web and social platforms</p><a href="#" class="ex-link">Explore →</a></div>
+            <div class="explore-card"><div class="ex-icon">📖</div><h3>Guestbook</h3><p>Leave your mark and see what others have to say</p><a href="guestbook.html" style="color:var(--accent); text-decoration:none; font-weight:800;">Explore →</a></div>
+            <div class="explore-card"><div class="ex-icon">🏆</div><h3>Achievements</h3><p>Milestones and certifications</p><a href="achievements.html" style="color:var(--accent); text-decoration:none; font-weight:800;">Explore →</a></div>
         </div>
     </section>
 
@@ -194,7 +226,7 @@
         }
 
         const targetText = "NEEL NIKHIL";
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         let iteration = 0;
 
         function startIntro() {
@@ -205,7 +237,6 @@
                 if(iteration >= targetText.length) {
                     clearInterval(interval);
                     document.getElementById('status').innerText = "ACCESS GRANTED";
-                    document.getElementById('status').style.color = "#8b5cf6";
                     setTimeout(() => {
                         document.body.classList.add('loaded');
                         initCanvas();
@@ -223,8 +254,9 @@
         function initCanvas() {
             cvs.width = window.innerWidth; cvs.height = window.innerHeight;
             dots = [];
-            for(let x=0; x<cvs.width+50; x+=40) 
-                for(let y=0; y<cvs.height+50; y+=40) 
+            const spacing = window.innerWidth < 768 ? 50 : 40;
+            for(let x=0; x<cvs.width+50; x+=spacing) 
+                for(let y=0; y<cvs.height+50; y+=spacing) 
                     dots.push({x, y, baseSize: Math.random() * 1.5 + 0.5});
             draw();
         }
@@ -247,20 +279,12 @@
 
         function initSphere() {
             const icons = {
-                'React': 'https://cdn.simpleicons.org/react/61DAFB',
-                'Next': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
-                'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1',
-                'CSS': 'https://cdn.simpleicons.org/css3/1572B6',
-                'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E',
-                'Python': 'https://cdn.simpleicons.org/python/3776AB',
-                'Node': 'https://cdn.simpleicons.org/nodedotjs/339933',
-                'Git': 'https://cdn.simpleicons.org/git/F05032',
-                'HTML': 'https://cdn.simpleicons.org/html5/E34F26',
-                'CPP': 'https://cdn.simpleicons.org/cplusplus/00599C',
-                'Docker': 'https://cdn.simpleicons.org/docker/2496ED',
-                'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4'
+                'React': 'https://cdn.simpleicons.org/react/61DAFB', 'Next': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
+                'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1', 'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E',
+                'Python': 'https://cdn.simpleicons.org/python/3776AB', 'Node': 'https://cdn.simpleicons.org/nodedotjs/339933',
+                'Git': 'https://cdn.simpleicons.org/git/F05032', 'Docker': 'https://cdn.simpleicons.org/docker/2496ED'
             };
-            TagCloud('.tagcloud', Object.keys(icons), { radius: 280, maxSpeed: 'normal' });
+            TagCloud('.tagcloud', Object.keys(icons), { radius: window.innerWidth < 768 ? 150 : 280, maxSpeed: 'normal' });
             setTimeout(() => {
                 document.querySelectorAll('.tagcloud--item').forEach(item => {
                     const n = item.innerText.trim();
@@ -276,7 +300,6 @@
         }
         function runAI() { document.getElementById('ai-out').innerText = "AI: Core Systems Online. Welcome back."; }
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata'}) + " IST"; }, 1000);
-
         window.onload = () => setTimeout(startIntro, 500);
     </script>
 </body>
