@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uplink | Guestbook</title>
+    <title>Neel Nikhil | Guestbook</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         :root { 
             --bg: #050505; 
@@ -107,7 +108,7 @@
     </div>
 
     <script>
-        // --- YOUR NEW PROJECT CONFIG ---
+        // --- CONFIGURATION ---
         const SUPA_URL = 'https://ywsdbpgaxdweqovbmqgb.supabase.co';
         const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl3c2RicGdheGR3ZXFvdmBtcWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMjMwMjcsImV4cCI6MjA4NTc5OTAyN30.Ew3V1-2MaVsQqp_2VTJlmZ_ZSfIeSzmg5VncMogzjiM';
         
@@ -119,7 +120,7 @@
             document.documentElement.style.setProperty('--y', e.clientY + 'px');
         });
 
-        // --- DATABASE OPERATIONS ---
+        // --- FETCH DATA ---
         async function fetchReviews() {
             const { data, error } = await _supabase
                 .from('signatures')
@@ -133,6 +134,7 @@
             render(data);
         }
 
+        // --- RENDER DATA ---
         function render(logs) {
             const container = document.getElementById('reviewsFeed');
             container.innerHTML = '';
@@ -146,12 +148,13 @@
                             <span class="stars">${'★'.repeat(log.rating)}${'☆'.repeat(5-log.rating)}</span>
                         </div>
                         <p class="review-text">${log.message}</p>
-                        <div class="timestamp">COMITTED_AT: ${dateString}</div>
+                        <div class="timestamp">COMMITTED_AT: ${dateString}</div>
                     </div>
                 `;
             });
         }
 
+        // --- POST DATA ---
         async function postReview() {
             const name = document.getElementById('userName').value;
             const rating = parseInt(document.getElementById('userStars').value);
@@ -171,19 +174,19 @@
                 .insert([{ name, rating, message }]);
 
             if (error) {
-                alert("Uplink Failed. Check console for details.");
-                console.error(error);
+                alert("Uplink Failed. Check browser console (F12) for the exact error.");
+                console.error("Supabase Error Object:", error);
             } else {
                 document.getElementById('userName').value = '';
                 document.getElementById('userMsg').value = '';
-                fetchReviews();
+                fetchReviews(); // Refresh the list
             }
 
             btn.innerText = "TRANSMIT SIGNATURE";
             btn.disabled = false;
         }
 
-        // Boot system
+        // Initial Load
         fetchReviews();
     </script>
 </body>
