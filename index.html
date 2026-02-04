@@ -246,7 +246,7 @@
         window.onmousemove = e => { mouse.x=e.clientX; mouse.y=e.clientY; };
 
         function initSphere() {
-          const icons = {
+            const icons = {
             'React': 'https://cdn.simpleicons.org/react/61DAFB', 'Next': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
             'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1', 'CSS': 'https://cdn.simpleicons.org/css3/1572B6',
             'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E', 'Python': 'https://cdn.simpleicons.org/python/3776AB',
@@ -256,17 +256,15 @@
             'TypeScript': 'https://cdn.simpleicons.org/typescript/3178C6', 'MongoDB': 'https://cdn.simpleicons.org/mongodb/47A248',
             'Vercel': 'https://cdn.simpleicons.org/vercel/ffffff'
         };
-    window.onload = () => {
-            TagCloud('#sphere', Object.keys(icons), { radius: 320, maxSpeed: 'fast' });
+            TagCloud('.tagcloud', Object.keys(icons), { radius: 280, maxSpeed: 'normal' });
             setTimeout(() => {
                 document.querySelectorAll('.tagcloud--item').forEach(item => {
                     const n = item.innerText.trim();
-                    item.setAttribute('data-name', n);
                     if(icons[n]) item.innerHTML = `<img src="${icons[n]}" alt="${n}">`;
                 });
-            }, 300);
-            initMagneticDots();
-        };
+            }, 200);
+        }
+
         function swp(t) { 
             const i = document.getElementById('p-img'); 
             const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'}; 
