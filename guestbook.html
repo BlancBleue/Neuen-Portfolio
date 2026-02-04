@@ -7,44 +7,49 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        :root {
-            --bg: #050505; --card: #0a0a0a; --border: #1a1a1a;
-            --blue: #3b82f6; --dot-white: rgba(255, 255, 255, 0.05); --dot-blue: rgba(59, 130, 246, 0.4);
+        :root { 
+            --bg: #050505; 
+            --blue: #3b82f6; 
+            --border: #1a1a1a; 
+            --dot-white: rgba(255, 255, 255, 0.05); 
+            --dot-blue: rgba(59, 130, 246, 0.4);
         }
-
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        /* --- OS GLOW DOT BACKGROUND --- */
-        .bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .dots-base { position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; background-image: radial-gradient(var(--dot-white) 1px, transparent 1px); background-size: 40px 40px; }
+        /* --- OS GLOW DOTS BACKGROUND --- */
+        .bg-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+        .dots-base { position: absolute; inset: -10%; background-image: radial-gradient(var(--dot-white) 1px, transparent 1px); background-size: 40px 40px; }
         .dots-active { 
-            position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; 
+            position: absolute; inset: -10%; 
             background-image: radial-gradient(var(--dot-blue) 1.5px, transparent 1.5px); 
             background-size: 40px 40px;
             -webkit-mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%);
             mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%);
         }
 
-        /* --- LAYOUT --- */
-        .wrapper { max-width: 650px; margin: 0 auto; padding: 60px 24px; position: relative; }
+        .wrapper { max-width: 650px; margin: 0 auto; padding: 80px 24px; position: relative; }
 
-        .os-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; font-family: 'JetBrains Mono'; font-size: 0.75rem; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        /* --- NAVIGATION --- */
+        .os-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; font-family: 'JetBrains Mono'; font-size: 0.75rem; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
         .os-nav a { color: var(--blue); text-decoration: none; border: 1px solid rgba(59, 130, 246, 0.2); padding: 5px 12px; border-radius: 4px; transition: 0.3s; }
         .os-nav a:hover { background: rgba(59, 130, 246, 0.1); border-color: var(--blue); }
 
+        /* --- HEADER --- */
         .header-section { margin-bottom: 40px; }
         .header-section span { color: var(--blue); font-family: 'JetBrains Mono'; font-size: 0.8rem; letter-spacing: 2px; }
         .header-section h1 { font-size: 3rem; font-weight: 800; letter-spacing: -2px; margin: 10px 0; }
+        .header-section p { color: #a1a1aa; font-size: 1.1rem; }
 
-        /* --- UI COMPONENTS --- */
+        /* --- INPUT AREA --- */
         .glass-card { 
             background: rgba(10, 10, 10, 0.6); border: 1px solid var(--border); 
-            backdrop-filter: blur(10px); border-radius: 16px; padding: 30px; margin-bottom: 50px; 
+            backdrop-filter: blur(10px); border-radius: 16px; padding: 30px; margin-bottom: 60px; 
         }
         input, select, textarea { 
             width: 100%; background: #000; border: 1px solid var(--border); 
-            color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-family: inherit; 
+            color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-family: inherit; outline: none;
         }
         input:focus { border-color: var(--blue); }
 
@@ -55,13 +60,13 @@
         }
         .btn-submit:hover { background: #fff; color: #000; transform: translateY(-2px); }
 
-        /* --- FEED --- */
-        .review-card { padding: 25px 0; border-bottom: 1px solid var(--border); position: relative; }
-        .review-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .user-name { font-weight: 600; color: var(--blue); }
+        /* --- REVIEWS FEED --- */
+        .review-card { padding: 30px 0; border-bottom: 1px solid var(--border); }
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
+        .user-name { font-weight: 600; color: var(--blue); font-size: 1.1rem; }
         .stars { color: #fbbf24; font-size: 0.8rem; letter-spacing: 2px; }
-        .review-text { color: #a1a1aa; font-size: 1.05rem; }
-        .timestamp { font-size: 0.7rem; color: #444; margin-top: 10px; font-family: 'JetBrains Mono'; }
+        .review-text { color: #d4d4d8; font-size: 1.05rem; line-height: 1.6; }
+        .timestamp { font-size: 0.65rem; color: #52525b; margin-top: 12px; font-family: 'JetBrains Mono'; text-transform: uppercase; }
 
     </style>
 </head>
@@ -74,76 +79,111 @@
 
     <div class="wrapper">
         <nav class="os-nav">
-            <a href="index.html">RUN: RETURN_TO_HOME</a>
-            <div style="opacity: 0.4">STATUS: ENCRYPTED_UPLINK</div>
+            <a href="index.html">← RETURN_TO_BASE</a>
+            <div style="opacity: 0.4">UPLINK_STATUS: ACTIVE</div>
         </nav>
 
         <header class="header-section">
-            <span>COMMUNITY_WALL_v2.0</span>
+            <span>DATABASE: REVIEWS_DB</span>
             <h1>Leave Your Mark.</h1>
+            <p>Sign the wall to confirm your presence in the system.</p>
         </header>
 
         <div class="glass-card">
-            <input type="text" id="name" placeholder="IDENTITY">
-            <select id="stars">
+            <input type="text" id="userName" placeholder="IDENTITY (Name)">
+            <select id="userStars">
                 <option value="5">RANK: 5 (PEAK)</option>
                 <option value="4">RANK: 4 (ELITE)</option>
                 <option value="3">RANK: 3 (STABLE)</option>
                 <option value="2">RANK: 2 (MID)</option>
                 <option value="1">RANK: 1 (REBOOT)</option>
             </select>
-            <textarea id="msg" rows="3" placeholder="TRANSMIT_MESSAGE..."></textarea>
-            <button class="btn-submit" onclick="postToDB()">TRANSMIT SIGNATURE</button>
+            <textarea id="userMsg" rows="3" placeholder="TRANSMIT_MESSAGE..."></textarea>
+            <button class="btn-submit" id="submitBtn" onclick="postReview()">TRANSMIT SIGNATURE</button>
         </div>
 
-        <div id="feed"></div>
+        <div id="reviewsFeed">
+            </div>
     </div>
 
     <script>
-        const SUPA_URL = 'https://whksaeziivfacqkokyosi.supabase.co'; 
-        const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa3NhZXppdmZhcWNvcWt5b3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDEzODAsImV4cCI6MjA4NTcxNzM4MH0.k2EU1lt-UcPuvzMPqTWTE7wApjJloAGT4CPdpvxoEH4';
-        const client = supabase.createClient(SUPA_URL, SUPA_KEY);
+        // --- YOUR NEW PROJECT CONFIG ---
+        const SUPA_URL = 'https://ywsdbpgaxdweqovbmqgb.supabase.co';
+        const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl3c2RicGdheGR3ZXFvdmBtcWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMjMwMjcsImV4cCI6MjA4NTc5OTAyN30.Ew3V1-2MaVsQqp_2VTJlmZ_ZSfIeSzmg5VncMogzjiM';
+        
+        const _supabase = supabase.createClient(SUPA_URL, SUPA_KEY);
 
-        // --- GLOW MOUSE TRACKING ---
+        // --- GLOW TRACKING ---
         window.addEventListener('mousemove', e => {
             document.documentElement.style.setProperty('--x', e.clientX + 'px');
             document.documentElement.style.setProperty('--y', e.clientY + 'px');
         });
 
+        // --- DATABASE OPERATIONS ---
         async function fetchReviews() {
-            const { data, error } = await client.from('signatures').select('*').order('created_at', { ascending: false });
-            if (!error) render(data);
+            const { data, error } = await _supabase
+                .from('signatures')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error("Fetch Error:", error);
+                return;
+            }
+            render(data);
         }
 
         function render(logs) {
-            const container = document.getElementById('feed');
+            const container = document.getElementById('reviewsFeed');
             container.innerHTML = '';
-            logs.forEach(l => {
+            
+            logs.forEach(log => {
+                const dateString = new Date(log.created_at).toLocaleString();
                 container.innerHTML += `
                     <div class="review-card">
                         <div class="review-header">
-                            <span class="user-name">${l.name}</span>
-                            <span class="stars">${'★'.repeat(l.rating)}${'☆'.repeat(5-l.rating)}</span>
+                            <span class="user-name">${log.name}</span>
+                            <span class="stars">${'★'.repeat(log.rating)}${'☆'.repeat(5-log.rating)}</span>
                         </div>
-                        <p class="review-text">${l.message}</p>
-                        <div class="timestamp">LOGGED_AT: ${new Date(l.created_at).toLocaleTimeString()}</div>
+                        <p class="review-text">${log.message}</p>
+                        <div class="timestamp">COMITTED_AT: ${dateString}</div>
                     </div>
                 `;
             });
         }
 
-        async function postToDB() {
-            const name = document.getElementById('name').value;
-            const rating = parseInt(document.getElementById('stars').value);
-            const message = document.getElementById('msg').value;
-            if(!name || !message) return alert("System requires data.");
+        async function postReview() {
+            const name = document.getElementById('userName').value;
+            const rating = parseInt(document.getElementById('userStars').value);
+            const message = document.getElementById('userMsg').value;
+            const btn = document.getElementById('submitBtn');
 
-            await client.from('signatures').insert([{ name, rating, message }]);
-            document.getElementById('name').value = '';
-            document.getElementById('msg').value = '';
-            fetchReviews();
+            if (!name || !message) {
+                alert("Identity and Message required for uplink.");
+                return;
+            }
+
+            btn.innerText = "TRANSMITTING...";
+            btn.disabled = true;
+
+            const { error } = await _supabase
+                .from('signatures')
+                .insert([{ name, rating, message }]);
+
+            if (error) {
+                alert("Uplink Failed. Check console for details.");
+                console.error(error);
+            } else {
+                document.getElementById('userName').value = '';
+                document.getElementById('userMsg').value = '';
+                fetchReviews();
+            }
+
+            btn.innerText = "TRANSMIT SIGNATURE";
+            btn.disabled = false;
         }
 
+        // Boot system
         fetchReviews();
     </script>
 </body>
