@@ -3,140 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guestbook | Neel Nikhil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <title>Uplink | Guestbook</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --bg: #000000;
-            --card-bg: #0a0a0a;
-            --border: #1a1a1a;
-            --text-main: #ffffff;
-            --text-dim: #a1a1aa;
-            --accent: #3b82f6; /* Blue like the reference */
+            --bg: #050505; --card: #0a0a0a; --border: #1a1a1a;
+            --blue: #3b82f6; --dot-white: rgba(255, 255, 255, 0.05); --dot-blue: rgba(59, 130, 246, 0.4);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background-color: var(--bg); 
-            color: var(--text-main); 
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* --- OS GLOW DOT BACKGROUND --- */
+        .bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .dots-base { position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; background-image: radial-gradient(var(--dot-white) 1px, transparent 1px); background-size: 40px 40px; }
+        .dots-active { 
+            position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; 
+            background-image: radial-gradient(var(--dot-blue) 1.5px, transparent 1.5px); 
+            background-size: 40px 40px;
+            -webkit-mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%);
+            mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%);
         }
 
-        /* Centered Layout */
-        .wrapper {
-            max-width: 650px;
-            margin: 0 auto;
-            padding: 80px 24px;
-        }
+        /* --- LAYOUT --- */
+        .wrapper { max-width: 650px; margin: 0 auto; padding: 60px 24px; position: relative; }
 
-        /* "Back to home" link exactly like Paweł's */
-        .back-nav {
-            margin-bottom: 40px;
-        }
-        .back-nav a {
-            color: var(--text-dim);
-            text-decoration: none;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: color 0.2s;
-        }
-        .back-nav a:hover { color: var(--text-main); }
+        .os-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; font-family: 'JetBrains Mono'; font-size: 0.75rem; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .os-nav a { color: var(--blue); text-decoration: none; border: 1px solid rgba(59, 130, 246, 0.2); padding: 5px 12px; border-radius: 4px; transition: 0.3s; }
+        .os-nav a:hover { background: rgba(59, 130, 246, 0.1); border-color: var(--blue); }
 
-        .header-section { margin-bottom: 48px; }
-        .header-section span { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.9rem; font-weight: 500; }
-        .header-section h1 { font-size: 2.5rem; font-weight: 800; margin-top: 8px; letter-spacing: -0.02em; }
-        .header-section p { color: var(--text-dim); margin-top: 12px; font-size: 1.1rem; }
+        .header-section { margin-bottom: 40px; }
+        .header-section span { color: var(--blue); font-family: 'JetBrains Mono'; font-size: 0.8rem; letter-spacing: 2px; }
+        .header-section h1 { font-size: 3rem; font-weight: 800; letter-spacing: -2px; margin: 10px 0; }
 
-        /* Input Card */
-        .input-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 64px;
+        /* --- UI COMPONENTS --- */
+        .glass-card { 
+            background: rgba(10, 10, 10, 0.6); border: 1px solid var(--border); 
+            backdrop-filter: blur(10px); border-radius: 16px; padding: 30px; margin-bottom: 50px; 
         }
-        input, textarea, select {
-            width: 100%;
-            background: transparent;
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            font-family: inherit;
-            outline: none;
+        input, select, textarea { 
+            width: 100%; background: #000; border: 1px solid var(--border); 
+            color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-family: inherit; 
         }
-        input:focus, textarea:focus { border-color: var(--accent); }
+        input:focus { border-color: var(--blue); }
 
-        .submit-btn {
-            background: #fff;
-            color: #000;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: transform 0.1s;
+        .btn-submit { 
+            width: 100%; background: var(--blue); color: #fff; border: none; 
+            padding: 15px; border-radius: 8px; font-weight: 700; cursor: pointer; 
+            font-family: 'JetBrains Mono'; transition: 0.3s;
         }
-        .submit-btn:active { transform: scale(0.98); }
+        .btn-submit:hover { background: #fff; color: #000; transform: translateY(-2px); }
 
-        /* Review List */
-        .review-item {
-            padding: 24px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        .name { font-weight: 600; font-size: 1.1rem; }
-        .rating { color: #fbbf24; font-size: 0.9rem; }
-        .message { color: var(--text-dim); font-size: 1.05rem; }
-        .date { font-size: 0.75rem; color: #52525b; margin-top: 8px; font-family: 'JetBrains Mono'; }
-
-        .del-btn { 
-            background: none; border: none; color: #ef4444; 
-            font-size: 0.7rem; cursor: pointer; margin-top: 10px; opacity: 0.3; 
-        }
-        .del-btn:hover { opacity: 1; }
+        /* --- FEED --- */
+        .review-card { padding: 25px 0; border-bottom: 1px solid var(--border); position: relative; }
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .user-name { font-weight: 600; color: var(--blue); }
+        .stars { color: #fbbf24; font-size: 0.8rem; letter-spacing: 2px; }
+        .review-text { color: #a1a1aa; font-size: 1.05rem; }
+        .timestamp { font-size: 0.7rem; color: #444; margin-top: 10px; font-family: 'JetBrains Mono'; }
 
     </style>
 </head>
 <body>
 
+    <div class="bg-container">
+        <div class="dots-base"></div>
+        <div class="dots-active"></div>
+    </div>
+
     <div class="wrapper">
-        <nav class="back-nav">
-            <a href="index.html">← Back to home</a>
+        <nav class="os-nav">
+            <a href="index.html">RUN: RETURN_TO_HOME</a>
+            <div style="opacity: 0.4">STATUS: ENCRYPTED_UPLINK</div>
         </nav>
 
         <header class="header-section">
-            <span>THE COMMUNITY WALL</span>
-            <h1>Leave Your Mark</h1>
-            <p>Share your thoughts, feedback, or just say hi!</p>
+            <span>COMMUNITY_WALL_v2.0</span>
+            <h1>Leave Your Mark.</h1>
         </header>
 
-        <div class="input-card">
-            <input type="text" id="userName" placeholder="Your Name">
-            <select id="userRating">
-                <option value="5">5/5 - Peak</option>
-                <option value="4">4/5 - Great</option>
-                <option value="3">3/5 - Good</option>
-                <option value="2">2/5 - Mid</option>
-                <option value="1">1/5 - Poor</option>
+        <div class="glass-card">
+            <input type="text" id="name" placeholder="IDENTITY">
+            <select id="stars">
+                <option value="5">RANK: 5 (PEAK)</option>
+                <option value="4">RANK: 4 (ELITE)</option>
+                <option value="3">RANK: 3 (STABLE)</option>
+                <option value="2">RANK: 2 (MID)</option>
+                <option value="1">RANK: 1 (REBOOT)</option>
             </select>
-            <textarea id="userMsg" rows="3" placeholder="Write something..."></textarea>
-            <button class="submit-btn" onclick="postToDB()">Sign the guestbook</button>
+            <textarea id="msg" rows="3" placeholder="TRANSMIT_MESSAGE..."></textarea>
+            <button class="btn-submit" onclick="postToDB()">TRANSMIT SIGNATURE</button>
         </div>
 
-        <div id="reviewsContainer">
-            </div>
+        <div id="feed"></div>
     </div>
 
     <script>
@@ -144,52 +104,44 @@
         const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa3NhZXppdmZhcWNvcWt5b3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDEzODAsImV4cCI6MjA4NTcxNzM4MH0.k2EU1lt-UcPuvzMPqTWTE7wApjJloAGT4CPdpvxoEH4';
         const client = supabase.createClient(SUPA_URL, SUPA_KEY);
 
+        // --- GLOW MOUSE TRACKING ---
+        window.addEventListener('mousemove', e => {
+            document.documentElement.style.setProperty('--x', e.clientX + 'px');
+            document.documentElement.style.setProperty('--y', e.clientY + 'px');
+        });
+
         async function fetchReviews() {
             const { data, error } = await client.from('signatures').select('*').order('created_at', { ascending: false });
-            if (!error) renderReviews(data);
+            if (!error) render(data);
         }
 
-        function renderReviews(reviews) {
-            const container = document.getElementById('reviewsContainer');
+        function render(logs) {
+            const container = document.getElementById('feed');
             container.innerHTML = '';
-            reviews.forEach(r => {
-                const date = new Date(r.created_at).toLocaleDateString();
+            logs.forEach(l => {
                 container.innerHTML += `
-                    <div class="review-item">
+                    <div class="review-card">
                         <div class="review-header">
-                            <span class="name">${r.name}</span>
-                            <span class="rating">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
+                            <span class="user-name">${l.name}</span>
+                            <span class="stars">${'★'.repeat(l.rating)}${'☆'.repeat(5-l.rating)}</span>
                         </div>
-                        <p class="message">${r.message}</p>
-                        <div class="date">${date}</div>
-                        <button class="del-btn" onclick="deleteReview(${r.id})">Delete</button>
+                        <p class="review-text">${l.message}</p>
+                        <div class="timestamp">LOGGED_AT: ${new Date(l.created_at).toLocaleTimeString()}</div>
                     </div>
                 `;
             });
         }
 
         async function postToDB() {
-            const name = document.getElementById('userName').value;
-            const rating = parseInt(document.getElementById('userRating').value);
-            const message = document.getElementById('userMsg').value;
+            const name = document.getElementById('name').value;
+            const rating = parseInt(document.getElementById('stars').value);
+            const message = document.getElementById('msg').value;
+            if(!name || !message) return alert("System requires data.");
 
-            if (!name || !message) return alert("Fields are empty!");
-
-            const { error } = await client.from('signatures').insert([{ name, rating, message }]);
-            if (error) alert("Error posting review.");
-            else {
-                document.getElementById('userName').value = '';
-                document.getElementById('userMsg').value = '';
-                fetchReviews();
-            }
-        }
-
-        async function deleteReview(id) {
-            const pw = prompt("Admin Password:");
-            if (pw === "neel123") {
-                await client.from('signatures').delete().eq('id', id);
-                fetchReviews();
-            }
+            await client.from('signatures').insert([{ name, rating, message }]);
+            document.getElementById('name').value = '';
+            document.getElementById('msg').value = '';
+            fetchReviews();
         }
 
         fetchReviews();
