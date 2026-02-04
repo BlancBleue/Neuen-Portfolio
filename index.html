@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neel Nikhil | Full Stack Developer</title>
+    <title>Neel Nikhil | Portfolio</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
@@ -11,178 +11,164 @@
     <style>
         :root {
             --bg: #050505; --txt: #ffffff; --accent: #8b5cf6; 
-            --glass: rgba(255, 255, 255, 0.04); --border: rgba(255, 255, 255, 0.1);
-            --sphere-web: rgba(139, 92, 246, 0.3);
-            --dot-color: rgba(255, 255, 255, 0.2);
-            --nav-bg: rgba(13, 13, 13, 0.8);
+            --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.08);
+            --nav-bg: rgba(10, 10, 10, 0.8);
         }
 
         [data-theme="light"] {
             --bg: #f8fafc; --txt: #0f172a; --accent: #6366f1;
-            --glass: rgba(15, 23, 42, 0.05); --border: rgba(15, 23, 42, 0.1);
-            --sphere-web: rgba(99, 102, 241, 0.4);
-            --dot-color: rgba(15, 23, 42, 0.15);
+            --glass: rgba(15, 23, 42, 0.04); --border: rgba(15, 23, 42, 0.1);
             --nav-bg: rgba(255, 255, 255, 0.8);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; transition: background 0.4s; }
         body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* --- INTRO OVERLAY --- */
-        #intro-overlay {
-            position: fixed; inset: 0; background: #000; z-index: 10000;
-            display: flex; justify-content: center; align-items: center; flex-direction: column;
-            transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
-        }
-        .scramble-text { font-family: 'JetBrains Mono'; font-weight: 900; font-size: clamp(2.5rem, 12vw, 7rem); color: var(--accent); }
-        body.loaded #intro-overlay { transform: translateY(-100%); }
-
+        /* --- BACKGROUND CANVAS --- */
         #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
-        /* --- DYNAMIC NAVBAR --- */
+        /* --- DYNAMIC NAV --- */
         .site-header { 
             position: sticky; top: 20px; width: 100%; z-index: 999; 
-            display: flex; justify-content: center; padding: 0 20px;
-            pointer-events: none;
+            display: flex; justify-content: center; padding: 0 20px; pointer-events: none;
         }
         .nav-container { display: flex; align-items: center; gap: 12px; pointer-events: auto; }
         .nav-pill { 
-            background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border); padding: 6px; border-radius: 100px; 
-            display: flex; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            background: var(--nav-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border); padding: 5px; border-radius: 100px; display: flex; align-items: center;
         }
         .nav-item { 
             text-decoration: none; color: var(--txt); font-weight: 700; font-size: 0.75rem; 
-            padding: 10px 18px; border-radius: 50px; transition: 0.3s; opacity: 0.5;
+            padding: 10px 18px; border-radius: 50px; opacity: 0.4; transition: 0.3s;
         }
         .nav-item:hover, .nav-item.active { opacity: 1; background: rgba(255,255,255,0.08); }
         
         .theme-btn-pill { 
             background: var(--nav-bg); border: 1px solid var(--border); color: var(--txt);
-            width: 44px; height: 44px; border-radius: 50%; cursor: pointer; backdrop-filter: blur(20px);
-            display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+            width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
         }
+
         .cta-btn {
-            background: var(--accent); color: white; text-decoration: none; font-size: 0.75rem;
-            font-weight: 800; padding: 12px 22px; border-radius: 100px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            background: var(--nav-bg); border: 1px solid var(--border); color: var(--txt);
+            text-decoration: none; font-size: 0.72rem; font-weight: 800; padding: 10px 20px; border-radius: 100px;
+            display: flex; align-items: center; gap: 8px; backdrop-filter: blur(20px);
         }
 
         /* --- HERO --- */
-        .hero { height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 50px; }
         .massive-hero {
-            font-weight: 900; letter-spacing: -6px; line-height: 0.85; font-size: clamp(4rem, 16vw, 12rem);
+            font-weight: 900; letter-spacing: -6px; line-height: 0.85; font-size: clamp(4rem, 15vw, 11rem);
             background: linear-gradient(to right, #8b5cf6, #3b82f6, #f472b6, #fbbf24, #8b5cf6);
             background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: colorCycle 6s linear infinite;
+            animation: colorCycle 8s linear infinite;
         }
         @keyframes colorCycle { to { background-position: 300% center; } }
 
-        /* --- BENTO --- */
+        .ai-terminal { width: 340px; background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 15px; backdrop-filter: blur(15px); }
+        .ai-display { font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--accent); margin-bottom: 8px; text-align: left; height: 15px; }
+        .ai-terminal input { width: 100%; background: rgba(0,0,0,0.3); border: none; padding: 10px; color: #fff; border-radius: 12px; font-size: 0.7rem; font-family: 'JetBrains Mono'; outline: none; }
+
+        .scroll-hint { animation: bounce 2s infinite; cursor: pointer; opacity: 0.4; text-align: center; }
+        @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
+
+        /* --- BENTO GRID --- */
         .bento-grid { 
             display: grid; max-width: 1200px; margin: 0 auto 100px; gap: 20px; 
             grid-template-columns: 1fr 1.3fr 1fr; padding: 0 20px; 
         }
-        .card { 
-            background: var(--glass); border: 1px solid var(--border); border-radius: 35px; 
-            padding: 40px; display: flex; flex-direction: column; backdrop-filter: blur(10px);
-        }
-        .card-tag { font-family: 'JetBrains Mono'; font-size: 0.65rem; letter-spacing: 4px; opacity: 0.4; margin-bottom: 20px; }
-        .card h2 { font-size: 1.9rem; font-weight: 900; line-height: 1.1; margin-bottom: 15px; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 35px; padding: 40px; }
+        .card-tag { font-family: 'JetBrains Mono'; font-size: 0.6rem; letter-spacing: 4px; opacity: 0.4; margin-bottom: 15px; }
         
         .nexus-card { background: transparent; border: none; padding: 0; }
-        .portrait-frame { height: 420px; border-radius: 35px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; position: relative; }
-        .portrait-frame img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.6s; }
-        .nexus-card:hover img { filter: grayscale(0); transform: scale(1.05); }
+        .portrait-frame { height: 440px; border-radius: 35px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+        .portrait-frame img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.8s cubic-bezier(0.2, 1, 0.2, 1); }
+        .nexus-card:hover img { filter: grayscale(0); transform: scale(1.03); }
         
         .location-pill { 
             background: var(--glass); border: 1px solid var(--border); border-radius: 30px; 
-            padding: 24px; display: flex; justify-content: space-between; align-items: center; 
+            padding: 24px; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden;
         }
+        .map-bg { position: absolute; inset: 0; background: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg') center; background-size: cover; opacity: 0.05; filter: invert(1); }
 
-        .hobby-btns { display: flex; gap: 10px; margin-top: auto; flex-wrap: wrap; padding-top: 20px; }
-        .hobby-btns span { 
-            padding: 10px 18px; border: 1px solid var(--border); border-radius: 50px; 
-            font-size: 0.7rem; font-weight: 800; color: var(--accent); cursor: pointer; transition: 0.3s;
-        }
-        .hobby-btns span:hover { background: var(--accent); color: white; border-color: var(--accent); }
-
-        /* --- SKILLS SPHERE --- */
-        .skills-section { padding: 80px 0; text-align: center; }
-        .sphere-container { height: 750px; width: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
-        .tagcloud--item img { width: 55px !important; height: 55px !important; filter: brightness(0) invert(1); transition: 0.3s; }
-        [data-theme="light"] .tagcloud--item img { filter: brightness(0); }
+        /* --- TECH SPHERE --- */
+        .tagcloud--item { transition: 0.3s !important; }
+        .tagcloud--item img { width: 55px !important; filter: grayscale(1) brightness(0.6); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .tagcloud--item:hover img { filter: grayscale(0) brightness(1) !important; transform: scale(1.4); }
+        .tagcloud--item::after { content: attr(data-name); position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; font-weight: 800; opacity: 0; color: var(--accent); transition: 0.3s; pointer-events: none; }
+        .tagcloud--item:hover::after { opacity: 1; }
 
         @media (max-width: 1000px) {
             .bento-grid { grid-template-columns: 1fr; }
-            .nexus-card { grid-row: 1; }
             .nav-pill { display: none; }
-            .nav-container { width: 100%; justify-content: space-between; }
         }
     </style>
 </head>
 <body>
 
-    <div id="intro-overlay">
-        <div class="scramble-text" id="scramble">00000000000</div>
-    </div>
-
     <canvas id="dotCanvas"></canvas>
 
     <header class="site-header">
         <div class="nav-container">
-            <button class="theme-btn-pill" onclick="toggleTheme()" id="tBtn">🌙</button>
+            <button class="theme-btn-pill" onclick="toggleTheme()" id="tBtn">
+                <svg id="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <svg id="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
             <nav class="nav-pill">
                 <a href="#home" class="nav-item active">Home</a>
                 <a href="#about" class="nav-item">About</a>
-                <a href="#skills" class="nav-item">Skills</a>
-                <a href="guestbook.html" class="nav-item">Other</a>
+                <a href="guestbook.html" class="nav-item">Guestbook</a>
             </nav>
-            <a href="mailto:your@email.com" class="cta-btn">Book a Call</a>
+            <a href="https://cal.com" class="cta-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                Book a Call
+            </a>
         </div>
     </header>
 
     <section class="hero" id="home">
         <h1 class="massive-hero">NEEL NIKHIL</h1>
-        <p style="font-family:'JetBrains Mono'; letter-spacing: 12px; opacity: 0.4; font-weight: 800; margin-top: 20px;">FULL STACK DEVELOPER</p>
+        <div class="ai-terminal">
+            <div id="ai-out" class="ai-display">System: Ready...</div>
+            <input type="text" placeholder="Ask my AI..." onkeydown="if(event.key==='Enter') runAI(this.value)">
+        </div>
+        <div class="scroll-hint" onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'})">
+            <small style="display:block; font-weight:900; letter-spacing:3px; margin-bottom:8px;">EXPLORE</small>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"></path></svg>
+        </div>
     </section>
 
     <main class="bento-grid" id="about">
         <div class="card">
-            <div class="card-tag">Mindset</div>
+            <div class="card-tag">MINDSET</div>
             <h2>Building more than software.</h2>
-            <p>My passions provide the discipline and focus I need to grow. Mastering body and mind is my path to excellence.</p>
+            <p style="opacity:0.5; margin-top:15px; font-size:0.9rem;">Focused on discipline and high-performance development in the Indian tech ecosystem.</p>
         </div>
 
         <div class="card nexus-card">
-            <div class="portrait-frame">
-                <img src="me.jpg" id="p-img">
-            </div>
+            <div class="portrait-frame"><img src="me.jpg" id="p-img"></div>
             <div class="location-pill">
-                <div>
-                    <small style="opacity:0.4; font-size:0.65rem; letter-spacing:2px; font-weight:800;">LOCATION</small>
+                <div class="map-bg"></div>
+                <div style="z-index:2;">
+                    <small style="opacity:0.4; font-size:0.6rem; font-weight:800; letter-spacing:1px;">12.9716° N, 77.5946° E</small>
                     <h3 style="font-size:1.2rem; font-weight:900;">Bangalore, IN</h3>
                 </div>
-                <div id="clock" style="font-family:'JetBrains Mono'; color:var(--accent); font-weight:800; font-size:1.1rem;">00:00:00</div>
+                <div id="clock" style="font-family:'JetBrains Mono'; color:var(--accent); font-weight:800; z-index:2;">00:00:00</div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-tag">Craft</div>
-            <h2>Building scalable apps & websites.</h2>
-            <p>I understand what advantages modern tech can provide, helping me advise on solutions that actually matter.</p>
-            <div class="hobby-btns">
-                <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
-                <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
-                <span onmouseover="swp('snooker')" onmouseout="swp('default')">SNOOKER</span>
+            <div class="card-tag">CRAFT</div>
+            <h2>Full Stack Architect.</h2>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <span onclick="swp('coding')" style="padding:10px 20px; border:1px solid var(--border); border-radius:50px; font-size:0.7rem; font-weight:800; cursor:pointer;">CODING</span>
+                <span onclick="swp('chess')" style="padding:10px 20px; border:1px solid var(--border); border-radius:50px; font-size:0.7rem; font-weight:800; cursor:pointer;">CHESS</span>
             </div>
         </div>
     </main>
 
-    <section class="skills-section" id="skills">
-        <h2 class="massive-hero" style="font-size: 4rem; letter-spacing: -2px;">TECH STACK</h2>
-        <div class="sphere-container">
-            <div class="tagcloud"></div>
-        </div>
+    <section style="text-align:center; padding:100px 0;">
+        <h2 class="massive-hero" style="font-size: 5rem; letter-spacing: -2px;">TECH STACK</h2>
+        <div id="sphere" class="sphere-container"></div>
     </section>
 
     <script>
@@ -190,102 +176,69 @@
             const b = document.documentElement;
             const isDark = b.getAttribute('data-theme') === 'dark';
             b.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            document.getElementById('tBtn').innerText = isDark ? '☀️' : '🌙';
+            document.getElementById('sun').style.display = isDark ? 'block' : 'none';
+            document.getElementById('moon').style.display = isDark ? 'none' : 'block';
         }
 
-        const targetText = "NEEL NIKHIL";
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        let iteration = 0;
+        function runAI(v) { document.getElementById('ai-out').innerText = "Analyzing '" + v + "'..."; }
 
-        function startIntro() {
-            const interval = setInterval(() => {
-                document.getElementById('scramble').innerText = targetText.split("")
-                    .map((l, i) => i < iteration ? targetText[i] : chars[Math.floor(Math.random()*chars.length)])
-                    .join("");
-                if(iteration >= targetText.length) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        document.body.classList.add('loaded');
-                        initCanvas();
-                        initSphere();
-                    }, 600);
-                }
-                iteration += 1/3;
-            }, 50);
-        }
+        const icons = {
+            'React': 'https://cdn.simpleicons.org/react/61DAFB', 'Next': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
+            'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1', 'CSS': 'https://cdn.simpleicons.org/css3/1572B6',
+            'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E', 'Python': 'https://cdn.simpleicons.org/python/3776AB',
+            'Node': 'https://cdn.simpleicons.org/nodedotjs/339933', 'Git': 'https://cdn.simpleicons.org/git/F05032',
+            'HTML': 'https://cdn.simpleicons.org/html5/E34F26', 'CPP': 'https://cdn.simpleicons.org/cplusplus/00599C',
+            'Docker': 'https://cdn.simpleicons.org/docker/2496ED', 'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
+            'TypeScript': 'https://cdn.simpleicons.org/typescript/3178C6', 'MongoDB': 'https://cdn.simpleicons.org/mongodb/47A248'
+        };
 
-        const cvs = document.getElementById('dotCanvas');
-        const ctx = cvs.getContext('2d');
-        let dots = [], mouse = {x:-1000, y:-1000};
-
-        function initCanvas() {
-            cvs.width = window.innerWidth; cvs.height = window.innerHeight;
-            dots = [];
-            const spacing = window.innerWidth < 768 ? 50 : 40;
-            for(let x=0; x<cvs.width+50; x+=spacing) 
-                for(let y=0; y<cvs.height+50; y+=spacing) 
-                    dots.push({x, y, baseSize: Math.random() * 1.5 + 0.5});
-            draw();
-        }
-
-        function draw() {
-            ctx.clearRect(0,0,cvs.width,cvs.height);
-            const dotColor = getComputedStyle(document.documentElement).getPropertyValue('--dot-color');
-            dots.forEach(d => {
-                const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y);
-                const isActive = dist < 140;
-                ctx.fillStyle = isActive ? getComputedStyle(document.documentElement).getPropertyValue('--accent') : dotColor;
-                ctx.beginPath(); ctx.arc(d.x, d.y, isActive ? 2.5 : d.baseSize, 0, Math.PI*2); ctx.fill();
-            });
-            requestAnimationFrame(draw);
-        }
-
-        window.onmousemove = e => { mouse.x=e.clientX; mouse.y=e.clientY; };
-
-        function initSphere() {
-            const icons = {
-                'React': 'https://cdn.simpleicons.org/react/61DAFB',
-                'Next': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
-                'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1',
-                'CSS': 'https://cdn.simpleicons.org/css3/1572B6',
-                'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E',
-                'Python': 'https://cdn.simpleicons.org/python/3776AB',
-                'Node': 'https://cdn.simpleicons.org/nodedotjs/339933',
-                'Git': 'https://cdn.simpleicons.org/git/F05032',
-                'HTML': 'https://cdn.simpleicons.org/html5/E34F26',
-                'CPP': 'https://cdn.simpleicons.org/cplusplus/00599C',
-                'Docker': 'https://cdn.simpleicons.org/docker/2496ED',
-                'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
-                'TypeScript': 'https://cdn.simpleicons.org/typescript/3178C6',
-                'MongoDB': 'https://cdn.simpleicons.org/mongodb/47A248',
-                'Firebase': 'https://cdn.simpleicons.org/firebase/FFCA28',
-                'Vercel': 'https://cdn.simpleicons.org/vercel/ffffff',
-                'Figma': 'https://cdn.simpleicons.org/figma/F24E1E',
-                'AWS': 'https://cdn.simpleicons.org/amazonaws/232F3E'
-            };
-            TagCloud('.tagcloud', Object.keys(icons), { 
-                radius: window.innerWidth < 768 ? 160 : 320, 
-                maxSpeed: 'fast',
-                initSpeed: 'fast',
-                direction: 135,
-                keep: true
-            });
+        window.onload = () => {
+            TagCloud('#sphere', Object.keys(icons), { radius: 300, maxSpeed: 'fast' });
             setTimeout(() => {
                 document.querySelectorAll('.tagcloud--item').forEach(item => {
                     const n = item.innerText.trim();
+                    item.setAttribute('data-name', n);
                     if(icons[n]) item.innerHTML = `<img src="${icons[n]}" alt="${n}">`;
                 });
-            }, 200);
+            }, 300);
+            initMagneticDots();
+        };
+
+        function initMagneticDots() {
+            const cvs = document.getElementById('dotCanvas');
+            const ctx = cvs.getContext('2d');
+            let dots = [], mouse = {x: -1000, y: -1000};
+            cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+
+            for(let x=0; x<cvs.width; x+=45) {
+                for(let y=0; y<cvs.height; y+=45) {
+                    dots.push({x, y, ox: x, oy: y});
+                }
+            }
+
+            window.onmousemove = e => { mouse.x = e.clientX; mouse.y = e.clientY; };
+            
+            function animate() {
+                ctx.clearRect(0,0,cvs.width,cvs.height);
+                dots.forEach(d => {
+                    const dx = mouse.x - d.x;
+                    const dy = mouse.y - d.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    const force = Math.max(0, (150 - dist) / 150);
+                    
+                    d.x = d.ox + (dx * force * 0.2);
+                    d.y = d.oy + (dy * force * 0.2);
+
+                    ctx.fillStyle = force > 0 ? "rgba(139, 92, 246, 0.4)" : "rgba(255,255,255,0.15)";
+                    ctx.beginPath(); ctx.arc(d.x, d.y, 1.2, 0, Math.PI*2); ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
         }
 
-        function swp(t) { 
-            const i = document.getElementById('p-img'); 
-            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'}; 
-            i.src = m[t] || m.default; 
-        }
-
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata'}) + " IST"; }, 1000);
-        window.onload = () => setTimeout(startIntro, 500);
+        function swp(t) { document.getElementById('p-img').src = t + '-me.jpg'; }
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata'}); }, 1000);
     </script>
 </body>
 </html>
