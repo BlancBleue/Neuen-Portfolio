@@ -33,12 +33,10 @@
 
         .os-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; font-family: 'JetBrains Mono'; font-size: 0.75rem; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
         .os-nav a { color: var(--blue); text-decoration: none; border: 1px solid rgba(59, 130, 246, 0.2); padding: 5px 12px; border-radius: 4px; transition: 0.3s; }
-        .os-nav a:hover { background: rgba(59, 130, 246, 0.1); border-color: var(--blue); }
-
+        
         .header-section { margin-bottom: 40px; }
         .header-section span { color: var(--blue); font-family: 'JetBrains Mono'; font-size: 0.8rem; letter-spacing: 2px; }
         .header-section h1 { font-size: 3rem; font-weight: 800; letter-spacing: -2px; margin: 10px 0; }
-        .header-section p { color: #a1a1aa; font-size: 1.1rem; }
 
         .glass-card { 
             background: rgba(10, 10, 10, 0.6); border: 1px solid var(--border); 
@@ -48,22 +46,23 @@
             width: 100%; background: #000; border: 1px solid var(--border); 
             color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-family: inherit; outline: none;
         }
-        input:focus { border-color: var(--blue); }
 
         .btn-submit { 
             width: 100%; background: var(--blue); color: #fff; border: none; 
             padding: 15px; border-radius: 8px; font-weight: 700; cursor: pointer; 
             font-family: 'JetBrains Mono'; transition: 0.3s;
         }
-        .btn-submit:hover { background: #fff; color: #000; transform: translateY(-2px); }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .review-card { padding: 30px 0; border-bottom: 1px solid var(--border); }
-        .review-header { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
-        .user-name { font-weight: 600; color: var(--blue); font-size: 1.1rem; }
-        .stars { color: #fbbf24; font-size: 0.8rem; letter-spacing: 2px; }
-        .review-text { color: #d4d4d8; font-size: 1.05rem; line-height: 1.6; }
-        .timestamp { font-size: 0.65rem; color: #52525b; margin-top: 12px; font-family: 'JetBrains Mono'; text-transform: uppercase; }
-
+        .review-card { padding: 30px 0; border-bottom: 1px solid var(--border); animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .user-name { font-weight: 600; color: var(--blue); }
+        .review-text { color: #d4d4d8; margin-top: 8px; line-height: 1.6; }
+        .timestamp { font-size: 0.65rem; color: #52525b; margin-top: 12px; font-family: 'JetBrains Mono'; }
+        
+        /* Debug Status Bar */
+        #debugBar { font-family: 'JetBrains Mono'; font-size: 10px; color: #444; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -75,70 +74,88 @@
 
     <div class="wrapper">
         <nav class="os-nav">
-            <a href="/">← RETURN_TO_BASE</a>
-            <div style="opacity: 0.4">UPLINK_STATUS: ACTIVE</div>
+            <a href="/">← HOME</a>
+            <div id="statusIndicator" style="color: #555;">UPLINK: INITIALIZING...</div>
         </nav>
 
         <header class="header-section">
             <span>DATABASE: REVIEWS_DB</span>
-            <h1>Leave Your Mark.</h1>
-            <p>Sign the wall to confirm your presence in the system.</p>
+            <h1>Guestbook</h1>
+            <p style="color: #888;">Sign the database to verify your connection.</p>
         </header>
 
         <div class="glass-card">
-            <input type="text" id="userName" placeholder="IDENTITY (Name)">
+            <input type="text" id="userName" placeholder="NAME / IDENTITY">
             <select id="userStars">
-                <option value="5">RANK: 5 (PEAK)</option>
-                <option value="4">RANK: 4 (ELITE)</option>
-                <option value="3">RANK: 3 (STABLE)</option>
-                <option value="2">RANK: 2 (MID)</option>
-                <option value="1">RANK: 1 (REBOOT)</option>
+                <option value="5">★★★★★ (EXCELLENT)</option>
+                <option value="4">★★★★☆ (GREAT)</option>
+                <option value="3">★★★☆☆ (GOOD)</option>
+                <option value="2">★★☆☆☆ (OKAY)</option>
+                <option value="1">★☆☆☆☆ (POOR)</option>
             </select>
-            <textarea id="userMsg" rows="3" placeholder="TRANSMIT_MESSAGE..."></textarea>
+            <textarea id="userMsg" rows="3" placeholder="YOUR MESSAGE..."></textarea>
             <button class="btn-submit" id="submitBtn" onclick="postReview()">TRANSMIT SIGNATURE</button>
+            <div id="debugBar">System Logs: Initializing local handshake...</div>
         </div>
 
         <div id="reviewsFeed"></div>
     </div>
 
     <script>
-        // --- CLEAN CONFIG ---
+        // --- SECURE CONFIG ---
         const SUPA_URL = 'https://ywsdbpgaxdweqovbmqgb.supabase.co';
         const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl3c2RicGdheGR3ZXFvdmBtcWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMjMwMjcsImV4cCI6MjA4NTc5OTAyN30.Ew3V1-2MaVsQqp_2VTJlmZ_ZSfIeSzmg5VncMogzjiM';
-        
+
+        // 1. Check if SDK loaded
+        if (typeof supabase === 'undefined') {
+            document.getElementById('debugBar').innerText = "ERROR: Supabase SDK failed to load. Check internet.";
+        }
+
         const _supabase = supabase.createClient(SUPA_URL, SUPA_KEY);
 
+        // Visual Mouse Glow
         window.addEventListener('mousemove', e => {
             document.documentElement.style.setProperty('--x', e.clientX + 'px');
             document.documentElement.style.setProperty('--y', e.clientY + 'px');
         });
 
         async function fetchReviews() {
-            const { data, error } = await _supabase
-                .from('signatures')
-                .select('*')
-                .order('created_at', { ascending: false });
+            const status = document.getElementById('statusIndicator');
+            const debug = document.getElementById('debugBar');
+            
+            try {
+                const { data, error } = await _supabase
+                    .from('signatures')
+                    .select('*')
+                    .order('created_at', { ascending: false });
 
-            if (error) {
-                console.error("Fetch Error:", error);
-                return;
+                if (error) throw error;
+
+                status.innerText = "UPLINK: ONLINE";
+                status.style.color = "#3b82f6";
+                debug.innerText = "Fetch successful. Database responded.";
+                render(data);
+            } catch (err) {
+                console.error("Connection Error:", err);
+                status.innerText = "UPLINK: OFFLINE";
+                status.style.color = "#ef4444";
+                debug.innerText = "ERROR: " + err.message;
             }
-            render(data);
         }
 
         function render(logs) {
             const container = document.getElementById('reviewsFeed');
-            container.innerHTML = '';
+            container.innerHTML = logs.length ? '' : '<p style="color: #444;">No signatures found in database.</p>';
             logs.forEach(log => {
-                const dateString = new Date(log.created_at).toLocaleString();
+                const date = new Date(log.created_at).toLocaleDateString();
                 container.innerHTML += `
                     <div class="review-card">
-                        <div class="review-header">
+                        <div style="display:flex; justify-content:space-between;">
                             <span class="user-name">${log.name}</span>
-                            <span class="stars">${'★'.repeat(log.rating)}${'☆'.repeat(5-log.rating)}</span>
+                            <span style="color:#fbbf24; font-size:12px;">${'★'.repeat(log.rating)}</span>
                         </div>
                         <p class="review-text">${log.message}</p>
-                        <div class="timestamp">COMMITTED_AT: ${dateString}</div>
+                        <div class="timestamp">VERIFIED: ${date}</div>
                     </div>
                 `;
             });
@@ -150,7 +167,7 @@
             const message = document.getElementById('userMsg').value;
             const btn = document.getElementById('submitBtn');
 
-            if (!name || !message) return alert("System requires data.");
+            if (!name || !message) return alert("Fields cannot be empty.");
 
             btn.innerText = "TRANSMITTING...";
             btn.disabled = true;
@@ -160,8 +177,8 @@
                 .insert([{ name, rating, message }]);
 
             if (error) {
+                alert("Transmit failed. Check logs.");
                 console.error(error);
-                alert("Uplink failed. Check console.");
             } else {
                 document.getElementById('userName').value = '';
                 document.getElementById('userMsg').value = '';
@@ -171,6 +188,7 @@
             btn.disabled = false;
         }
 
+        // Initial launch
         fetchReviews();
     </script>
 </body>
