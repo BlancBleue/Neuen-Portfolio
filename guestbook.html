@@ -4,179 +4,195 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guestbook | Neel Nikhil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --bg: #0b0a0f; --txt: #ffffff; --accent: #fb923c; --blue: #3b82f6;
-            --dot-white: rgba(255, 255, 255, 0.08); --dot-blue: rgba(59, 130, 246, 0.5);
+            --bg: #000000;
+            --card-bg: #0a0a0a;
+            --border: #1a1a1a;
+            --text-main: #ffffff;
+            --text-dim: #a1a1aa;
+            --accent: #3b82f6; /* Blue like the reference */
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; min-height: 100vh; }
-        
-        /* --- DYNAMIC OS BACKGROUND --- */
-        .bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .dots-base { position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; background-image: radial-gradient(var(--dot-white) 1px, transparent 1px); background-size: 35px 35px; }
-        .dots-active { position: absolute; width: 120%; height: 120%; top: -10%; left: -10%; background-image: radial-gradient(var(--dot-blue) 1.5px, transparent 1.5px); background-size: 35px 35px; -webkit-mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%); mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 20%, transparent 100%); }
 
-        .container { max-width: 800px; margin: 0 auto; padding: 120px 5%; position: relative; z-index: 1; }
-        
-        /* --- RATING INTERFACE --- */
-        .header { text-align: center; margin-bottom: 60px; }
-        .big-avg { font-size: 7.5rem; font-weight: 900; color: var(--blue); line-height: 1; letter-spacing: -7px; margin: 10px 0; }
-        .stars-main { color: var(--accent); font-size: 1.5rem; letter-spacing: 5px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
 
-        .form-area { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); padding: 40px; border-radius: 40px; margin-bottom: 60px; backdrop-filter: blur(15px); }
-        input, select, textarea { width: 100%; background: #000; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 18px; border-radius: 15px; margin-bottom: 12px; font-family: 'Inter'; outline: none; font-size: 1rem; }
-        input:focus { border-color: var(--blue); background: rgba(59, 130, 246, 0.05); }
-        
-        .submit-btn { width: 100%; background: var(--blue); color: #fff; border: none; padding: 20px; border-radius: 100px; font-weight: 900; cursor: pointer; font-family: 'JetBrains Mono'; text-transform: uppercase; letter-spacing: 2px; }
-        .submit-btn:hover { background: #fff; color: #000; transform: translateY(-3px); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); }
-        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        /* Centered Layout */
+        .wrapper {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
 
-        /* --- FEED ENTRIES --- */
-        .entry { background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 35px; margin-bottom: 20px; position: relative; border-left: 1px solid transparent; }
-        .entry:hover { border-left: 4px solid var(--blue); background: rgba(59, 130, 246, 0.02); transform: translateX(10px); }
-        
-        .entry-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .user-tag { font-weight: 900; color: var(--blue); display: flex; align-items: center; gap: 10px; font-size: 1.1rem; }
-        .verified { background: var(--blue); color: #fff; font-size: 0.55rem; padding: 3px 10px; border-radius: 50px; text-transform: uppercase; font-family: 'JetBrains Mono'; }
-        
-        .stars-row { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.8rem; font-weight: 800; }
-        .msg-body { opacity: 0.7; line-height: 1.8; font-size: 1.1rem; }
-        
-        .del-btn { color: #ff4444; background: none; border: none; font-size: 0.65rem; cursor: pointer; opacity: 0.1; font-family: 'JetBrains Mono'; margin-top: 15px; }
-        .del-btn:hover { opacity: 1; text-decoration: underline; }
+        /* "Back to home" link exactly like Paweł's */
+        .back-nav {
+            margin-bottom: 40px;
+        }
+        .back-nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+        .back-nav a:hover { color: var(--text-main); }
 
-        #status { font-family: 'JetBrains Mono'; font-size: 0.7rem; opacity: 0.4; margin-top: 10px; }
+        .header-section { margin-bottom: 48px; }
+        .header-section span { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.9rem; font-weight: 500; }
+        .header-section h1 { font-size: 2.5rem; font-weight: 800; margin-top: 8px; letter-spacing: -0.02em; }
+        .header-section p { color: var(--text-dim); margin-top: 12px; font-size: 1.1rem; }
+
+        /* Input Card */
+        .input-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 64px;
+        }
+        input, textarea, select {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-family: inherit;
+            outline: none;
+        }
+        input:focus, textarea:focus { border-color: var(--accent); }
+
+        .submit-btn {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.1s;
+        }
+        .submit-btn:active { transform: scale(0.98); }
+
+        /* Review List */
+        .review-item {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .name { font-weight: 600; font-size: 1.1rem; }
+        .rating { color: #fbbf24; font-size: 0.9rem; }
+        .message { color: var(--text-dim); font-size: 1.05rem; }
+        .date { font-size: 0.75rem; color: #52525b; margin-top: 8px; font-family: 'JetBrains Mono'; }
+
+        .del-btn { 
+            background: none; border: none; color: #ef4444; 
+            font-size: 0.7rem; cursor: pointer; margin-top: 10px; opacity: 0.3; 
+        }
+        .del-btn:hover { opacity: 1; }
+
     </style>
 </head>
 <body>
 
-    <div class="bg-container">
-        <div class="dots-base" id="dotsLayer"></div>
-        <div class="dots-active"></div>
-    </div>
+    <div class="wrapper">
+        <nav class="back-nav">
+            <a href="index.html">← Back to home</a>
+        </nav>
 
-    <div class="container">
-        <div class="header">
-            <p style="letter-spacing: 5px; color: var(--accent); font-size: 0.7rem; font-family: 'JetBrains Mono';">DATABASE_UPLINK_ESTABLISHED</p>
-            <div class="big-avg" id="avgValue">0.0</div>
-            <div class="stars-main" id="avgStars">☆☆☆☆☆</div>
-            <p id="status">SYNCHRONIZING_FEED...</p>
-        </div>
+        <header class="header-section">
+            <span>THE COMMUNITY WALL</span>
+            <h1>Leave Your Mark</h1>
+            <p>Share your thoughts, feedback, or just say hi!</p>
+        </header>
 
-        <div class="form-area">
-            <input type="text" id="username" placeholder="Full Name / Identity">
-            <select id="userrating">
-                <option value="5">RANK: 5 (PEAK)</option>
-                <option value="4">RANK: 4 (ELITE)</option>
-                <option value="3">RANK: 3 (STABLE)</option>
-                <option value="2">RANK: 2 (LEGACY)</option>
-                <option value="1">RANK: 1 (REBOOT)</option>
+        <div class="input-card">
+            <input type="text" id="userName" placeholder="Your Name">
+            <select id="userRating">
+                <option value="5">5/5 - Peak</option>
+                <option value="4">4/5 - Great</option>
+                <option value="3">3/5 - Good</option>
+                <option value="2">2/5 - Mid</option>
+                <option value="1">1/5 - Poor</option>
             </select>
-            <textarea id="usermessage" rows="4" placeholder="Transmit signature data..."></textarea>
-            <button class="submit-btn" id="postBtn" onclick="postToSupabase()">Transmit Signature</button>
+            <textarea id="userMsg" rows="3" placeholder="Write something..."></textarea>
+            <button class="submit-btn" onclick="postToDB()">Sign the guestbook</button>
         </div>
 
-        <div id="feed"></div>
+        <div id="reviewsContainer">
+            </div>
     </div>
 
     <script>
-        // --- AUTHENTICATED PROJECT CONFIG ---
         const SUPA_URL = 'https://whksaeziivfacqkokyosi.supabase.co'; 
         const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indoa3NhZXppdmZhcWNvcWt5b3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxNDEzODAsImV4cCI6MjA4NTcxNzM4MH0.k2EU1lt-UcPuvzMPqTWTE7wApjJloAGT4CPdpvxoEH4';
-        
         const client = supabase.createClient(SUPA_URL, SUPA_KEY);
 
-        // --- BACKGROUND EFFECT ---
-        window.addEventListener('mousemove', e => {
-            document.documentElement.style.setProperty('--x', e.clientX + 'px');
-            document.documentElement.style.setProperty('--y', e.clientY + 'px');
-        });
-
-        // --- CORE OPERATIONS ---
-        async function fetchLogs() {
+        async function fetchReviews() {
             const { data, error } = await client.from('signatures').select('*').order('created_at', { ascending: false });
-            if (error) {
-                document.getElementById('status').innerText = "FATAL_CONNECTION_ERROR";
-                console.error(error);
-            } else {
-                render(data);
-            }
+            if (!error) renderReviews(data);
         }
 
-        function render(logs) {
-            const feed = document.getElementById('feed');
-            const status = document.getElementById('status');
-            feed.innerHTML = '';
-            let totalRating = 0;
-            
-            // ADMIN LIST FOR VERIFIED BADGES
-            const admins = ["Neel Nikhil", "Neel", "Admin", "Raphael"];
-
-            logs.forEach(log => {
-                totalRating += log.rating;
-                const isVerified = admins.includes(log.name);
-                
-                feed.innerHTML += `
-                    <div class="entry">
-                        <div class="entry-top">
-                            <span class="user-tag">
-                                ${log.name} 
-                                ${isVerified ? '<span class="verified">Verified</span>' : ''}
-                            </span>
-                            <span class="stars-row">${'★'.repeat(log.rating)}${'☆'.repeat(5-log.rating)}</span>
+        function renderReviews(reviews) {
+            const container = document.getElementById('reviewsContainer');
+            container.innerHTML = '';
+            reviews.forEach(r => {
+                const date = new Date(r.created_at).toLocaleDateString();
+                container.innerHTML += `
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="name">${r.name}</span>
+                            <span class="rating">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
                         </div>
-                        <p class="msg-body">${log.message}</p>
-                        <button class="del-btn" onclick="deleteEntry(${log.id})">[ PURGE_LOG ]</button>
+                        <p class="message">${r.message}</p>
+                        <div class="date">${date}</div>
+                        <button class="del-btn" onclick="deleteReview(${r.id})">Delete</button>
                     </div>
                 `;
             });
-
-            const avg = logs.length ? (totalRating / logs.length).toFixed(1) : '0.0';
-            document.getElementById('avgValue').innerText = avg;
-            document.getElementById('avgStars').innerText = '★'.repeat(Math.round(avg)) + '☆'.repeat(5-Math.round(avg));
-            status.innerText = `${logs.length} TOTAL_ENTRIES_COMMITTED`;
         }
 
-        async function postToSupabase() {
-            const name = document.getElementById('username').value;
-            const rating = parseInt(document.getElementById('userrating').value);
-            const message = document.getElementById('usermessage').value;
-            const btn = document.getElementById('postBtn');
+        async function postToDB() {
+            const name = document.getElementById('userName').value;
+            const rating = parseInt(document.getElementById('userRating').value);
+            const message = document.getElementById('userMsg').value;
 
-            if (!name || !message) return alert("System requires identity and message packet.");
-
-            btn.disabled = true;
-            btn.innerText = "TRANSMITTING...";
+            if (!name || !message) return alert("Fields are empty!");
 
             const { error } = await client.from('signatures').insert([{ name, rating, message }]);
-            
-            if (error) {
-                alert("Upload failed. Ensure the 'signatures' table exists in Supabase.");
-                console.error(error);
-            } else {
-                document.getElementById('username').value = '';
-                document.getElementById('usermessage').value = '';
-                fetchLogs();
+            if (error) alert("Error posting review.");
+            else {
+                document.getElementById('userName').value = '';
+                document.getElementById('userMsg').value = '';
+                fetchReviews();
             }
-            btn.disabled = false;
-            btn.innerText = "Transmit Signature";
         }
 
-        async function deleteEntry(id) {
-            const auth = prompt("Master Password Required:");
-            if (auth === "neel123") {
+        async function deleteReview(id) {
+            const pw = prompt("Admin Password:");
+            if (pw === "neel123") {
                 await client.from('signatures').delete().eq('id', id);
-                fetchLogs();
-            } else {
-                alert("Access Denied.");
+                fetchReviews();
             }
         }
 
-        // Initial Boot
-        fetchLogs();
+        fetchReviews();
     </script>
 </body>
 </html>
