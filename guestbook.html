@@ -3,37 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uplink | Guestbook</title>
+    <title>Nexus | Guestbook</title>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
-        :root { --bg: #050505; --blue: #3b82f6; --border: #1a1a1a; }
-        body { background: var(--bg); color: #fff; font-family: 'Inter', -apple-system, sans-serif; padding: 40px 20px; }
-        .wrapper { max-width: 600px; margin: 0 auto; }
-        .status-pill { padding: 4px 12px; border-radius: 20px; font-size: 10px; font-family: monospace; border: 1px solid #333; transition: 0.3s; }
-        .glass { background: #0a0a0a; border: 1px solid var(--border); padding: 25px; border-radius: 12px; margin-bottom: 30px; }
-        input, textarea, select { width: 100%; background: #000; border: 1px solid #222; color: #fff; padding: 12px; margin-bottom: 10px; border-radius: 6px; outline: none; }
-        input:focus { border-color: var(--blue); }
-        .btn { width: 100%; background: var(--blue); border: none; padding: 12px; color: #fff; font-weight: bold; cursor: pointer; border-radius: 6px; }
-        .btn:disabled { opacity: 0.5; }
-        .log-entry { padding: 20px 0; border-bottom: 1px solid #111; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        #debug { font-size: 11px; color: #555; margin-top: 15px; font-family: monospace; text-transform: uppercase; }
+        @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Inter:wght@300;400;700;800&display=swap');
+
+        :root { 
+            --bg: #000000; 
+            --accent: #3b82f6; 
+            --glass: rgba(10, 10, 10, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
+            --gold: #fbbf24;
+            --font-mono: 'Geist Mono', monospace;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--bg); 
+            color: #fff; 
+            font-family: 'Inter', sans-serif; 
+            padding-bottom: 100px;
+        }
+
+        /* Homepage Background Style */
+        .grid-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 50px 50px; z-index: -1; pointer-events: none;
+        }
+
+        .container { max-width: 700px; margin: 0 auto; padding: 40px 20px; }
+
+        /* Back Link */
+        .back-nav {
+            display: inline-block; font-family: var(--font-mono); font-size: 12px;
+            color: var(--accent); text-decoration: none; margin-bottom: 30px;
+            letter-spacing: 1px; transition: 0.3s;
+        }
+        .back-nav:hover { opacity: 0.7; transform: translateX(-5px); }
+
+        .header { margin-bottom: 40px; }
+        .header h1 { font-size: 3rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 10px; }
+
+        /* Average Review System */
+        .stats-card {
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 20px; padding: 20px; margin-bottom: 40px;
+            display: flex; align-items: center; gap: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .avg-number { font-size: 40px; font-weight: 800; color: var(--accent); }
+        .avg-label { font-family: var(--font-mono); font-size: 10px; color: #555; }
+
+        .composer { 
+            background: var(--glass); border: 1px solid var(--accent); 
+            padding: 30px; border-radius: 24px; margin-bottom: 50px;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+
+        input, textarea, select { 
+            width: 100%; background: #000; border: 1px solid var(--border); 
+            color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 15px;
+            font-size: 14px; font-family: inherit; transition: 0.3s;
+        }
+        input:focus, textarea:focus { border-color: var(--accent); outline: none; }
+
+        .btn-submit { 
+            width: 100%; background: var(--accent); color: #fff; border: none; 
+            padding: 16px; border-radius: 12px; font-weight: 800; cursor: pointer;
+            font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-submit:hover { filter: brightness(1.2); box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+
+        /* Curved Signature Blocks */
+        .signature-block {
+            background: var(--glass); border: 1px solid var(--border);
+            padding: 25px; border-radius: 24px; margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        .signature-block:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+        .sig-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .sig-name { font-weight: 700; color: var(--accent); font-size: 16px; }
+        .sig-stars { color: var(--gold); font-size: 12px; }
+        .sig-msg { color: #ccc; font-size: 15px; line-height: 1.5; }
+        .sig-time { font-family: var(--font-mono); font-size: 9px; color: #444; margin-top: 15px; }
+
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h2 style="letter-spacing:-1px;">Guestbook</h2>
-            <div id="status" class="status-pill">INITIALIZING...</div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <a href="index.html" class="back-nav">← RETURN TO NEXUS</a>
+
+        <header class="header">
+            <h1>Guestbook</h1>
+            <p id="status-pill" style="color:#555; font-family:var(--font-mono); font-size:11px;">SYSTEM: CONNECTING...</p>
+        </header>
+
+        <div class="stats-card">
+            <div>
+                <div class="avg-label">COMMUNITY RATING</div>
+                <div class="avg-number" id="avg-val">0.0</div>
+            </div>
+            <div id="avg-stars" style="color:var(--gold); font-size:20px;"></div>
         </div>
 
-        <div class="glass">
-            <input type="text" id="name" placeholder="Name / Alias">
-            <select id="rating"><option value="5">5 Stars</option><option value="4">4 Stars</option></select>
-            <textarea id="msg" placeholder="Write a message..." rows="3"></textarea>
-            <button class="btn" onclick="sendData()" id="sendBtn">TRANSMIT SIGNATURE</button>
-            <div id="debug">System: Waiting for handshake...</div>
-        </div>
+        <section class="composer">
+            <input type="text" id="name" placeholder="IDENTIFY YOURSELF">
+            <select id="rating">
+                <option value="5">★★★★★ - SUPREME</option>
+                <option value="4">★★★★☆ - EXCELLENT</option>
+                <option value="3">★★★☆☆ - STABLE</option>
+                <option value="2">★★☆☆☆ - BUGGY</option>
+                <option value="1">★☆☆☆☆ - CRITICAL</option>
+            </select>
+            <textarea id="msg" placeholder="LEAVE A MESSAGE IN THE ARCHIVE..." rows="3"></textarea>
+            <button class="btn-submit" onclick="sendData()" id="sendBtn">Transmit Signature</button>
+        </section>
 
         <div id="feed"></div>
     </div>
@@ -41,44 +129,38 @@
     <script>
         const S_URL = 'https://ywsdbpgaxdweqovbmqgb.supabase.co';
         const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl3c2RicGdheGR3ZXFvdmJtcWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMjMwMjcsImV4cCI6MjA4NTc5OTAyN30.Ew3V1-2MaVsQqp_2VTJlmZ_ZSfIeSzmg5VncMogzjiM';
-        
-        // Forced Header Initialization
+
         const _client = supabase.createClient(S_URL, S_KEY, {
             global: { headers: { 'apikey': S_KEY } }
         });
 
         async function loadFeed() {
-            const debug = document.getElementById('debug');
-            const status = document.getElementById('status');
-            
             try {
-                debug.innerText = "System: Requesting data from signatures table...";
-                const { data, error } = await _client
-                    .from('signatures')
-                    .select('*')
-                    .order('created_at', {ascending: false});
-                
+                const { data, error } = await _client.from('signatures').select('*').order('created_at', {ascending: false});
                 if (error) throw error;
 
-                status.innerText = "UPLINK: ONLINE";
-                status.style.color = "#3b82f6";
-                status.style.borderColor = "#3b82f6";
-                debug.innerText = "System: Connection established. Entries: " + data.length;
+                document.getElementById('status-pill').innerText = "SYSTEM: UPLINK ONLINE";
                 
-                const feed = document.getElementById('feed');
-                feed.innerHTML = data.length > 0 ? 
-                    data.map(i => `
-                        <div class="log-entry">
-                            <div style="color:var(--blue); font-weight:bold;">${i.name}</div>
-                            <div style="margin:5px 0; color:#ccc;">${i.message}</div>
-                            <div style="font-size:10px; color:#333;">VERIFIED: ${new Date(i.created_at).toLocaleString()}</div>
+                // Calculate Average
+                if (data.length > 0) {
+                    const avg = data.reduce((acc, curr) => acc + curr.rating, 0) / data.length;
+                    document.getElementById('avg-val').innerText = avg.toFixed(1);
+                    document.getElementById('avg-stars').innerText = '★'.repeat(Math.round(avg));
+                }
+
+                // Render Blocks
+                document.getElementById('feed').innerHTML = data.map(i => `
+                    <div class="signature-block">
+                        <div class="sig-header">
+                            <span class="sig-name">${i.name}</span>
+                            <span class="sig-stars">${'★'.repeat(i.rating)}</span>
                         </div>
-                    `).join('') : '<div style="color:#333; text-align:center; padding:20px;">No signatures yet.</div>';
+                        <p class="sig-msg">${i.message}</p>
+                        <div class="sig-time">${new Date(i.created_at).toLocaleString()}</div>
+                    </div>
+                `).join('');
             } catch (e) {
-                status.innerText = "UPLINK: FAILED";
-                status.style.color = "#ef4444";
-                debug.innerText = "Error: " + (e.message || "Unknown Network Fault");
-                console.error("Full Error Object:", e);
+                document.getElementById('status-pill').innerText = "SYSTEM: ERROR";
             }
         }
 
@@ -88,29 +170,19 @@
             const m = document.getElementById('msg').value.trim();
             const r = parseInt(document.getElementById('rating').value);
 
-            if(!n || !m) return alert("All fields required.");
+            if(!n || !m) return alert("Identify yourself and leave a message.");
             
             btn.innerText = "TRANSMITTING...";
-            btn.disabled = true;
-            
-            const { error } = await _client
-                .from('signatures')
-                .insert([{ name: n, message: m, rating: r }]);
-            
+            const { error } = await _client.from('signatures').insert([{ name: n, message: m, rating: r }]);
+
             if(error) {
-                alert("Transmit Failed: " + error.message);
-                btn.innerText = "RETRY TRANSMISSION";
-                btn.disabled = false;
+                alert("Transmission failed.");
+                btn.innerText = "Transmit Signature";
             } else {
-                document.getElementById('name').value = '';
-                document.getElementById('msg').value = '';
-                loadFeed();
-                btn.innerText = "TRANSMIT SIGNATURE";
-                btn.disabled = false;
+                location.reload();
             }
         }
 
-        // Initial Load
         loadFeed();
     </script>
 </body>
