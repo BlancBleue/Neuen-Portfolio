@@ -11,7 +11,7 @@
         :root { 
             --bg: #000000; 
             --accent: #3b82f6; 
-            --glass: rgba(10, 10, 10, 0.8);
+            --glass: rgba(10, 10, 10, 0.7);
             --border: rgba(255, 255, 255, 0.1);
             --gold: #fbbf24;
             --font-mono: 'Geist Mono', monospace;
@@ -22,133 +22,165 @@
             background: var(--bg); 
             color: #fff; 
             font-family: 'Inter', sans-serif; 
-            padding-bottom: 100px;
+            overflow-x: hidden;
         }
 
-        /* Homepage Background Style */
-        .grid-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 50px 50px; z-index: -1; pointer-events: none;
+        /* Interactive Dot Background */
+        #dotCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
 
-        .container { max-width: 700px; margin: 0 auto; padding: 40px 20px; }
+        .container { max-width: 700px; margin: 0 auto; padding: 60px 20px; position: relative; }
 
-        /* Back Link */
         .back-nav {
-            display: inline-block; font-family: var(--font-mono); font-size: 12px;
-            color: var(--accent); text-decoration: none; margin-bottom: 30px;
-            letter-spacing: 1px; transition: 0.3s;
+            display: inline-block; font-family: var(--font-mono); font-size: 11px;
+            color: var(--accent); text-decoration: none; margin-bottom: 40px;
+            letter-spacing: 2px; transition: 0.3s;
         }
-        .back-nav:hover { opacity: 0.7; transform: translateX(-5px); }
+        .back-nav:hover { color: #fff; transform: translateX(-5px); }
 
-        .header { margin-bottom: 40px; }
-        .header h1 { font-size: 3rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 10px; }
+        .header h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -3px; margin-bottom: 5px; }
+        #status-pill { font-family: var(--font-mono); font-size: 10px; color: #444; margin-bottom: 40px; }
 
         /* Average Review System */
         .stats-card {
             background: var(--glass); border: 1px solid var(--border);
-            border-radius: 20px; padding: 20px; margin-bottom: 40px;
-            display: flex; align-items: center; gap: 20px;
-            backdrop-filter: blur(10px);
+            border-radius: 24px; padding: 25px; margin-bottom: 30px;
+            display: flex; align-items: center; gap: 25px;
+            backdrop-filter: blur(15px);
         }
-        .avg-number { font-size: 40px; font-weight: 800; color: var(--accent); }
-        .avg-label { font-family: var(--font-mono); font-size: 10px; color: #555; }
+        .avg-number { font-size: 45px; font-weight: 800; color: var(--accent); line-height: 1; }
+        .avg-label { font-family: var(--font-mono); font-size: 9px; color: #666; letter-spacing: 1px; }
 
         .composer { 
-            background: var(--glass); border: 1px solid var(--accent); 
-            padding: 30px; border-radius: 24px; margin-bottom: 50px;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+            background: var(--glass); border: 1px solid var(--border); 
+            padding: 30px; border-radius: 28px; margin-bottom: 50px;
+            backdrop-filter: blur(15px);
         }
 
         input, textarea, select { 
-            width: 100%; background: #000; border: 1px solid var(--border); 
-            color: #fff; padding: 15px; border-radius: 12px; margin-bottom: 15px;
-            font-size: 14px; font-family: inherit; transition: 0.3s;
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
+            color: #fff; padding: 15px; border-radius: 14px; margin-bottom: 15px;
+            font-size: 14px; transition: 0.3s;
         }
-        input:focus, textarea:focus { border-color: var(--accent); outline: none; }
+        input:focus, textarea:focus { border-color: var(--accent); outline: none; background: rgba(255,255,255,0.07); }
 
         .btn-submit { 
-            width: 100%; background: var(--accent); color: #fff; border: none; 
-            padding: 16px; border-radius: 12px; font-weight: 800; cursor: pointer;
-            font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 1px;
+            width: 100%; background: #fff; color: #000; border: none; 
+            padding: 18px; border-radius: 14px; font-weight: 800; cursor: pointer;
+            font-family: var(--font-mono); text-transform: uppercase; transition: 0.3s;
         }
-        .btn-submit:hover { filter: brightness(1.2); box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+        .btn-submit:hover { background: var(--accent); color: #fff; transform: scale(1.02); }
 
-        /* Curved Signature Blocks */
+        /* Signature Blocks */
         .signature-block {
             background: var(--glass); border: 1px solid var(--border);
-            padding: 25px; border-radius: 24px; margin-bottom: 20px;
-            transition: 0.3s;
+            padding: 28px; border-radius: 28px; margin-bottom: 20px;
+            transition: 0.3s; backdrop-filter: blur(10px);
         }
-        .signature-block:hover { border-color: var(--accent); transform: translateY(-3px); }
-
-        .sig-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
-        .sig-name { font-weight: 700; color: var(--accent); font-size: 16px; }
-        .sig-stars { color: var(--gold); font-size: 12px; }
-        .sig-msg { color: #ccc; font-size: 15px; line-height: 1.5; }
-        .sig-time { font-family: var(--font-mono); font-size: 9px; color: #444; margin-top: 15px; }
-
+        .signature-block:hover { border-color: var(--accent); }
+        .sig-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .sig-name { font-weight: 700; color: var(--accent); }
+        .sig-stars { color: var(--gold); letter-spacing: 2px; font-size: 12px; }
+        .sig-msg { color: #aaa; font-size: 15px; line-height: 1.6; }
+        .sig-time { font-family: var(--font-mono); font-size: 9px; color: #333; margin-top: 20px; }
     </style>
 </head>
 <body>
-    <div class="grid-overlay"></div>
+    <canvas id="dotCanvas"></canvas>
 
     <div class="container">
-        <a href="index.html" class="back-nav">← RETURN TO NEXUS</a>
+        <a href="index.html" class="back-nav">← RETURN_TO_NEXUS</a>
 
         <header class="header">
             <h1>Guestbook</h1>
-            <p id="status-pill" style="color:#555; font-family:var(--font-mono); font-size:11px;">SYSTEM: CONNECTING...</p>
+            <p id="status-pill">INITIALIZING_UPLINK...</p>
         </header>
 
         <div class="stats-card">
             <div>
-                <div class="avg-label">COMMUNITY RATING</div>
+                <div class="avg-label">NETWORK_RATING</div>
                 <div class="avg-number" id="avg-val">0.0</div>
             </div>
-            <div id="avg-stars" style="color:var(--gold); font-size:20px;"></div>
+            <div id="avg-stars" style="color:var(--gold); font-size:22px;"></div>
         </div>
 
         <section class="composer">
-            <input type="text" id="name" placeholder="IDENTIFY YOURSELF">
+            <input type="text" id="name" placeholder="IDENT_ALIAS">
             <select id="rating">
-                <option value="5">★★★★★ - SUPREME</option>
-                <option value="4">★★★★☆ - EXCELLENT</option>
-                <option value="3">★★★☆☆ - STABLE</option>
-                <option value="2">★★☆☆☆ - BUGGY</option>
+                <option value="5">★★★★★ - OPTIMIZED</option>
+                <option value="4">★★★★☆ - STABLE</option>
+                <option value="3">★★★☆☆ - NEUTRAL</option>
+                <option value="2">★★☆☆☆ - DEGRADED</option>
                 <option value="1">★☆☆☆☆ - CRITICAL</option>
             </select>
-            <textarea id="msg" placeholder="LEAVE A MESSAGE IN THE ARCHIVE..." rows="3"></textarea>
-            <button class="btn-submit" onclick="sendData()" id="sendBtn">Transmit Signature</button>
+            <textarea id="msg" placeholder="ENCODE MESSAGE..." rows="3"></textarea>
+            <button class="btn-submit" onclick="sendData()" id="sendBtn">Sign Archive</button>
         </section>
 
         <div id="feed"></div>
     </div>
 
     <script>
+        // --- DOT BACKGROUND LOGIC ---
+        const canvas = document.getElementById('dotCanvas');
+        const ctx = canvas.getContext('2d');
+        let dots = [];
+        const mouse = { x: null, y: null };
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            dots = [];
+            const spacing = 35;
+            for (let x = 0; x < canvas.width; x += spacing) {
+                for (let y = 0; y < canvas.height; y += spacing) {
+                    dots.push({ x, y, baseSize: 1 });
+                }
+            }
+        }
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('resize', initCanvas);
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            dots.forEach(dot => {
+                const dist = Math.hypot(mouse.x - dot.x, mouse.y - dot.y);
+                const size = dist < 100 ? 2.5 : dot.baseSize;
+                const opacity = dist < 150 ? 0.6 : 0.15;
+                
+                ctx.fillStyle = `rgba(59, 130, 246, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(dot.x, dot.y, size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        initCanvas();
+        animate();
+
+        // --- SUPABASE LOGIC ---
         const S_URL = 'https://ywsdbpgaxdweqovbmqgb.supabase.co';
         const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl3c2RicGdheGR3ZXFvdmJtcWdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMjMwMjcsImV4cCI6MjA4NTc5OTAyN30.Ew3V1-2MaVsQqp_2VTJlmZ_ZSfIeSzmg5VncMogzjiM';
-
-        const _client = supabase.createClient(S_URL, S_KEY, {
-            global: { headers: { 'apikey': S_KEY } }
-        });
+        const _client = supabase.createClient(S_URL, S_KEY, { global: { headers: { 'apikey': S_KEY } } });
 
         async function loadFeed() {
             try {
                 const { data, error } = await _client.from('signatures').select('*').order('created_at', {ascending: false});
                 if (error) throw error;
-
-                document.getElementById('status-pill').innerText = "SYSTEM: UPLINK ONLINE";
+                document.getElementById('status-pill').innerText = "SYSTEM_UPLINK: ONLINE";
                 
-                // Calculate Average
                 if (data.length > 0) {
                     const avg = data.reduce((acc, curr) => acc + curr.rating, 0) / data.length;
                     document.getElementById('avg-val').innerText = avg.toFixed(1);
                     document.getElementById('avg-stars').innerText = '★'.repeat(Math.round(avg));
                 }
 
-                // Render Blocks
                 document.getElementById('feed').innerHTML = data.map(i => `
                     <div class="signature-block">
                         <div class="sig-header">
@@ -159,9 +191,7 @@
                         <div class="sig-time">${new Date(i.created_at).toLocaleString()}</div>
                     </div>
                 `).join('');
-            } catch (e) {
-                document.getElementById('status-pill').innerText = "SYSTEM: ERROR";
-            }
+            } catch (e) { document.getElementById('status-pill').innerText = "SYSTEM_UPLINK: OFFLINE"; }
         }
 
         async function sendData() {
@@ -169,20 +199,11 @@
             const n = document.getElementById('name').value.trim();
             const m = document.getElementById('msg').value.trim();
             const r = parseInt(document.getElementById('rating').value);
-
-            if(!n || !m) return alert("Identify yourself and leave a message.");
-            
+            if(!n || !m) return;
             btn.innerText = "TRANSMITTING...";
             const { error } = await _client.from('signatures').insert([{ name: n, message: m, rating: r }]);
-
-            if(error) {
-                alert("Transmission failed.");
-                btn.innerText = "Transmit Signature";
-            } else {
-                location.reload();
-            }
+            if(!error) location.reload();
         }
-
         loadFeed();
     </script>
 </body>
