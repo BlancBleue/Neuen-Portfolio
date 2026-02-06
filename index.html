@@ -38,45 +38,24 @@
 
         #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 1; }
 
-        /* --- THE SPLIT NAVIGATION BARS --- */
-        .site-header { 
-            position: fixed; width: 100%; top: 0; z-index: 999; 
-            display: flex; flex-direction: column; align-items: center; 
-            padding: 15px 0; pointer-events: none; 
-        }
-
-        /* BAR 1: Top Progress */
-        .scroll-vessel { 
-            width: 250px; height: 3px; background: rgba(255,255,255,0.1); 
-            border-radius: 10px; margin-bottom: 12px; overflow: hidden; 
-        }
-        #progress-bar { height: 100%; width: 0%; background: var(--accent); transition: width 0.1s; }
-
-        /* BAR 2: Split Island */
-        .nav-island { display: flex; align-items: center; gap: 12px; pointer-events: auto; }
-
-        .nav-pill-main {
-            background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border);
-            padding: 10px 25px; border-radius: 100px; display: flex; align-items: center; gap: 20px;
-        }
+        /* --- UPDATED HEADER & SCROLL BAR --- */
+        .site-header { position: fixed; width: 100%; top: 0; z-index: 999; display: flex; flex-direction: column; align-items: center; padding: 15px 0; pointer-events: none; }
         
-        .nav-pill-dynamic {
-            background: var(--accent); color: white; padding: 10px 25px; border-radius: 100px;
-            font-family: 'JetBrains Mono'; font-weight: 800; font-size: 0.7rem;
-            letter-spacing: 2px; text-transform: uppercase; min-width: 120px; text-align: center;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-        }
+        .scroll-vessel { width: 250px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+        #progress-bar { height: 100%; width: 0%; background: var(--accent); transition: width 0.1s ease-out; }
 
+        .nav-pill { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border); padding: 10px 25px; border-radius: 100px; display: flex; align-items: center; gap: 25px; pointer-events: auto; }
         .nav-item { text-decoration: none; color: var(--txt); font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; }
+        
+        #section-indicator { font-family: 'JetBrains Mono'; font-weight: 800; font-size: 0.7rem; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; min-width: 80px; text-align: center; }
 
-        /* Minimal Theme Toggle (No Emojis) */
         .theme-btn { 
             background: transparent; border: 2px solid var(--txt); width: 22px; height: 22px; 
-            border-radius: 50%; cursor: pointer; position: relative; overflow: hidden;
+            border-radius: 50%; cursor: pointer; position: relative; 
         }
         [data-theme="dark"] .theme-btn { background: linear-gradient(90deg, var(--txt) 50%, transparent 50%); }
 
-        /* --- ORIGINAL HERO & BENTO --- */
+        /* --- HERO --- */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
         .massive-hero, .flowing-header {
             font-weight: 900; letter-spacing: -6px; line-height: 0.8;
@@ -88,22 +67,46 @@
         .flowing-header { font-size: clamp(3rem, 10vw, 6.5rem); margin-top: 10px; }
         @keyframes colorCycle { to { background-position: 300% center; } }
 
+        /* --- SCROLL INDICATOR --- */
+        .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: 0; transition: opacity 1s ease 1.5s; animation: bounce 2s infinite; }
+        body.loaded .scroll-indicator { opacity: 1; }
+        .mouse { width: 26px; height: 42px; border: 2px solid var(--txt); border-radius: 20px; display: flex; justify-content: center; padding-top: 8px; opacity: 0.6; }
+        .wheel { width: 4px; height: 8px; background: var(--accent); border-radius: 2px; animation: scrollWheel 1.6s ease-in-out infinite; }
+        .scroll-text { font-family: 'JetBrains Mono'; font-size: 0.6rem; letter-spacing: 4px; opacity: 0.4; font-weight: 800; }
+        @keyframes scrollWheel { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(15px); opacity: 0; } }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);} 40% {transform: translateX(-50%) translateY(-10px);} 60% {transform: translateX(-50%) translateY(-5px);} }
+
+        /* --- AI TERMINAL --- */
         .ai-terminal { margin-top: 50px; width: 90%; max-width: 450px; background: var(--glass); border: 1px solid var(--border); padding: 20px; border-radius: 30px; }
         .ai-display { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.8rem; margin-bottom: 15px; text-align: left; }
 
+        /* --- BENTO GRID --- */
         .bento { display: grid; max-width: 1200px; margin: 100px auto; gap: 20px; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 350px 350px; padding: 0 20px; }
-        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; position: relative; overflow: hidden; }
         .card-a { grid-column: 1; grid-row: 1 / span 2; } 
+        .card-b { grid-column: 2 / span 2; grid-row: 1; } 
+        .card-c { grid-column: 2 / span 2; grid-row: 2; } 
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; position: relative; overflow: hidden; }
         .card-a img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.4s; }
-        .card-a:hover img { filter: grayscale(0); }
+        .card-a:hover img { filter: grayscale(0); box-shadow: 15px 0px 0px rgba(255,0,0,0.3), -15px 0px 0px rgba(0,255,255,0.3); transform: scale(1.02); }
+        .map-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000'); background-size: cover; opacity: 0.2; filter: grayscale(1); }
         .hobby-btns { display: flex; gap: 15px; margin-top: 25px; }
         .hobby-btns span { padding: 12px 25px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .hobby-btns span:hover { background: var(--accent); color: white; box-shadow: 0 0 15px var(--accent); }
 
-        /* --- ORIGINAL SPHERE --- */
+        /* --- SPHERE --- */
         .skills-section { padding: 100px 0; text-align: center; }
         .sphere-container { height: 750px; width: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
-        .sphere-outline { position: absolute; width: 620px; height: 620px; border: 3px solid var(--sphere-web); border-radius: 50%; pointer-events: none; box-shadow: inset 0 0 50px var(--sphere-web), 0 0 30px var(--sphere-web); opacity: 0.8; }
-        .tagcloud--item img { width: 70px !important; height: 70px !important; filter: brightness(0) invert(1); transition: 0.4s; }
+        .sphere-outline { position: absolute; width: 620px; height: 620px; border: 3px solid var(--sphere-web); border-radius: 50%; pointer-events: none; box-shadow: inset 0 0 50px var(--sphere-web), 0 0 30px var(--sphere-web); filter: drop-shadow(0 0 10px var(--accent)); opacity: 0.8; }
+        .sphere-grid { position: absolute; width: 620px; height: 620px; border: 1px dashed var(--sphere-web); border-radius: 50%; transform: rotateX(70deg); opacity: 0.4; }
+        .tagcloud--item img { width: 75px !important; height: 75px !important; filter: brightness(0) invert(1); transition: 0.4s; }
+        [data-theme="light"] .tagcloud--item img { filter: brightness(0); }
+        .tagcloud--item:hover img { filter: brightness(1) invert(0) !important; transform: scale(1.8) translateZ(50px); }
+
+        /* --- EXPLORE SECTION --- */
+        .explore-section { padding: 100px 5%; text-align: center; max-width: 1200px; margin: 0 auto; }
+        .explore-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 50px; }
+        .explore-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 40px; text-align: left; transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1); position: relative; overflow: hidden; }
+        .explore-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.06); border-color: var(--accent); }
     </style>
 </head>
 <body>
@@ -117,21 +120,20 @@
 
     <header class="site-header">
         <div class="scroll-vessel"><div id="progress-bar"></div></div>
-        <div class="nav-island">
-            <nav class="nav-pill-main">
-                <a href="index.html" class="nav-item">Home</a>
-                <a href="achievements.html" class="nav-item">Achievements</a>
-                <a href="guestbook.html" class="nav-item">GuestBook</a>
-                <a href="contact.html" class="nav-item">Contact</a>
-                <button class="theme-btn" onclick="toggleTheme()" id="tBtn"></button>
-            </nav>
-            <div class="nav-pill-dynamic" id="section-indicator">HOME</div>
-        </div>
+        <nav class="nav-pill">
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="About.html" class="nav-item">About Me</a>
+            <a href="achievements.html" class="nav-item">Achievements</a>
+            <div id="section-indicator">Scroll Down</div>
+            <a href="guestbook.html" class="nav-item">GuestBook</a>
+            <a href="contact.html" class="nav-item">Contact</a>
+            <button class="theme-btn" onclick="toggleTheme()" id="tBtn"></button>
+        </nav>
     </header>
 
     <section class="hero" id="home">
         <h1 class="massive-hero">NEEL NIKHIL</h1>
-        <p style="font-family:'JetBrains Mono'; letter-spacing: 12px; opacity: 0.5; font-weight: 800;">FULL STACK DEVELOPER</p>
+        <p style="font-family:'JetBrains Mono'; letter-spacing: 12px; opacity: 0.5; font-weight: 800; margin-top: 10px;">FULL STACK DEVELOPER</p>
         <div class="ai-terminal">
             <div id="ai-out" class="ai-display">AI: Grid Reconfigured. Status: Peak.</div>
             <div style="display:flex; background:rgba(0,0,0,0.1); border-radius:50px; padding:5px;">
@@ -139,18 +141,24 @@
                 <button onclick="runAI()" style="background:var(--accent); border:none; color:white; padding:8px 20px; border-radius:50px; font-weight:800; cursor:pointer;">RUN</button>
             </div>
         </div>
+        <div class="scroll-indicator">
+            <div class="mouse"><div class="wheel"></div></div>
+            <div class="scroll-text">SCROLL TO EXPLORE</div>
+        </div>
     </section>
 
     <main class="bento" id="about">
         <div class="card card-a"><img src="me.jpg" id="p-img"></div>
-        <div class="card" style="grid-column: 2 / span 2; padding:50px; display:flex; align-items:flex-end;">
-            <div style="display:flex; justify-content:space-between; width:100%; align-items:flex-end;">
+        <div class="card card-b" style="padding:50px; display:flex; align-items:flex-end;">
+            <div class="map-bg"></div>
+            <div style="position:relative; z-index:2; display:flex; justify-content:space-between; width:100%; align-items:flex-end;">
                 <div><small style="opacity:0.5; letter-spacing:4px;">NEXUS</small><h2 style="font-size:3rem; font-weight:900;">Bangalore, IN</h2></div>
                 <div id="clock" style="font-family:'JetBrains Mono'; color:var(--accent); font-weight:800; font-size:1.5rem;">00:00:00</div>
             </div>
         </div>
-        <div class="card" style="grid-column: 2 / span 2; padding:50px;">
-            <h2 style="font-size:2.5rem; font-weight:900;">Interests</h2>
+        <div class="card card-c" style="padding:50px; display:flex; flex-direction:column; justify-content:center;">
+            <small style="opacity:0.5; letter-spacing:4px;">I N T E R E S T S</small>
+            <h2 style="font-size:2.8rem; font-weight:900; margin-top:10px;">Some Interests of Neel</h2>
             <div class="hobby-btns">
                 <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
                 <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
@@ -160,9 +168,11 @@
     </main>
 
     <section class="skills-section" id="skills">
-        <h2 class="flowing-header">TECH STACK</h2>
+        <span style="font-family:'JetBrains Mono'; letter-spacing:8px; opacity:0.5;">TECH STACK</span>
+        <h2 class="flowing-header">MY SKILLS</h2>
         <div class="sphere-container">
             <div class="sphere-outline"></div>
+            <div class="sphere-grid"></div>
             <div class="tagcloud"></div>
         </div>
     </section>
@@ -175,7 +185,7 @@
         }
 
         const targetText = "NEEL NIKHIL";
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
         let iteration = 0;
 
         function startIntro() {
@@ -185,11 +195,13 @@
                     .join("");
                 if(iteration >= targetText.length) {
                     clearInterval(interval);
+                    document.getElementById('status').innerText = "ACCESS GRANTED";
+                    document.getElementById('status').style.color = "#8b5cf6";
                     setTimeout(() => {
                         document.body.classList.add('loaded');
                         initCanvas();
                         initSphere();
-                    }, 500);
+                    }, 800);
                 }
                 iteration += 1/3;
             }, 50);
@@ -201,6 +213,7 @@
 
         function initCanvas() {
             cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+            dots = [];
             for(let x=0; x<cvs.width+50; x+=40) 
                 for(let y=0; y<cvs.height+50; y+=40) 
                     dots.push({x, y, baseSize: Math.random() * 1.5 + 0.5});
@@ -214,7 +227,9 @@
                 const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y);
                 const isActive = dist < 150;
                 ctx.fillStyle = isActive ? '#8b5cf6' : dotColor;
-                ctx.beginPath(); ctx.arc(d.x, d.y, isActive ? 3 : d.baseSize, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath();
+                ctx.arc(d.x, d.y, isActive ? 3 : d.baseSize, 0, Math.PI*2);
+                ctx.fill();
             });
             requestAnimationFrame(draw);
         }
@@ -222,26 +237,49 @@
         window.onmousemove = e => { mouse.x=e.clientX; mouse.y=e.clientY; };
 
         function initSphere() {
-            const icons = ['React', 'Next', 'SQL', 'JS', 'Python', 'Node', 'Git', 'HTML', 'Docker', 'CPP'];
-            TagCloud('.tagcloud', icons, { radius: 280, maxSpeed: 'normal' });
+            const icons = {
+                'React': 'https://cdn.simpleicons.org/react/61DAFB', 'Next': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
+                'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1', 'CSS': 'https://cdn.simpleicons.org/css3/1572B6',
+                'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E', 'Python': 'https://cdn.simpleicons.org/python/3776AB',
+                'Node': 'https://cdn.simpleicons.org/nodedotjs/339933', 'Git': 'https://cdn.simpleicons.org/git/F05032',
+                'HTML': 'https://cdn.simpleicons.org/html5/E34F26', 'CPP': 'https://cdn.simpleicons.org/cplusplus/00599C',
+                'Docker': 'https://cdn.simpleicons.org/docker/2496ED', 'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
+                'TypeScript': 'https://cdn.simpleicons.org/typescript/3178C6', 'MongoDB': 'https://cdn.simpleicons.org/mongodb/47A248',
+                'Vercel': 'https://cdn.simpleicons.org/vercel/ffffff'
+            };
+            TagCloud('.tagcloud', Object.keys(icons), { radius: 280, maxSpeed: 'normal' });
+            setTimeout(() => {
+                document.querySelectorAll('.tagcloud--item').forEach(item => {
+                    const n = item.innerText.trim();
+                    if(icons[n]) item.innerHTML = `<img src="${icons[n]}" alt="${n}">`;
+                });
+            }, 200);
         }
 
         window.addEventListener('scroll', () => {
             const winScroll = document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            document.getElementById("progress-bar").style.width = (winScroll / height) * 100 + "%";
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
 
             const sections = ['home', 'about', 'skills'];
+            let current = "HOME";
             sections.forEach(id => {
-                const el = document.getElementById(id);
-                if (el && winScroll >= el.offsetTop - 300) {
-                    document.getElementById("section-indicator").innerText = id;
+                const section = document.getElementById(id);
+                if (section && winScroll >= section.offsetTop - 300) {
+                    current = id;
                 }
             });
+            document.getElementById("section-indicator").innerText = current;
         });
 
-        function runAI() { document.getElementById('ai-out').innerText = "AI: Core Systems Online."; }
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+        function swp(t) { 
+            const i = document.getElementById('p-img'); 
+            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'}; 
+            i.src = m[t] || m.default; 
+        }
+        function runAI() { document.getElementById('ai-out').innerText = "AI: Core Systems Online. Welcome back."; }
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata'}) + " IST"; }, 1000);
         window.onload = () => setTimeout(startIntro, 500);
     </script>
 </body>
