@@ -23,7 +23,7 @@
             border: 1px solid var(--border); border-radius: 50px; background: rgba(255,255,255,0.05);
             backdrop-filter: blur(10px); transition: 0.3s;
         }
-        .back-home:hover { background: var(--accent); box-shadow: 0 0 15px var(--accent); }
+        .back-home:hover { background: var(--accent); box-shadow: 0 0 15px var(--accent); border-color: var(--accent); }
 
         .vertical-nav {
             position: fixed; left: 0; top: 0; height: 100vh; width: 100px;
@@ -38,11 +38,11 @@
         }
         .nav-link.active { color: var(--accent); }
 
-        /* LAYOUT */
+        /* CONTENT LAYOUT */
         .content-wrapper { margin-left: 100px; width: 100%; }
         section { 
             min-height: 100vh; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center;
-            opacity: 0; transform: translateY(30px); transition: 0.8s ease-out;
+            opacity: 0; transform: translateY(40px); transition: 1s ease-out;
         }
         section.revealed { opacity: 1; transform: translateY(0); }
 
@@ -51,18 +51,19 @@
         h1 { font-size: clamp(2.5rem, 8vw, 4rem); letter-spacing: -2px; margin: 10px 0; line-height: 1; }
         .description-text { font-size: 1.1rem; color: #888; max-width: 500px; }
 
-        /* POLAROID FIX - FORCES IMAGE TO FIT */
+        /* POLAROID - NO-CROP FIX */
         .polaroid-pair { display: flex; gap: 20px; }
         .polaroid {
-            background: #fff; padding: 12px 12px 45px 12px; width: 240px;
+            background: #fff; padding: 12px 12px 45px 12px; width: 250px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5); transition: 0.5s;
         }
         .img-container {
-            width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: #222;
+            width: 100%; aspect-ratio: 1 / 1; background: #000; 
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
         .polaroid img { 
-            width: 100%; height: 100%; object-fit: cover; /* Forces the fit */
-            filter: grayscale(1); transition: 0.5s; display: block;
+            max-width: 100%; max-height: 100%; object-fit: contain; /* Prevents cutting off */
+            filter: grayscale(1); transition: 0.5s;
         }
         .polaroid p { color: #333; font-family: 'Brush Script MT', cursive; text-align: center; margin-top: 15px; font-size: 1.3rem; }
         
@@ -72,8 +73,9 @@
         .polaroid:hover img { filter: grayscale(0); }
 
         @media (max-width: 1100px) { 
-            .section-grid { grid-template-columns: 1fr; } .vertical-nav { width: 60px; } .content-wrapper { margin-left: 60px; } 
-            .p2 { transform: translateY(0); }
+            .section-grid { grid-template-columns: 1fr; gap: 40px; } 
+            .vertical-nav { width: 60px; } .content-wrapper { margin-left: 60px; }
+            .p2 { transform: translateY(0) rotate(4deg); }
         }
     </style>
 </head>
@@ -85,9 +87,9 @@
     <nav class="vertical-nav">
         <a href="#me" class="nav-link active">Identity</a>
         <a href="#parents" class="nav-link">Family</a>
-        <a href="#uncles" class="nav-link">The 3 Uncles</a>
-        <a href="#grandparents" class="nav-link">Grandparents</a>
-        <a href="#friends" class="nav-link">Friends</a>
+        <a href="#uncles" class="nav-link">Uncles</a>
+        <a href="#grandparents" class="nav-link">Elders</a>
+        <a href="#friends" class="nav-link">Crew</a>
     </nav>
 
     <div class="content-wrapper">
@@ -96,11 +98,11 @@
                 <div class="section-header">
                     <span class="red-label">01 / THE SOURCE</span>
                     <h1>NEEL NIKHIL</h1>
-                    <p class="description-text">Building interactive systems and clean interfaces. Currently navigating the tech landscape from Bangalore.</p>
+                    <p class="description-text">Architecting digital experiences and navigating the chaos of student life in Bangalore.</p>
                 </div>
                 <div class="polaroid-pair">
-                    <div class="polaroid p1"><div class="img-container"><img src="images/me-1.jpg" alt="Me"></div><p>The Vision</p></div>
-                    <div class="polaroid p2"><div class="img-container"><img src="images/me-2.jpg" alt="Me"></div><p>The Grind</p></div>
+                    <div class="polaroid p1"><div class="img-container"><img src="./images/me-1.jpg" alt="Me"></div><p>The Vision</p></div>
+                    <div class="polaroid p2"><div class="img-container"><img src="./images/me-2.jpg" alt="Me"></div><p>The Grind</p></div>
                 </div>
             </div>
         </section>
@@ -110,11 +112,11 @@
                 <div class="section-header">
                     <span class="red-label">02 / THE CORE</span>
                     <h1>PARENTS & SISTER</h1>
-                    <p class="description-text">My primary support system and my sister—who ensures my ego stays in check by reminding me I'm still the designated chore-doer.</p>
+                    <p class="description-text">The foundation. My sister keeps me grounded by making sure I never forget who’s in charge of the household chores.</p>
                 </div>
                 <div class="polaroid-pair">
-                    <div class="polaroid p1"><div class="img-container"><img src="images/parents.jpg" alt="Parents"></div><p>The Roots</p></div>
-                    <div class="polaroid p2"><div class="img-container"><img src="images/sister.jpg" alt="Sister"></div><p>The Nemesis</p></div>
+                    <div class="polaroid p1"><div class="img-container"><img src="./images/parents.jpg" alt="Parents"></div><p>The Pillars</p></div>
+                    <div class="polaroid p2"><div class="img-container"><img src="./images/sister.jpg" alt="Sister"></div><p>The Nemesis</p></div>
                 </div>
             </div>
         </section>
@@ -124,11 +126,11 @@
                 <div class="section-header">
                     <span class="red-label">03 / THE SQUAD</span>
                     <h1>THE THREE UNCLES</h1>
-                    <p class="description-text">The Three Musketeers. A tight-knit squad providing spot-on career advice and tech geek-outs whenever needed.</p>
+                    <p class="description-text">The Three Musketeers. Tight-knit, tech-savvy, and always ready with the best career hacks and life advice.</p>
                 </div>
                 <div class="polaroid-pair">
-                    <div class="polaroid p1"><div class="img-container"><img src="images/uncles-1.jpg" alt="Uncle 1"></div><p>The Wisdom</p></div>
-                    <div class="polaroid p2"><div class="img-container"><img src="images/uncles-2.jpg" alt="Uncle 2"></div><p>Musketeers</p></div>
+                    <div class="polaroid p1"><div class="img-container"><img src="./images/uncles-1.jpg" alt="Uncles"></div><p>The Wisdom</p></div>
+                    <div class="polaroid p2"><div class="img-container"><img src="./images/uncles-2.jpg" alt="Uncles"></div><p>Musketeers</p></div>
                 </div>
             </div>
         </section>
@@ -138,11 +140,11 @@
                 <div class="section-header">
                     <span class="red-label">04 / THE ORIGINALS</span>
                     <h1>GRANDPARENTS</h1>
-                    <p class="description-text">The highest authority in the house. They survived without the internet, which makes them the most impressive engineers I know.</p>
+                    <p class="description-text">The OG's. They built a world without WiFi, which makes them the most skilled engineers in my eyes.</p>
                 </div>
                 <div class="polaroid-pair">
-                    <div class="polaroid p1"><div class="img-container"><img src="images/grand-1.jpg" alt="Grandpa"></div><p>The OG</p></div>
-                    <div class="polaroid p2"><div class="img-container"><img src="images/grand-2.jpg" alt="Grandma"></div><p>The Wise</p></div>
+                    <div class="polaroid p1"><div class="img-container"><img src="./images/grand-1.jpg" alt="Grandpa"></div><p>The Source</p></div>
+                    <div class="polaroid p2"><div class="img-container"><img src="./images/grand-2.jpg" alt="Grandma"></div><p>The Wise</p></div>
                 </div>
             </div>
         </section>
@@ -152,11 +154,11 @@
                 <div class="section-header">
                     <span class="red-label">05 / THE CREW</span>
                     <h1>THE FRIENDS</h1>
-                    <p class="description-text">The family I chose. Surviving 3 AM study sessions, bad code, and too many rounds of competitive chess.</p>
+                    <p class="description-text">The family I chose. Surviving 3 AM study sessions and too many games of competitive chess.</p>
                 </div>
                 <div class="polaroid-pair">
-                    <div class="polaroid p1"><div class="img-container"><img src="images/friends-1.jpg" alt="Friends"></div><p>Day Ones</p></div>
-                    <div class="polaroid p2"><div class="img-container"><img src="images/friends-2.jpg" alt="Friends"></div><p>The Crew</p></div>
+                    <div class="polaroid p1"><div class="img-container"><img src="./images/friends-1.jpg" alt="Friends"></div><p>Day Ones</p></div>
+                    <div class="polaroid p2"><div class="img-container"><img src="./images/friends-2.jpg" alt="Friends"></div><p>The Squad</p></div>
                 </div>
             </div>
         </section>
@@ -175,9 +177,9 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             dots = [];
-            const spacing = 50; // Controls the grid density
-            for (let x = 0; x < canvas.width; x += spacing) {
-                for (let y = 0; y < canvas.height; y += spacing) {
+            const spacing = 50; 
+            for (let x = 0; x <= canvas.width; x += spacing) {
+                for (let y = 0; y <= canvas.height; y += spacing) {
                     dots.push({ x: x, y: y, s: 1.5 });
                 }
             }
@@ -190,16 +192,14 @@
                 let dy = mouse.y - d.y;
                 let distance = Math.sqrt(dx * dx + dy * dy);
                 
-                // If mouse is within 150px, turn red and glow
                 if (distance < 150) {
                     ctx.fillStyle = '#ff3333';
-                    ctx.shadowBlur = 10;
+                    ctx.shadowBlur = 15;
                     ctx.shadowColor = '#ff3333';
                 } else {
                     ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
                     ctx.shadowBlur = 0;
                 }
-
                 ctx.beginPath();
                 ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
                 ctx.fill();
@@ -209,9 +209,8 @@
 
         const revealSections = () => {
             document.querySelectorAll('section').forEach(section => {
-                if (section.getBoundingClientRect().top < window.innerHeight * 0.8) {
-                    section.classList.add('revealed');
-                }
+                const top = section.getBoundingClientRect().top;
+                if (top < window.innerHeight * 0.8) section.classList.add('revealed');
             });
         };
 
