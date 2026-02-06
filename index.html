@@ -174,6 +174,11 @@
             stroke-width: 1.6;
         }
 
+        .theme-icon path,
+        .theme-icon circle {
+            transition: opacity 0.2s ease;
+        }
+
         /* --- HERO --- */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
         .massive-hero, .flowing-header {
@@ -281,7 +286,10 @@
                 </button>
                 <button class="theme-btn" onclick="toggleTheme()" id="tBtn" aria-label="Toggle theme">
                     <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M21 12.79A9 9 0 0 1 12.79 3 7 7 0 1 0 21 12.79Z"></path>
+                        <!-- crescent moon (dark mode) -->
+                        <path id="icon-moon" d="M21 12.79A9 9 0 0 1 12.79 3 7 7 0 1 0 21 12.79Z"></path>
+                        <!-- hollow circle (light mode) -->
+                        <circle id="icon-circle" cx="12" cy="12" r="7"></circle>
                     </svg>
                 </button>
             </div>
@@ -345,11 +353,33 @@
     </section>
 
     <script>
+        function setThemeIcon(isDark) {
+            const moon = document.getElementById('icon-moon');
+            const circle = document.getElementById('icon-circle');
+            if (!moon || !circle) return;
+            if (isDark) {
+                moon.style.opacity = '1';      // show crescent
+                circle.style.opacity = '0';    // hide circle
+            } else {
+                moon.style.opacity = '0';
+                circle.style.opacity = '1';    // show hollow circle
+                circle.setAttribute('fill', 'none');
+            }
+        }
+
         function toggleTheme() {
             const b = document.documentElement;
             const isDark = b.getAttribute('data-theme') === 'dark';
-            b.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            b.setAttribute('data-theme', newTheme);
+            setThemeIcon(newTheme === 'dark');
         }
+
+        // initialise correct icon on load based on current theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            setThemeIcon(isDark);
+        });
 
         const targetText = "NEEL NIKHIL";
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
