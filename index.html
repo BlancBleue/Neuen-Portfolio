@@ -38,22 +38,11 @@
 
         #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 1; }
 
-        /* --- UPDATED HEADER & SCROLL BAR --- */
-        .site-header { position: fixed; width: 100%; top: 0; z-index: 999; display: flex; flex-direction: column; align-items: center; padding: 15px 0; pointer-events: none; }
-        
-        .scroll-vessel { width: 250px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
-        #progress-bar { height: 100%; width: 0%; background: var(--accent); transition: width 0.1s ease-out; }
-
-        .nav-pill { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border); padding: 10px 25px; border-radius: 100px; display: flex; align-items: center; gap: 25px; pointer-events: auto; }
+        /* --- HEADER --- */
+        .site-header { position: fixed; width: 100%; top: 0; z-index: 999; display: flex; justify-content: space-between; align-items: center; padding: 25px 5%; }
+        .nav-pill { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border); padding: 10px 25px; border-radius: 100px; display: flex; align-items: center; gap: 20px; }
         .nav-item { text-decoration: none; color: var(--txt); font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; }
-        
-        #section-indicator { font-family: 'JetBrains Mono'; font-weight: 800; font-size: 0.7rem; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; min-width: 80px; text-align: center; }
-
-        .theme-btn { 
-            background: transparent; border: 2px solid var(--txt); width: 22px; height: 22px; 
-            border-radius: 50%; cursor: pointer; position: relative; 
-        }
-        [data-theme="dark"] .theme-btn { background: linear-gradient(90deg, var(--txt) 50%, transparent 50%); }
+        .theme-btn { background: var(--accent); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; }
 
         /* --- HERO --- */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
@@ -68,7 +57,12 @@
         @keyframes colorCycle { to { background-position: 300% center; } }
 
         /* --- SCROLL INDICATOR --- */
-        .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: 0; transition: opacity 1s ease 1.5s; animation: bounce 2s infinite; }
+        .scroll-indicator {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            opacity: 0; transition: opacity 1s ease 1.5s;
+            animation: bounce 2s infinite;
+        }
         body.loaded .scroll-indicator { opacity: 1; }
         .mouse { width: 26px; height: 42px; border: 2px solid var(--txt); border-radius: 20px; display: flex; justify-content: center; padding-top: 8px; opacity: 0.6; }
         .wheel { width: 4px; height: 8px; background: var(--accent); border-radius: 2px; animation: scrollWheel 1.6s ease-in-out infinite; }
@@ -107,6 +101,13 @@
         .explore-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 50px; }
         .explore-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 40px; text-align: left; transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1); position: relative; overflow: hidden; }
         .explore-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.06); border-color: var(--accent); }
+        .ex-icon { font-size: 2rem; margin-bottom: 20px; width: 60px; height: 60px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border-radius: 15px; border: 1px solid var(--border); }
+        .explore-card h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
+        .explore-card p { opacity: 0.6; font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; }
+        .ex-link { text-decoration: none; font-weight: 700; font-size: 0.9rem; color: var(--accent); transition: 0.3s; }
+        .explore-card.purple h3 { color: #a78bfa; }
+        .explore-card.orange h3 { color: #fb923c; }
+        .explore-card.blue h3 { color: #38bdf8; }
     </style>
 </head>
 <body>
@@ -119,21 +120,12 @@
     <canvas id="dotCanvas"></canvas>
 
     <header class="site-header">
-        <div class="scroll-vessel"><div id="progress-bar"></div></div>
-
-        <!-- SECTION INDICATOR BAR (TOP) -->
-        <div class="nav-pill" style="margin-bottom:8px; justify-content:center;">
-            <div id="section-indicator">Scroll Down</div>
-        </div>
-
-        <!-- NAV LINKS BAR (BOTTOM) -->
+        <div style="font-weight: 900; font-size: 1.6rem;">NN</div>
         <nav class="nav-pill">
-            <a href="index.html" class="nav-item">Home</a>
-            <a href="About.html" class="nav-item">About Me</a>
-            <a href="achievements.html" class="nav-item">Achievements</a>
-            <a href="guestbook.html" class="nav-item">GuestBook</a>
-            <a href="contact.html" class="nav-item">Contact</a>
-            <button class="theme-btn" onclick="toggleTheme()" id="tBtn"></button>
+            <a href="#home" class="nav-item">INDEX</a>
+            <a href="#about" class="nav-item">BIO</a>
+            <a href="#skills" class="nav-item">TECH</a>
+            <button class="theme-btn" onclick="toggleTheme()" id="tBtn">🌙</button>
         </nav>
     </header>
 
@@ -183,11 +175,22 @@
         </div>
     </section>
 
+    <section class="explore-section">
+        <h2 class="flowing-header" style="font-size: 3.5rem; letter-spacing: -2px;">More to <span style="-webkit-text-fill-color: var(--txt);">Explore</span></h2>
+        <p style="opacity: 0.5; margin-top: 10px; font-family: 'JetBrains Mono';">Check out these additional resources and connect with me</p>
+        <div class="explore-grid">
+            <div class="explore-card purple"><div class="ex-icon">📖</div><h3>Guestbook</h3><p>Leave your mark and see what others have to say</p><a href="guestbook.html" class="ex-link">Explore →</a></div>
+            <div class="explore-card orange"><div class="ex-icon">🏆</div><h3>Achievements</h3><p>Milestones, certifications, and accomplishments</p><a href="achievements.html" class="ex-link">Explore →</a></div>
+            <div class="explore-card blue"><div class="ex-icon">🔗</div><h3>My Links</h3><p>Find me across the web and social platforms</p><a href="#" class="ex-link">Explore →</a></div>
+        </div>
+    </section>
+
     <script>
         function toggleTheme() {
             const b = document.documentElement;
             const isDark = b.getAttribute('data-theme') === 'dark';
             b.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('tBtn').innerText = isDark ? '☀️' : '🌙';
         }
 
         const targetText = "NEEL NIKHIL";
@@ -242,42 +245,41 @@
 
         window.onmousemove = e => { mouse.x=e.clientX; mouse.y=e.clientY; };
 
-        function initSphere() {
-            const icons = {
-                'React': 'https://cdn.simpleicons.org/react/61DAFB', 'Next': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
-                'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1', 'CSS': 'https://cdn.simpleicons.org/css3/1572B6',
-                'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E', 'Python': 'https://cdn.simpleicons.org/python/3776AB',
-                'Node': 'https://cdn.simpleicons.org/nodedotjs/339933', 'Git': 'https://cdn.simpleicons.org/git/F05032',
-                'HTML': 'https://cdn.simpleicons.org/html5/E34F26', 'CPP': 'https://cdn.simpleicons.org/cplusplus/00599C',
-                'Docker': 'https://cdn.simpleicons.org/docker/2496ED', 'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
-                'TypeScript': 'https://cdn.simpleicons.org/typescript/3178C6', 'MongoDB': 'https://cdn.simpleicons.org/mongodb/47A248',
-                'Vercel': 'https://cdn.simpleicons.org/vercel/ffffff'
-            };
-            TagCloud('.tagcloud', Object.keys(icons), { radius: 280, maxSpeed: 'normal' });
-            setTimeout(() => {
-                document.querySelectorAll('.tagcloud--item').forEach(item => {
-                    const n = item.innerText.trim();
-                    if(icons[n]) item.innerHTML = `<img src="${icons[n]}" alt="${n}">`;
-                });
-            }, 200);
-        }
+function initSphere() {
+    const icons = {
+        'React': 'https://cdn.simpleicons.org/react/61DAFB',
+        'Next': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
+        'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1',
+        'CSS': 'https://cdn.simpleicons.org/css3/1572B6',
+        'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E',
+        'Python': 'https://cdn.simpleicons.org/python/3776AB',
+        'Node': 'https://cdn.simpleicons.org/nodedotjs/339933',
+        'Git': 'https://cdn.simpleicons.org/git/F05032',
+        'HTML': 'https://cdn.simpleicons.org/html5/E34F26',
+        'CPP': 'https://cdn.simpleicons.org/cplusplus/00599C',
+        'Docker': 'https://cdn.simpleicons.org/docker/2496ED',
+        'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
+        'TypeScript': 'https://cdn.simpleicons.org/typescript/3178C6',
+        'MongoDB': 'https://cdn.simpleicons.org/mongodb/47A248',
+        'Vercel': 'https://cdn.simpleicons.org/vercel/ffffff'
+    };
 
-        window.addEventListener('scroll', () => {
-            const winScroll = document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById("progress-bar").style.width = scrolled + "%";
+    TagCloud('.tagcloud', Object.keys(icons), { 
+        radius: 280, 
+        maxSpeed: 'normal' 
+    });
 
-            const sections = ['home', 'about', 'skills'];
-            let current = "HOME";
-            sections.forEach(id => {
-                const section = document.getElementById(id);
-                if (section && winScroll >= section.offsetTop - 300) {
-                    current = id;
-                }
-            });
-            document.getElementById("section-indicator").innerText = current;
+    setTimeout(() => {
+        document.querySelectorAll('.tagcloud--item').forEach(item => {
+            const name = item.innerText.trim();
+            // Store the name for the CSS tooltip
+            item.setAttribute('data-name', name); 
+            if(icons[name]) {
+                item.innerHTML = `<img src="${icons[name]}" alt="${name}">`;
+            }
         });
+    }, 200);
+}
 
         function swp(t) { 
             const i = document.getElementById('p-img'); 
@@ -286,6 +288,7 @@
         }
         function runAI() { document.getElementById('ai-out').innerText = "AI: Core Systems Online. Welcome back."; }
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata'}) + " IST"; }, 1000);
+
         window.onload = () => setTimeout(startIntro, 500);
     </script>
 </body>
