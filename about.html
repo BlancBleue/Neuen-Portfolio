@@ -167,43 +167,93 @@
     </div>
 
     <script>
-        const canvas = document.getElementById('dotCanvas');
-        const ctx = canvas.getContext('2d');
-        let dots = [];
+    const canvas = document.getElementById('dotCanvas');
+const ctx = canvas.getContext('2d');
+let dots = [];
+let mouse = { x: null, y: null };
 
-        function init() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            dots = Array.from({length: 85}, () => ({
-                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                s: Math.random() * 2, v: Math.random() * 0.4 + 0.1
-            }));
+// Track mouse movement
+window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+// Clear mouse on leave
+window.addEventListener('mouseout', () => {
+    mouse.x = null;
+    mouse.y = null;
+});
+
+function init() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    dots = Array.from({ length: 100 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        s: Math.random() * 2,
+        baseV: Math.random() * 0.4 + 0.1, // Regular speed
+        v: 0 // Current speed
+    }));
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    dots.forEach(d => {
+        // Calculate distance between mouse and dot
+        let dx = mouse.x - d.x;
+        let dy = mouse.y - d.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        let isNear = distance < 150; // Interaction radius
+
+        // 1. DYNAMIC COLOR: Red if near mouse OR at top of screen, else white
+        if (isNear) {
+            ctx.fillStyle = 'rgba(255, 51, 51, 0.8)'; // Intense red on hover
+        } else {
+            const prog = d.y / canvas.height;
+            ctx.fillStyle = prog < 0.4 ? 'rgba(255, 51, 51, 0.4)' : 'rgba(255, 255, 255, 0.2)';
         }
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            dots.forEach(d => {
-                const prog = d.y / canvas.height;
-                // Transition White at bottom to Red at top
-                ctx.fillStyle = prog < 0.4 ? 'rgba(255, 51, 51, 0.5)' : 'rgba(255, 255, 255, 0.2)';
-                ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2); ctx.fill();
-                d.y -= d.v; if(d.y < 0) d.y = canvas.height;
-            });
-            requestAnimationFrame(draw);
+        // 2. DYNAMIC SPEED: Raise/Speed up if mouse is near
+        if (isNear) {
+            d.v = d.baseV * 5; // 5x speed boost
+        } else {
+            d.v = d.baseV; // Return to normal
         }
 
-        window.addEventListener('resize', init);
-        init(); draw();
+        // Draw Dot
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
+        ctx.fill();
 
-        window.addEventListener('scroll', () => {
-            let current = "";
-            document.querySelectorAll('section').forEach(s => {
-                if (pageYOffset >= s.offsetTop - 350) current = s.getAttribute('id');
-            });
-            document.querySelectorAll('.nav-link').forEach(l => {
-                l.classList.remove('active');
-                if (l.getAttribute('href').includes(current)) l.classList.add('active');
-            });
-        });
+        // Move Dot
+        d.y -= d.v;
+
+        // Reset if off screen
+        if (d.y < 0) {
+            d.y = canvas.height;
+            d.x = Math.random() * canvas.width;
+        }
+    });
+
+    requestAnimationFrame(draw);
+}
+
+window.addEventListener('resize', init);
+init();
+draw();
+
+// Keep your existing Nav Scroll Highlight logic below
+window.addEventListener('scroll', () => {
+    let current = "";
+    document.querySelectorAll('section').forEach(s => {
+        if (pageYOffset >= s.offsetTop - 350) current = s.getAttribute('id');
+    });
+    document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.remove('active');
+        if (l.getAttribute('href').includes(current)) l.classList.add('active');
+    });
+});
     </script>
 </body>
 </html>
