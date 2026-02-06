@@ -15,7 +15,6 @@
 
         #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
-        /* BACK HOME BUTTON */
         .back-home {
             position: fixed; top: 30px; right: 40px; z-index: 1100;
             text-decoration: none; color: #fff; font-size: 0.7rem; font-weight: 800;
@@ -23,9 +22,8 @@
             border: 1px solid var(--border); border-radius: 50px; background: rgba(255,255,255,0.05);
             backdrop-filter: blur(10px); transition: 0.3s;
         }
-        .back-home:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
+        .back-home:hover { background: var(--accent); box-shadow: 0 0 20px var(--accent); }
 
-        /* VERTICAL SIDEBAR */
         .vertical-nav {
             position: fixed; left: 0; top: 0; height: 100vh; width: 100px;
             border-right: 1px solid var(--border); display: flex; flex-direction: column;
@@ -39,31 +37,33 @@
         }
         .nav-link.active { color: var(--accent); }
 
-        /* CONTENT SECTIONS */
         .content-wrapper { margin-left: 100px; width: 100%; }
-        section { min-height: 100vh; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center; }
+        section { 
+            min-height: 100vh; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center;
+            opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out;
+        }
+        section.revealed { opacity: 1; transform: translateY(0); }
 
         .section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
         .red-label { color: var(--accent); font-weight: 900; font-size: 0.8rem; letter-spacing: 4px; display: block; }
-        h1 { font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: -3px; margin: 10px 0; line-height: 1; }
+        h1 { font-size: clamp(2.5rem, 8vw, 4rem); letter-spacing: -2px; margin: 10px 0; line-height: 1; }
         .description-text { font-size: 1.1rem; color: #888; max-width: 500px; }
 
-        /* POLAROIDS - FIXED FITTING */
+        /* POLAROIDS - FORCED FIT */
         .polaroid-pair { display: flex; gap: 20px; }
         .polaroid {
-            background: #fff; padding: 10px 10px 35px 10px; width: 240px;
+            background: #fff; padding: 12px 12px 45px 12px; width: 250px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5); transition: 0.5s;
+            flex-shrink: 0;
         }
-        /* This fixes the image fitting issue */
+        .polaroid .img-container {
+            width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: #222;
+        }
         .polaroid img { 
-            width: 100%; 
-            aspect-ratio: 1 / 1; 
-            object-fit: cover; 
-            filter: grayscale(1); 
-            transition: 0.5s; 
-            display: block;
+            width: 100%; height: 100%; object-fit: cover; 
+            filter: grayscale(1); transition: 0.5s; display: block;
         }
-        .polaroid p { color: #333; font-family: 'Brush Script MT', cursive; text-align: center; margin-top: 10px; font-size: 1.2rem; }
+        .polaroid p { color: #333; font-family: 'Brush Script MT', cursive; text-align: center; margin-top: 15px; font-size: 1.3rem; }
         
         .p1 { transform: rotate(-3deg); }
         .p2 { transform: rotate(4deg) translateY(30px); }
@@ -71,10 +71,7 @@
         .polaroid:hover img { filter: grayscale(0); }
 
         @media (max-width: 1100px) { 
-            .section-grid { grid-template-columns: 1fr; } 
-            .vertical-nav { width: 60px; } 
-            .content-wrapper { margin-left: 60px; } 
-            .p2 { transform: rotate(4deg) translateY(0); }
+            .section-grid { grid-template-columns: 1fr; } .vertical-nav { width: 60px; } .content-wrapper { margin-left: 60px; } 
         }
     </style>
 </head>
@@ -86,7 +83,7 @@
     <nav class="vertical-nav">
         <a href="#me" class="nav-link active">Identity</a>
         <a href="#parents" class="nav-link">Family</a>
-        <a href="#uncles" class="nav-link">Uncles</a>
+        <a href="#uncles" class="nav-link">The 3 Uncles</a>
         <a href="#grandparents" class="nav-link">Grandparents</a>
         <a href="#friends" class="nav-link">Friends</a>
     </nav>
@@ -97,14 +94,11 @@
                 <div class="section-header">
                     <span class="red-label">01 / THE SOURCE</span>
                     <h1>NEEL NIKHIL</h1>
-                    <p class="description-text">
-                        A student by day and a developer by night. I spend most of my time figuring out why my code works (or why it doesn't) and convincing my professors that my "creative" solutions are actually bugs-free. 
-                        I'm currently architecting systems from Bangalore while navigating the glorious chaos of student life.
-                    </p>
+                    <p class="description-text">Developer. Student. Snooker enthusiast. Currently based in Bangalore, trying to build things that don't crash on the first reload.</p>
                 </div>
                 <div class="polaroid-pair">
-                    <div class="polaroid p1"><img src="images/me-1.jpg" alt="Me"><p>The Vision</p></div>
-                    <div class="polaroid p2"><img src="images/me-2.jpg" alt="Me"><p>The Grind</p></div>
+                    <div class="polaroid p1"><div class="img-container"><img src="./images/me-1.jpg" alt="Me"></div><p>Focus</p></div>
+                    <div class="polaroid p2"><div class="img-container"><img src="./images/me-2.jpg" alt="Me"></div><p>The Grind</p></div>
                 </div>
             </div>
         </section>
@@ -114,14 +108,11 @@
                 <div class="section-header">
                     <span class="red-label">02 / THE CORE</span>
                     <h1>PARENTS & SISTER</h1>
-                    <p class="description-text">
-                        My parents are the venture capitalists of my life—investing heavily in my potential and wondering when the ROI kicks in. 
-                        Then there's my sister, who exists solely to keep me humble and remind me that, despite me being the busier one, I'm still the one who has to do the chores.
-                    </p>
+                    <p class="description-text">The family foundation. My sister ensures my ego never gets too large, mostly by reminding me I'm still the designated chore-doer.</p>
                 </div>
                 <div class="polaroid-pair">
-                    <div class="polaroid p1"><img src="images/parents.jpg" alt="Parents"><p>The Pillars</p></div>
-                    <div class="polaroid p2"><img src="images/sister.jpg" alt="Sister"><p>The Nemesis</p></div>
+                    <div class="polaroid p1"><div class="img-container"><img src="./images/parents.jpg" alt="Parents"></div><p>The Roots</p></div>
+                    <div class="polaroid p2"><div class="img-container"><img src="./images/sister.jpg" alt="Sister"></div><p>The Nemesis</p></div>
                 </div>
             </div>
         </section>
@@ -130,16 +121,12 @@
             <div class="section-grid">
                 <div class="section-header">
                     <span class="red-label">03 / THE SQUAD</span>
-                    <h1>THE UNCLES</h1>
-                    <p class="description-text">
-                        My uncles and I are like three peas in a pod—tight-knit and always in sync.
-                        They guide me through my career with spot-on advice, while we bond over the latest movies and geek out on tech gadgets together.
-                        It's the perfect mix of mentorship, laughs, and shared passions that keeps us close.
-                    </p>
+                    <h1>THE THREE UNCLES</h1>
+                    <p class="description-text">The three musketeers of the family. My uncles are the tight-knit squad that keeps things moving with career hacks, tech geek-outs, and a lot of confidence-backed life advice.</p>
                 </div>
                 <div class="polaroid-pair">
-                    <div class="polaroid p1"><img src="images/uncles-1.jpg" alt="Uncles"><p>The Wisdom</p></div>
-                    <div class="polaroid p2"><img src="images/uncles-2.jpg" alt="Uncles"><p>The Musketeers</p></div>
+                    <div class="polaroid p1"><div class="img-container"><img src="./images/uncles-1.jpg" alt="Uncles"></div><p>The Wisdom</p></div>
+                    <div class="polaroid p2"><div class="img-container"><img src="./images/uncles-2.jpg" alt="Uncles"></div><p>Musketeers</p></div>
                 </div>
             </div>
         </section>
@@ -149,14 +136,11 @@
                 <div class="section-header">
                     <span class="red-label">04 / THE ORIGINALS</span>
                     <h1>GRANDPARENTS</h1>
-                    <p class="description-text">
-                        The only people in the house who outrank everyone. They don't understand my tech stack, but they understand my appetite. 
-                        They’ve survived decades without the internet, which honestly makes them more impressive than any developer I know.
-                    </p>
+                    <p class="description-text">The highest rank in the house. They survived life without Google, which honestly makes them the most impressive engineers I know.</p>
                 </div>
                 <div class="polaroid-pair">
-                    <div class="polaroid p1"><img src="images/grand-1.jpg" alt="Grandparents"><p>The Enforcer</p></div>
-                    <div class="polaroid p2"><img src="images/grand-2.jpg" alt="Grandparents"><p>The Wise</p></div>
+                    <div class="polaroid p1"><div class="img-container"><img src="./images/grand-1.jpg" alt="Grandpa"></div><p>The OG</p></div>
+                    <div class="polaroid p2"><div class="img-container"><img src="./images/grand-2.jpg" alt="Grandma"></div><p>The Wise</p></div>
                 </div>
             </div>
         </section>
@@ -166,13 +150,11 @@
                 <div class="section-header">
                     <span class="red-label">05 / THE CREW</span>
                     <h1>THE FRIENDS</h1>
-                    <p class="description-text">
-                        The people who make student life bearable. Whether it's 3 AM study sessions that turn into gaming marathons or debating the most efficient way to win at chess, we’re all just trying to graduate without losing our minds.
-                    </p>
+                    <p class="description-text">The family I chose. Surviving 3 AM study sessions, bad code deployments, and too many rounds of chess.</p>
                 </div>
                 <div class="polaroid-pair">
-                    <div class="polaroid p1"><img src="images/friends-1.jpg" alt="Friends"><p>Day Ones</p></div>
-                    <div class="polaroid p2"><img src="images/friends-2.jpg" alt="Friends"><p>The Crew</p></div>
+                    <div class="polaroid p1"><div class="img-container"><img src="./images/friends-1.jpg" alt="Friends"></div><p>Day Ones</p></div>
+                    <div class="polaroid p2"><div class="img-container"><img src="./images/friends-2.jpg" alt="Friends"></div><p>The Crew</p></div>
                 </div>
             </div>
         </section>
@@ -184,65 +166,52 @@
         let dots = [];
         let mouse = { x: null, y: null };
 
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-
-        window.addEventListener('mouseout', () => {
-            mouse.x = null; mouse.y = null;
-        });
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
 
         function init() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            dots = Array.from({ length: 100 }, () => ({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                s: Math.random() * 2 + 1,
-                baseV: Math.random() * 0.5 + 0.2,
-                v: 0
-            }));
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            dots = [];
+            const spacing = 40; // GRID SPACING
+            for(let x = 0; x < canvas.width; x += spacing) {
+                for(let y = 0; y < canvas.height; y += spacing) {
+                    dots.push({
+                        baseX: x, baseY: y, x: x, y: y,
+                        s: 1.5, baseV: Math.random() * 0.3 + 0.1, v: 0
+                    });
+                }
+            }
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             dots.forEach(d => {
-                let dx = mouse.x - d.x;
-                let dy = mouse.y - d.y;
+                let dx = mouse.x - d.x; let dy = mouse.y - d.y;
                 let distance = Math.sqrt(dx * dx + dy * dy);
-                let isNear = distance < 150;
+                let isNear = distance < 120;
 
-                // Color logic
-                if (isNear) {
-                    ctx.fillStyle = 'rgba(255, 51, 51, 0.9)';
-                } else {
+                if (isNear) { ctx.fillStyle = '#ff3333'; d.v = d.baseV * 8; } 
+                else { 
                     const prog = d.y / canvas.height;
-                    ctx.fillStyle = prog < 0.4 ? 'rgba(255, 51, 51, 0.4)' : 'rgba(255, 255, 255, 0.2)';
+                    ctx.fillStyle = prog < 0.4 ? 'rgba(255, 51, 51, 0.3)' : 'rgba(255, 255, 255, 0.15)';
+                    d.v = d.baseV;
                 }
 
-                // Speed logic (Raise up)
-                d.v = isNear ? d.baseV * 6 : d.baseV;
-
-                ctx.beginPath();
-                ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
-                ctx.fill();
-
-                d.y -= d.v;
-                if (d.y < 0) {
-                    d.y = canvas.height;
-                    d.x = Math.random() * canvas.width;
-                }
+                ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2); ctx.fill();
+                d.y -= d.v; if (d.y < 0) { d.y = canvas.height; }
             });
             requestAnimationFrame(draw);
         }
 
-        window.addEventListener('resize', init);
-        init();
-        draw();
+        const revealSections = () => {
+            document.querySelectorAll('section').forEach(section => {
+                if (section.getBoundingClientRect().top < window.innerHeight * 0.8) section.classList.add('revealed');
+            });
+        };
 
-        // Nav Scroll Highlight
+        window.addEventListener('resize', init);
         window.addEventListener('scroll', () => {
+            revealSections();
             let current = "";
             document.querySelectorAll('section').forEach(s => {
                 if (window.pageYOffset >= s.offsetTop - 350) current = s.getAttribute('id');
@@ -252,6 +221,8 @@
                 if (l.getAttribute('href').includes(current)) l.classList.add('active');
             });
         });
+
+        init(); draw(); revealSections();
     </script>
 </body>
 </html>
