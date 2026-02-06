@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Neel Nikhil</title>
+    <style>
+        :root {
+            --bg: #050505;
+            --txt: #ffffff;
+            --accent: #ff3333; /* Pure Red */
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        body { 
+            background: var(--bg); 
+            color: var(--txt); 
+            font-family: 'Inter', sans-serif; 
+            display: flex; /* Sidebar layout */
+        }
+
+        #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.3; }
+
+        /* 1. VERTICAL SIDEBAR NAVIGATION */
+        .vertical-nav {
+            position: fixed; left: 0; top: 0; height: 100vh; width: 100px;
+            border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px); z-index: 1000;
+        }
+        .nav-link {
+            writing-mode: vertical-rl; transform: rotate(180deg);
+            text-transform: uppercase; text-decoration: none;
+            color: #666; font-size: 0.7rem; font-weight: 800;
+            letter-spacing: 3px; margin: 30px 0; transition: 0.4s;
+            position: relative;
+        }
+        .nav-link.active { color: var(--accent); }
+        .nav-link.active::after {
+            content: ""; position: absolute; left: -10px; top: 0; bottom: 0;
+            width: 2px; background: var(--accent);
+        }
+
+        /* 2. MAIN CONTENT AREA */
+        .content-wrapper { margin-left: 100px; width: 100%; }
+        section { 
+            min-height: 100vh; padding: 100px 8%; 
+            display: flex; flex-direction: column; justify-content: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-header { margin-bottom: 50px; }
+        .red-label { color: var(--accent); font-weight: 900; font-size: 0.8rem; letter-spacing: 4px; }
+        h1 { font-size: 5rem; letter-spacing: -3px; margin: 10px 0; }
+
+        /* 3. POLAROID PAIRS & TEXT */
+        .section-grid {
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center;
+        }
+        .description-text {
+            font-size: 1.1rem; line-height: 1.8; color: #aaa; max-width: 500px;
+        }
+        .polaroid-pair {
+            display: flex; gap: 20px; position: relative;
+        }
+        .polaroid {
+            background: #fff; padding: 10px 10px 30px 10px; width: 220px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .polaroid img { width: 100%; height: 240px; object-fit: cover; filter: grayscale(1); transition: 0.5s; }
+        .polaroid p { color: #333; font-family: 'Brush Script MT', cursive; text-align: center; margin-top: 10px; font-size: 1.2rem; }
+        
+        .p1 { transform: rotate(-4deg); }
+        .p2 { transform: rotate(5deg) translateY(30px); }
+
+        .polaroid:hover { transform: scale(1.1) rotate(0deg); z-index: 10; }
+        .polaroid:hover img { filter: grayscale(0); }
+
+        @media (max-width: 1000px) {
+            .section-grid { grid-template-columns: 1fr; }
+            .vertical-nav { width: 60px; }
+            .content-wrapper { margin-left: 60px; }
+            h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="dotCanvas"></canvas>
+
+    <nav class="vertical-nav">
+        <a href="#me" class="nav-link active">About Me</a>
+        <a href="#family" class="nav-link">Main Family</a>
+        <a href="#roots" class="nav-link">The Roots</a>
+        <a href="#friends" class="nav-link">The Crew</a>
+    </nav>
+
+    <div class="content-wrapper">
+        <section id="me">
+            <div class="section-grid">
+                <div class="section-header">
+                    <p class="red-label">01 / IDENTITY</p>
+                    <h1>NEEL NIKHIL</h1>
+                    <p class="description-text">
+                        I'm a Bangalore-based software architect who loves blending clean code with high-end aesthetics. 
+                        My journey started with a curiosity for how things work under the hood, leading me to full-stack mastery. 
+                        When I'm not pushing code, you'll find me at a snooker table or strategizing my next chess move.
+                    </p>
+                </div>
+                <div class="polaroid-pair">
+                    <div class="polaroid p1"><img src="images/me-1.jpg" alt="Me"><p>The Vision</p></div>
+                    <div class="polaroid p2"><img src="images/me-2.jpg" alt="Me"><p>The Grind</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="family">
+            <div class="section-grid">
+                <div class="section-header">
+                    <p class="red-label">02 / CORE</p>
+                    <h1>MY FAMILY</h1>
+                    <p class="description-text">
+                        My parents are the bedrock of everything I’ve built so far, teaching me the value of discipline. 
+                        My sister is my biggest critic and my most loyal supporter, keeping me grounded. 
+                        This is the team that makes the long nights in front of the screen worth it.
+                    </p>
+                </div>
+                <div class="polaroid-pair">
+                    <div class="polaroid p1"><img src="images/family-1.jpg" alt="Family"><p>Parents</p></div>
+                    <div class="polaroid p2"><img src="images/family-2.jpg" alt="Family"><p>Siblings</p></div>
+                </div>
+            </div>
+        </section>
+          <section id="roots">
+            <div class="section-grid">
+                <div class="section-header">
+                    <p class="red-label">03 / MENTORS</p>
+                    <h1>MY UNCLES & ELDERS</h1>
+                    <p class="description-text">
+                        If my parents are the bedrock, my uncles are the architects of my curiosity. 
+                        They were the ones who first showed me how to take things apart and put them back together—whether it was an old radio or a line of code. 
+                        From debating about video games  to teaching me the grit needed for the tech world, their influence is woven into every project I build.
+                    </p>
+                </div>
+                <div class="polaroid-pair">
+                    <div class="polaroid p1">
+                        <img src="images/uncles-1.jpg" alt="Uncles Group">
+                        <p>The Mentors</p>
+                    </div>
+                    <div class="polaroid p2">
+                        <img src="images/uncles-2.jpg" alt="Uncle moment">
+                        <p>Wisdom & Wit</p>
+                    </div>
+                </div>
+            </div>
+        </section>  
+        <section id="roots">
+            <div class="section-grid">
+                <div class="section-header">
+                    <p class="red-label">03 / RO</p>
+                    <h1>ANCESTRY</h1>
+                    <p class="description-text">
+                        My grandparents carry the stories of a different era, reminding me of the heritage I represent. 
+                        My uncles provided the first sparks of technical curiosity and career guidance in my early years. 
+                        Together, they form the extended branches that connect me to where I came from.
+                    </p>
+                </div>
+                <div class="polaroid-pair">
+                    <div class="polaroid p1"><img src="images/grandparents.jpg" alt="Roots"><p>The Elders</p></div>
+                    <div class="polaroid p2"><img src="images/uncles.jpg" alt="Roots"><p>The Uncles</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="friends">
+            <div class="section-grid">
+                <div class="section-header">
+                    <p class="red-label">04 / CIRCLE</p>
+                    <h1>THE CREW</h1>
+                    <p class="description-text">
+                        These are the people who have been there through every deployment and every downtime. 
+                        From late-night coding sessions to weekend getaways, they are the family I chose. 
+                        A solid circle of friends is the best insurance policy against burnout.
+                    </p>
+                </div>
+                <div class="polaroid-pair">
+                    <div class="polaroid p1"><img src="images/friends-1.jpg" alt="Friends"><p>The Crew</p></div>
+                    <div class="polaroid p2"><img src="images/friends-2.jpg" alt="Friends"><p>Moments</p></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // DOT CANVAS
+        const canvas = document.getElementById('dotCanvas');
+        const ctx = canvas.getContext('2d');
+        let dots = [];
+        function init() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            dots = Array.from({length: 60}, () => ({
+                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                s: Math.random() * 1.5 + 0.5, v: Math.random() * 0.4 + 0.2
+            }));
+        }
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(255, 51, 51, 0.3)';
+            dots.forEach(d => {
+                ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2); ctx.fill();
+                d.y -= d.v; if(d.y < 0) d.y = canvas.height;
+            });
+            requestAnimationFrame(draw);
+        }
+        window.addEventListener('resize', init); init(); draw();
+
+        // NAV SCROLL HIGHLIGHT
+        window.addEventListener('scroll', () => {
+            let current = "";
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            sections.forEach(s => {
+                const sTop = s.offsetTop;
+                if (pageYOffset >= sTop - 300) { current = s.getAttribute('id'); }
+            });
+            navLinks.forEach(l => {
+                l.classList.remove('active');
+                if (l.getAttribute('href').includes(current)) { l.classList.add('active'); }
+            });
+        });
+    </script>
+</body>
+</html>
