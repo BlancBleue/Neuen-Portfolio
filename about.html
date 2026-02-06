@@ -11,7 +11,7 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; display: flex; line-height: 1.6; }
+        body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; display: flex; line-height: 1.6; overflow-x: hidden; }
 
         #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
@@ -48,13 +48,21 @@
         h1 { font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: -3px; margin: 10px 0; line-height: 1; }
         .description-text { font-size: 1.1rem; color: #888; max-width: 500px; }
 
-        /* POLAROIDS */
+        /* POLAROIDS - FIXED FITTING */
         .polaroid-pair { display: flex; gap: 20px; }
         .polaroid {
-            background: #fff; padding: 10px 10px 35px 10px; width: 220px;
+            background: #fff; padding: 10px 10px 35px 10px; width: 240px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5); transition: 0.5s;
         }
-        .polaroid img { width: 100%; height: 240px; object-fit: cover; filter: grayscale(1); transition: 0.5s; }
+        /* This fixes the image fitting issue */
+        .polaroid img { 
+            width: 100%; 
+            aspect-ratio: 1 / 1; 
+            object-fit: cover; 
+            filter: grayscale(1); 
+            transition: 0.5s; 
+            display: block;
+        }
         .polaroid p { color: #333; font-family: 'Brush Script MT', cursive; text-align: center; margin-top: 10px; font-size: 1.2rem; }
         
         .p1 { transform: rotate(-3deg); }
@@ -62,7 +70,12 @@
         .polaroid:hover { transform: scale(1.05) rotate(0deg); z-index: 10; }
         .polaroid:hover img { filter: grayscale(0); }
 
-        @media (max-width: 1100px) { .section-grid { grid-template-columns: 1fr; } .vertical-nav { width: 60px; } .content-wrapper { margin-left: 60px; } }
+        @media (max-width: 1100px) { 
+            .section-grid { grid-template-columns: 1fr; } 
+            .vertical-nav { width: 60px; } 
+            .content-wrapper { margin-left: 60px; } 
+            .p2 { transform: rotate(4deg) translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -103,7 +116,7 @@
                     <h1>PARENTS & SISTER</h1>
                     <p class="description-text">
                         My parents are the venture capitalists of my life—investing heavily in my potential and wondering when the ROI kicks in. 
-                        Then there's my sister, who exists solely to keep me humble and remind me that, despite me Being the Busier one, I'm still the one who has to do the chores.
+                        Then there's my sister, who exists solely to keep me humble and remind me that, despite me being the busier one, I'm still the one who has to do the chores.
                     </p>
                 </div>
                 <div class="polaroid-pair">
@@ -121,12 +134,12 @@
                     <p class="description-text">
                         My uncles and I are like three peas in a pod—tight-knit and always in sync.
                         They guide me through my career with spot-on advice, while we bond over the latest movies and geek out on tech gadgets together.
-                        It's the perfect mix of mentorship, laughs, and shared passions that keeps us close. They taught me that if you talk with enough confidence, nobody will notice you have no idea what you're doing.
+                        It's the perfect mix of mentorship, laughs, and shared passions that keeps us close.
                     </p>
                 </div>
                 <div class="polaroid-pair">
                     <div class="polaroid p1"><img src="images/uncles-1.jpg" alt="Uncles"><p>The Wisdom</p></div>
-                    <div class="polaroid p2"><img src="images/uncles-2.jpg" alt="Uncles"><p>The Three Musketeers</p></div>
+                    <div class="polaroid p2"><img src="images/uncles-2.jpg" alt="Uncles"><p>The Musketeers</p></div>
                 </div>
             </div>
         </section>
@@ -154,8 +167,7 @@
                     <span class="red-label">05 / THE CREW</span>
                     <h1>THE FRIENDS</h1>
                     <p class="description-text">
-                        The people who make student life bearable. Whether it's 3 AM study sessions that turn into gaming marathons or debating the most efficient way to win at chess, 
-                        We’re all just trying to graduate without losing our minds.
+                        The people who make student life bearable. Whether it's 3 AM study sessions that turn into gaming marathons or debating the most efficient way to win at chess, we’re all just trying to graduate without losing our minds.
                     </p>
                 </div>
                 <div class="polaroid-pair">
@@ -167,93 +179,79 @@
     </div>
 
     <script>
-    const canvas = document.getElementById('dotCanvas');
-const ctx = canvas.getContext('2d');
-let dots = [];
-let mouse = { x: null, y: null };
+        const canvas = document.getElementById('dotCanvas');
+        const ctx = canvas.getContext('2d');
+        let dots = [];
+        let mouse = { x: null, y: null };
 
-// Track mouse movement
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
 
-// Clear mouse on leave
-window.addEventListener('mouseout', () => {
-    mouse.x = null;
-    mouse.y = null;
-});
+        window.addEventListener('mouseout', () => {
+            mouse.x = null; mouse.y = null;
+        });
 
-function init() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    dots = Array.from({ length: 100 }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        s: Math.random() * 2,
-        baseV: Math.random() * 0.4 + 0.1, // Regular speed
-        v: 0 // Current speed
-    }));
-}
-
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    dots.forEach(d => {
-        // Calculate distance between mouse and dot
-        let dx = mouse.x - d.x;
-        let dy = mouse.y - d.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        let isNear = distance < 150; // Interaction radius
-
-        // 1. DYNAMIC COLOR: Red if near mouse OR at top of screen, else white
-        if (isNear) {
-            ctx.fillStyle = 'rgba(255, 51, 51, 0.8)'; // Intense red on hover
-        } else {
-            const prog = d.y / canvas.height;
-            ctx.fillStyle = prog < 0.4 ? 'rgba(255, 51, 51, 0.4)' : 'rgba(255, 255, 255, 0.2)';
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            dots = Array.from({ length: 100 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                s: Math.random() * 2 + 1,
+                baseV: Math.random() * 0.5 + 0.2,
+                v: 0
+            }));
         }
 
-        // 2. DYNAMIC SPEED: Raise/Speed up if mouse is near
-        if (isNear) {
-            d.v = d.baseV * 5; // 5x speed boost
-        } else {
-            d.v = d.baseV; // Return to normal
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            dots.forEach(d => {
+                let dx = mouse.x - d.x;
+                let dy = mouse.y - d.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                let isNear = distance < 150;
+
+                // Color logic
+                if (isNear) {
+                    ctx.fillStyle = 'rgba(255, 51, 51, 0.9)';
+                } else {
+                    const prog = d.y / canvas.height;
+                    ctx.fillStyle = prog < 0.4 ? 'rgba(255, 51, 51, 0.4)' : 'rgba(255, 255, 255, 0.2)';
+                }
+
+                // Speed logic (Raise up)
+                d.v = isNear ? d.baseV * 6 : d.baseV;
+
+                ctx.beginPath();
+                ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
+                ctx.fill();
+
+                d.y -= d.v;
+                if (d.y < 0) {
+                    d.y = canvas.height;
+                    d.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(draw);
         }
 
-        // Draw Dot
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.s, 0, Math.PI * 2);
-        ctx.fill();
+        window.addEventListener('resize', init);
+        init();
+        draw();
 
-        // Move Dot
-        d.y -= d.v;
-
-        // Reset if off screen
-        if (d.y < 0) {
-            d.y = canvas.height;
-            d.x = Math.random() * canvas.width;
-        }
-    });
-
-    requestAnimationFrame(draw);
-}
-
-window.addEventListener('resize', init);
-init();
-draw();
-
-// Keep your existing Nav Scroll Highlight logic below
-window.addEventListener('scroll', () => {
-    let current = "";
-    document.querySelectorAll('section').forEach(s => {
-        if (pageYOffset >= s.offsetTop - 350) current = s.getAttribute('id');
-    });
-    document.querySelectorAll('.nav-link').forEach(l => {
-        l.classList.remove('active');
-        if (l.getAttribute('href').includes(current)) l.classList.add('active');
-    });
-});
+        // Nav Scroll Highlight
+        window.addEventListener('scroll', () => {
+            let current = "";
+            document.querySelectorAll('section').forEach(s => {
+                if (window.pageYOffset >= s.offsetTop - 350) current = s.getAttribute('id');
+            });
+            document.querySelectorAll('.nav-link').forEach(l => {
+                l.classList.remove('active');
+                if (l.getAttribute('href').includes(current)) l.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
