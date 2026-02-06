@@ -1,34 +1,467 @@
-<header class="site-header">
-    <div class="top-pill">
-        <!-- LEFT: nav links -->
-        <div class="top-left">
-            <a href="#home" class="nav-item">INDEX</a>
-            <a href="#about" class="nav-item">BIO</a>
-            <a href="#skills" class="nav-item">TECH</a>
-        </div>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neel Nikhil | Full Stack Developer</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
 
-        <!-- CENTER: dynamic section indicator + scroll bar -->
-        <div class="top-center">
-            <span id="section-indicator">HOME</span>
-            <div class="scroll-vessel">
-                <div id="progress-bar"></div>
+    <style>
+        :root {
+            --bg: #050505; --txt: #ffffff; --accent: #8b5cf6; 
+            --glass: rgba(255, 255, 255, 0.04); --border: rgba(255, 255, 255, 0.12);
+            --sphere-web: rgba(139, 92, 246, 0.5);
+            --dot-color: rgba(255, 255, 255, 0.4);
+        }
+
+        [data-theme="light"] {
+            --bg: #f8fafc; --txt: #0f172a; --accent: #6366f1;
+            --glass: rgba(15, 23, 42, 0.05); --border: rgba(15, 23, 42, 0.15);
+            --sphere-web: rgba(99, 102, 241, 0.6);
+            --dot-color: rgba(15, 23, 42, 0.2);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background 0.3s, border 0.3s; }
+        body { background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        /* --- INTRO OVERLAY --- */
+        #intro-overlay {
+            position: fixed; inset: 0; background: #000; z-index: 10000;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+        .scramble-text { font-family: 'JetBrains Mono'; font-weight: 900; font-size: clamp(2rem, 10vw, 6rem); color: var(--accent); }
+        .system-status { margin-top: 20px; font-family: 'JetBrains Mono'; font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 5px; }
+        body.loaded #intro-overlay { transform: translateY(-100%); }
+
+        #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 1; }
+
+        /* --- HEADER --- */
+        .site-header { 
+            position: fixed; 
+            width: 100%; 
+            top: 0; 
+            z-index: 999; 
+            display: flex; 
+            justify-content: center;
+            padding: 20px 5%; 
+        }
+
+        /* one continuous curved block */
+        .top-pill {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 10px 20px;
+        }
+
+        .nav-item { 
+            text-decoration: none; 
+            color: var(--txt); 
+            font-weight: 700; 
+            font-size: 0.8rem; 
+            letter-spacing: 1px; 
+        }
+
+        .theme-btn { 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            width: 35px; 
+            height: 35px; 
+            border-radius: 50%; 
+            cursor: pointer; 
+        }
+
+        .top-left,
+        .top-center,
+        .top-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .top-left {
+            gap: 16px;
+        }
+
+        /* center block grows, so indicator + bar stay centered */
+        .top-center {
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        #section-indicator {
+            font-family: 'JetBrains Mono';
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .scroll-vessel {
+            width: 100%;
+            max-width: 260px;
+            height: 3px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            transition: width 0.1s ease-out;
+        }
+
+        .top-right {
+            gap: 10px;
+        }
+
+        /* book-a-call pill */
+        .call-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(0,0,0,0.25);
+            color: var(--txt);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, border 0.2s, transform 0.15s;
+        }
+
+        .call-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .call-icon {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.6;
+        }
+
+        /* --- HERO --- */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
+        .massive-hero, .flowing-header {
+            font-weight: 900; letter-spacing: -6px; line-height: 0.8;
+            background: linear-gradient(to right, #8b5cf6, #3b82f6, #f472b6, #fbbf24, #8b5cf6);
+            background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: colorCycle 5s linear infinite;
+        }
+        .massive-hero { font-size: clamp(4rem, 15vw, 11rem); }
+        .flowing-header { font-size: clamp(3rem, 10vw, 6.5rem); margin-top: 10px; }
+        @keyframes colorCycle { to { background-position: 300% center; } }
+
+        /* --- SCROLL INDICATOR --- */
+        .scroll-indicator {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            opacity: 0; transition: opacity 1s ease 1.5s;
+            animation: bounce 2s infinite;
+        }
+        body.loaded .scroll-indicator { opacity: 1; }
+        .mouse { width: 26px; height: 42px; border: 2px solid var(--txt); border-radius: 20px; display: flex; justify-content: center; padding-top: 8px; opacity: 0.6; }
+        .wheel { width: 4px; height: 8px; background: var(--accent); border-radius: 2px; animation: scrollWheel 1.6s ease-in-out infinite; }
+        .scroll-text { font-family: 'JetBrains Mono'; font-size: 0.6rem; letter-spacing: 4px; opacity: 0.4; font-weight: 800; }
+        @keyframes scrollWheel { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(15px); opacity: 0; } }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);} 40% {transform: translateX(-50%) translateY(-10px);} 60% {transform: translateX(-50%) translateY(-5px);} }
+
+        /* --- AI TERMINAL --- */
+        .ai-terminal { margin-top: 50px; width: 90%; max-width: 450px; background: var(--glass); border: 1px solid var(--border); padding: 20px; border-radius: 30px; }
+        .ai-display { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 0.8rem; margin-bottom: 15px; text-align: left; }
+
+        /* --- BENTO GRID --- */
+        .bento { display: grid; max-width: 1200px; margin: 100px auto; gap: 20px; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 350px 350px; padding: 0 20px; }
+        .card-a { grid-column: 1; grid-row: 1 / span 2; } 
+        .card-b { grid-column: 2 / span 2; grid-row: 1; } 
+        .card-c { grid-column: 2 / span 2; grid-row: 2; } 
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; position: relative; overflow: hidden; }
+        .card-a img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.4s; }
+        .card-a:hover img { filter: grayscale(0); box-shadow: 15px 0px 0px rgba(255,0,0,0.3), -15px 0px 0px rgba(0,255,255,0.3); transform: scale(1.02); }
+        .map-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000'); background-size: cover; opacity: 0.2; filter: grayscale(1); }
+        .hobby-btns { display: flex; gap: 15px; margin-top: 25px; }
+        .hobby-btns span { padding: 12px 25px; border: 1px solid var(--border); border-radius: 50px; color: var(--accent); font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .hobby-btns span:hover { background: var(--accent); color: white; box-shadow: 0 0 15px var(--accent); }
+
+        /* --- SPHERE --- */
+        .skills-section { padding: 100px 0; text-align: center; }
+        .sphere-container { height: 750px; width: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
+        .sphere-outline { position: absolute; width: 620px; height: 620px; border: 3px solid var(--sphere-web); border-radius: 50%; pointer-events: none; box-shadow: inset 0 0 50px var(--sphere-web), 0 0 30px var(--sphere-web); filter: drop-shadow(0 0 10px var(--accent)); opacity: 0.8; }
+        .sphere-grid { position: absolute; width: 620px; height: 620px; border: 1px dashed var(--sphere-web); border-radius: 50%; transform: rotateX(70deg); opacity: 0.4; }
+        .tagcloud--item img { width: 75px !important; height: 75px !important; filter: brightness(0) invert(1); transition: 0.4s; }
+        [data-theme="light"] .tagcloud--item img { filter: brightness(0); }
+        .tagcloud--item:hover img { filter: brightness(1) invert(0) !important; transform: scale(1.8) translateZ(50px); }
+
+        /* --- EXPLORE SECTION --- */
+        .explore-section { padding: 100px 5%; text-align: center; max-width: 1200px; margin: 0 auto; }
+        .explore-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 50px; }
+        .explore-card { background: var(--glass); border: 1px solid var(--border); padding: 40px; border-radius: 40px; text-align: left; transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1); position: relative; overflow: hidden; }
+        .explore-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.06); border-color: var(--accent); }
+        .ex-icon { font-size: 2rem; margin-bottom: 20px; width: 60px; height: 60px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border-radius: 15px; border: 1px solid var(--border); }
+        .explore-card h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; }
+        .explore-card p { opacity: 0.6; font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; }
+        .ex-link { text-decoration: none; font-weight: 700; font-size: 0.9rem; color: var(--accent); transition: 0.3s; }
+        .explore-card.purple h3 { color: #a78bfa; }
+        .explore-card.orange h3 { color: #fb923c; }
+        .explore-card.blue h3 { color: #38bdf8; }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay">
+        <div class="scramble-text" id="scramble">00000000000</div>
+        <div class="system-status" id="status">INITIALIZING SYSTEM...</div>
+    </div>
+
+    <canvas id="dotCanvas"></canvas>
+
+    <header class="site-header">
+        <div class="top-pill">
+            <!-- LEFT: nav links -->
+            <div class="top-left">
+                <a href="#home" class="nav-item">INDEX</a>
+                <a href="#about" class="nav-item">BIO</a>
+                <a href="#skills" class="nav-item">TECH</a>
+            </div>
+
+            <!-- CENTER: dynamic section indicator + scroll bar -->
+            <div class="top-center">
+                <span id="section-indicator">HOME</span>
+                <div class="scroll-vessel">
+                    <div id="progress-bar"></div>
+                </div>
+            </div>
+
+            <!-- RIGHT: book a call + theme -->
+            <div class="top-right">
+                <button class="call-btn">
+                    <svg class="call-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3" y="4" width="18" height="17" rx="3" ry="3"></rect>
+                        <rect x="7" y="2" width="2" height="4"></rect>
+                        <rect x="15" y="2" width="2" height="4"></rect>
+                        <rect x="6" y="9" width="3" height="3"></rect>
+                        <rect x="11" y="9" width="3" height="3"></rect>
+                        <rect x="16" y="9" width="3" height="3"></rect>
+                    </svg>
+                    <span>Book a call</span>
+                </button>
+                <button class="theme-btn" onclick="toggleTheme()" id="tBtn">🌙</button>
             </div>
         </div>
+    </header>
 
-        <!-- RIGHT: book a call button -->
-        <div class="top-right">
-            <button class="call-btn">
-                <svg class="call-icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <rect x="3" y="4" width="18" height="17" rx="3" ry="3"></rect>
-                    <rect x="7" y="2" width="2" height="4"></rect>
-                    <rect x="15" y="2" width="2" height="4"></rect>
-                    <rect x="6" y="9" width="3" height="3"></rect>
-                    <rect x="11" y="9" width="3" height="3"></rect>
-                    <rect x="16" y="9" width="3" height="3"></rect>
-                </svg>
-                <span>Book a call</span>
-            </button>
-            <button class="theme-btn" onclick="toggleTheme()" id="tBtn">🌙</button>
+    <section class="hero" id="home">
+        <h1 class="massive-hero">NEEL NIKHIL</h1>
+        <p style="font-family:'JetBrains Mono'; letter-spacing: 12px; opacity: 0.5; font-weight: 800; margin-top: 10px;">FULL STACK DEVELOPER</p>
+        <div class="ai-terminal">
+            <div id="ai-out" class="ai-display">AI: Grid Reconfigured. Status: Peak.</div>
+            <div style="display:flex; background:rgba(0,0,0,0.1); border-radius:50px; padding:5px;">
+                <input type="text" id="ai-in" placeholder="Query..." style="flex:1; background:transparent; border:none; padding-left:15px; outline:none; color:inherit;">
+                <button onclick="runAI()" style="background:var(--accent); border:none; color:white; padding:8px 20px; border-radius:50px; font-weight:800; cursor:pointer;">RUN</button>
+            </div>
         </div>
-    </div>
-</header>
+        <div class="scroll-indicator">
+            <div class="mouse"><div class="wheel"></div></div>
+            <div class="scroll-text">SCROLL TO EXPLORE</div>
+        </div>
+    </section>
+
+    <main class="bento" id="about">
+        <div class="card card-a"><img src="me.jpg" id="p-img"></div>
+        <div class="card card-b" style="padding:50px; display:flex; align-items:flex-end;">
+            <div class="map-bg"></div>
+            <div style="position:relative; z-index:2; display:flex; justify-content:space-between; width:100%; align-items:flex-end;">
+                <div><small style="opacity:0.5; letter-spacing:4px;">NEXUS</small><h2 style="font-size:3rem; font-weight:900;">Bangalore, IN</h2></div>
+                <div id="clock" style="font-family:'JetBrains Mono'; color:var(--accent); font-weight:800; font-size:1.5rem;">00:00:00</div>
+            </div>
+        </div>
+        <div class="card card-c" style="padding:50px; display:flex; flex-direction:column; justify-content:center;">
+            <small style="opacity:0.5; letter-spacing:4px;">I N T E R E S T S</small>
+            <h2 style="font-size:2.8rem; font-weight:900; margin-top:10px;">Some Interests of Neel</h2>
+            <div class="hobby-btns">
+                <span onmouseover="swp('coding')" onmouseout="swp('default')">CODING</span>
+                <span onmouseover="swp('chess')" onmouseout="swp('default')">CHESS</span>
+                <span onmouseover="swp('snooker')" onmouseout="swp('default')">SNOOKER</span>
+            </div>
+        </div>
+    </main>
+
+    <section class="skills-section" id="skills">
+        <span style="font-family:'JetBrains Mono'; letter-spacing:8px; opacity:0.5;">TECH STACK</span>
+        <h2 class="flowing-header">MY SKILLS</h2>
+        <div class="sphere-container">
+            <div class="sphere-outline"></div>
+            <div class="sphere-grid"></div>
+            <div class="tagcloud"></div>
+        </div>
+    </section>
+
+    <section class="explore-section">
+        <h2 class="flowing-header" style="font-size: 3.5rem; letter-spacing: -2px;">More to <span style="-webkit-text-fill-color: var(--txt);">Explore</span></h2>
+        <p style="opacity: 0.5; margin-top: 10px; font-family: 'JetBrains Mono';">Check out these additional resources and connect with me</p>
+        <div class="explore-grid">
+            <div class="explore-card purple"><div class="ex-icon">📖</div><h3>Guestbook</h3><p>Leave your mark and see what others have to say</p><a href="guestbook.html" class="ex-link">Explore →</a></div>
+            <div class="explore-card orange"><div class="ex-icon">🏆</div><h3>Achievements</h3><p>Milestones, certifications, and accomplishments</p><a href="achievements.html" class="ex-link">Explore →</a></div>
+            <div class="explore-card blue"><div class="ex-icon">🔗</div><h3>My Links</h3><p>Find me across the web and social platforms</p><a href="#" class="ex-link">Explore →</a></div>
+        </div>
+    </section>
+
+    <script>
+        function toggleTheme() {
+            const b = document.documentElement;
+            const isDark = b.getAttribute('data-theme') === 'dark';
+            b.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('tBtn').innerText = isDark ? '☀️' : '🌙';
+        }
+
+        const targetText = "NEEL NIKHIL";
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
+        let iteration = 0;
+
+        function startIntro() {
+            const interval = setInterval(() => {
+                document.getElementById('scramble').innerText = targetText.split("")
+                    .map((l, i) => i < iteration ? targetText[i] : chars[Math.floor(Math.random()*chars.length)])
+                    .join("");
+                if(iteration >= targetText.length) {
+                    clearInterval(interval);
+                    document.getElementById('status').innerText = "ACCESS GRANTED";
+                    document.getElementById('status').style.color = "#8b5cf6";
+                    setTimeout(() => {
+                        document.body.classList.add('loaded');
+                        initCanvas();
+                        initSphere();
+                    }, 800);
+                }
+                iteration += 1/3;
+            }, 50);
+        }
+
+        const cvs = document.getElementById('dotCanvas');
+        const ctx = cvs.getContext('2d');
+        let dots = [], mouse = {x:-1000, y:-1000};
+
+        function initCanvas() {
+            cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+            dots = [];
+            for(let x=0; x<cvs.width+50; x+=40) 
+                for(let y=0; y<cvs.height+50; y+=40) 
+                    dots.push({x, y, baseSize: Math.random() * 1.5 + 0.5});
+            draw();
+        }
+
+        function draw() {
+            ctx.clearRect(0,0,cvs.width,cvs.height);
+            const dotColor = getComputedStyle(document.documentElement).getPropertyValue('--dot-color');
+            dots.forEach(d => {
+                const dist = Math.hypot(mouse.x-d.x, mouse.y-d.y);
+                const isActive = dist < 150;
+                ctx.fillStyle = isActive ? '#8b5cf6' : dotColor;
+                ctx.beginPath();
+                ctx.arc(d.x, d.y, isActive ? 3 : d.baseSize, 0, Math.PI*2);
+                ctx.fill();
+            });
+            requestAnimationFrame(draw);
+        }
+
+        window.onmousemove = e => { mouse.x=e.clientX; mouse.y=e.clientY; };
+
+        function initSphere() {
+            const icons = {
+                'React': 'https://cdn.simpleicons.org/react/61DAFB',
+                'Next': 'https://cdn.simpleicons.org/nextdotjs/ffffff',
+                'SQL': 'https://cdn.simpleicons.org/postgresql/4169E1',
+                'CSS': 'https://cdn.simpleicons.org/css3/1572B6',
+                'JS': 'https://cdn.simpleicons.org/javascript/F7DF1E',
+                'Python': 'https://cdn.simpleicons.org/python/3776AB',
+                'Node': 'https://cdn.simpleicons.org/nodedotjs/339933',
+                'Git': 'https://cdn.simpleicons.org/git/F05032',
+                'HTML': 'https://cdn.simpleicons.org/html5/E34F26',
+                'CPP': 'https://cdn.simpleicons.org/cplusplus/00599C',
+                'Docker': 'https://cdn.simpleicons.org/docker/2496ED',
+                'Tailwind': 'https://cdn.simpleicons.org/tailwindcss/06B6D4',
+                'TypeScript': 'https://cdn.simpleicons.org/typescript/3178C6',
+                'MongoDB': 'https://cdn.simpleicons.org/mongodb/47A248',
+                'Vercel': 'https://cdn.simpleicons.org/vercel/ffffff'
+            };
+
+            TagCloud('.tagcloud', Object.keys(icons), { 
+                radius: 280, 
+                maxSpeed: 'normal' 
+            });
+
+            setTimeout(() => {
+                document.querySelectorAll('.tagcloud--item').forEach(item => {
+                    const name = item.innerText.trim();
+                    item.setAttribute('data-name', name); 
+                    if(icons[name]) {
+                        item.innerHTML = `<img src="${icons[name]}" alt="${name}">`;
+                    }
+                });
+            }, 200);
+        }
+
+        function swp(t) { 
+            const i = document.getElementById('p-img'); 
+            const m = {coding:'coding-me.jpg', chess:'chess-me.jpg', snooker:'snooker-me.jpg', default:'me.jpg'}; 
+            i.src = m[t] || m.default; 
+        }
+
+        function runAI() { 
+            document.getElementById('ai-out').innerText = "AI: Core Systems Online. Welcome back."; 
+        }
+
+        setInterval(() => { 
+            const clock = document.getElementById('clock');
+            if (clock) {
+                clock.innerText = new Date().toLocaleTimeString('en-GB', {timeZone:'Asia/Kolkata'}) + " IST"; 
+            }
+        }, 1000);
+
+        // scroll progress + dynamic section indicator
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const bar = document.getElementById("progress-bar");
+            if (bar) bar.style.width = scrolled + "%";
+
+            const sections = ['home', 'about', 'skills'];
+            let current = "HOME";
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section && winScroll >= section.offsetTop - 300) {
+                    current = id.toUpperCase();
+                }
+            });
+            const indicator = document.getElementById("section-indicator");
+            if (indicator) indicator.innerText = current;
+        });
+
+        window.onload = () => setTimeout(startIntro, 500);
+    </script>
+</body>
+</html>
