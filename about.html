@@ -51,7 +51,7 @@
         h1 { font-size: clamp(2.5rem, 8vw, 4rem); letter-spacing: -2px; margin: 10px 0; line-height: 1; }
         .description-text { font-size: 1.1rem; color: #888; max-width: 500px; }
 
-        /* POLAROID - NO-CROP FIX */
+        /* POLAROID - FIT FIX */
         .polaroid-pair { display: flex; gap: 20px; }
         .polaroid {
             background: #fff; padding: 12px 12px 45px 12px; width: 250px;
@@ -62,7 +62,7 @@
             display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
         .polaroid img { 
-            max-width: 100%; max-height: 100%; object-fit: contain; /* Prevents cutting off */
+            max-width: 100%; max-height: 100%; object-fit: contain; /* Shows FULL image */
             filter: grayscale(1); transition: 0.5s;
         }
         .polaroid p { color: #333; font-family: 'Brush Script MT', cursive; text-align: center; margin-top: 15px; font-size: 1.3rem; }
