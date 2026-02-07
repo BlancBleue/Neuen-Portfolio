@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Neel Nikhil</title>
+    <style>
+        :root {
+            --bg: #050505; --txt: #ffffff; --accent: #2ecc71; 
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background: var(--bg); color: var(--txt); font-family: 'Inter', sans-serif; 
+            overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 100vh;
+        }
+
+        #dotCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+
+        .back-home {
+            position: fixed; top: 30px; right: 40px; z-index: 1100;
+            text-decoration: none; color: #fff; font-size: 0.7rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 2px; padding: 10px 20px;
+            border: 1px solid var(--border); border-radius: 50px; background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px); transition: 0.3s;
+        }
+        .back-home:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
+
+        .contact-container {
+            width: 100%; max-width: 500px; padding: 40px 20px; text-align: center; z-index: 10;
+        }
+
+        .green-label { color: var(--accent); font-weight: 900; font-size: 0.7rem; letter-spacing: 4px; display: block; margin-bottom: 5px; }
+        h1 { font-size: 3.5rem; letter-spacing: -3px; margin-bottom: 30px; line-height: 1; }
+
+        /* FORM */
+        form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 35px; }
+        input, textarea {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            padding: 15px; color: #fff; font-family: inherit; outline: none; transition: 0.3s;
+        }
+        input:focus, textarea:focus { border-color: var(--accent); background: rgba(46, 204, 113, 0.05); }
+        
+        button {
+            background: var(--accent); color: #000; border: none; padding: 16px;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; transition: 0.3s; margin-top: 5px;
+        }
+        button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3); }
+
+        /* SOCIAL LINKS - HYPERLINKED */
+        .social-wrap { 
+            display: flex; flex-direction: column; align-items: center; gap: 12px; 
+        }
+        
+        .social-link {
+            text-decoration: none; color: #888; font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 1px; transition: 0.3s; display: block;
+        }
+        .social-link span { color: var(--accent); }
+        .social-link:hover { color: #fff; }
+
+        @media (max-width: 600px) { h1 { font-size: 2.5rem; } }
+    </style>
+</head>
+<body>
+
+    <canvas id="dotCanvas"></canvas>
+    <a href="index.html" class="back-home">Back</a>
+
+    <div class="contact-container">
+        <span class="green-label">CONTACT</span>
+        <h1>LET'S TALK.</h1>
+
+        <form action="https://formspree.io/f/your-id" method="POST">
+            <input type="text" name="name" placeholder="NAME" required>
+            <input type="email" name="email" placeholder="EMAIL" required>
+            <textarea name="message" rows="3" placeholder="MESSAGE" required></textarea>
+            <button type="submit">SEND</button>
+        </form>
+
+        <div class="social-wrap">
+            <a href="mailto:notnxel@gmail.com" class="social-link">GMAIL : <span>notnxel@gmail.com</span></a>
+            <a href="https://github.com/BlancBleue" target="_blank" class="social-link">GITHUB : <span>BlancBleue</span></a>
+            <a href="https://linkedin.com/in/yourusername" target="_blank" class="social-link">LINKEDIN : <span>Neel Nikhil</span></a>
+            <a href="https://instagram.com/yourusername" target="_blank" class="social-link">INSTAGRAM : <span>@yourhandle</span></a>
+            <a href="https://x.com/yourusername" target="_blank" class="social-link">X : <span>@yourhandle</span></a>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('dotCanvas');
+        const ctx = canvas.getContext('2d');
+        let dots = [];
+        let mouse = { x: null, y: null };
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+        function init() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            dots = [];
+            const spacing = 50;
+            for (let x = 0; x <= canvas.width; x += spacing) {
+                for (let y = 0; y <= canvas.height; y += spacing) { dots.push({ x: x, y: y }); }
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            dots.forEach(d => {
+                let dx = mouse.x - d.x;
+                let dy = mouse.y - d.y;
+                let dist = Math.sqrt(dx*dx + dy*dy);
+                
+                if (dist < 130) {
+                    ctx.fillStyle = '#2ecc71';
+                    ctx.shadowBlur = 10; ctx.shadowColor = '#2ecc71';
+                    ctx.beginPath(); ctx.arc(d.x, d.y, 3, 0, Math.PI * 2); ctx.fill();
+                } else {
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
+                    ctx.shadowBlur = 0;
+                    ctx.beginPath(); ctx.arc(d.x, d.y, 1.5, 0, Math.PI * 2); ctx.fill();
+                }
+            });
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', init);
+        init(); draw();
+    </script>
+</body>
+</html>
